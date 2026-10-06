@@ -11,8 +11,14 @@ config_version=5
 [application]
 
 config/name="Mission MartianBound"
+run/main_scene="uid://0pf6pah1v2dl"
 config/features=PackedStringArray("4.7", "Forward Plus")
 config/icon="res://icon.svg"
+
+[autoload]
+
+NavigationCoordinator="*uid://drdpamphtbii6"
+MissionSession="*uid://w8nk06r4suid"
 
 [display]
 

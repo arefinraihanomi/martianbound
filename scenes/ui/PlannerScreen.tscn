@@ -1,0 +1,45 @@
+[gd_scene format=3 uid="uid://vskufit3ttob"]
+
+[ext_resource type="Script" uid="uid://notnfyt1r1cw" path="res://scenes/ui/planner_screen.gd" id="1_ninqn"]
+
+[node name="PlannerScreen" type="Control" unique_id=1961942673]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ninqn")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1573831028]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.09019608, 0.15294118, 0.26666668, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1513056369]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="VBoxContainer" unique_id=2096813811]
+layout_mode = 2
+text = "PLANNER SCREEN"
+
+[node name="Button" type="Button" parent="VBoxContainer" unique_id=1016066359]
+layout_mode = 2
+text = "Start Simulation"
+
+[connection signal="pressed" from="VBoxContainer/Button" to="." method="_on_button_pressed"]
