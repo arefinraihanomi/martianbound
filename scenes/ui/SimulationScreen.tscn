@@ -34,12 +34,66 @@ offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Label" type="Label" parent="VBoxContainer" unique_id=1245338795]
+[node name="MissionTimeLabel" type="Label" parent="VBoxContainer" unique_id=1245338795]
 layout_mode = 2
 text = "SIMULATION SCREEN"
 
-[node name="Button" type="Button" parent="VBoxContainer" unique_id=475834374]
+[node name="MissionStatusLabel" type="Label" parent="VBoxContainer" unique_id=1947467763]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "Mission Active"
+
+[node name="PowerLabel" type="Label" parent="VBoxContainer" unique_id=7674509]
+layout_mode = 2
+
+[node name="PowerBar" type="ProgressBar" parent="VBoxContainer" unique_id=1656816394]
+layout_mode = 2
+value = 100.0
+show_percentage = false
+
+[node name="WaterLabel" type="Label" parent="VBoxContainer" unique_id=1075097095]
+layout_mode = 2
+
+[node name="WaterBar" type="ProgressBar" parent="VBoxContainer" unique_id=875155474]
+layout_mode = 2
+value = 100.0
+show_percentage = false
+
+[node name="OxygenLabel" type="Label" parent="VBoxContainer" unique_id=1224930776]
+layout_mode = 2
+
+[node name="OxygenBar" type="ProgressBar" parent="VBoxContainer" unique_id=1943011103]
+layout_mode = 2
+value = 100.0
+show_percentage = false
+
+[node name="FoodLabel" type="Label" parent="VBoxContainer" unique_id=310922441]
+layout_mode = 2
+
+[node name="FoodBar" type="ProgressBar" parent="VBoxContainer" unique_id=1060490762]
+layout_mode = 2
+value = 100.0
+show_percentage = false
+
+[node name="CrewHealthLabel" type="Label" parent="VBoxContainer" unique_id=1415180265]
+layout_mode = 2
+
+[node name="CrewHealthBar" type="ProgressBar" parent="VBoxContainer" unique_id=50966858]
+layout_mode = 2
+value = 100.0
+show_percentage = false
+
+[node name="ShieldingLabel" type="Label" parent="VBoxContainer" unique_id=1966613835]
+layout_mode = 2
+
+[node name="ShieldingBar" type="ProgressBar" parent="VBoxContainer" unique_id=1488074001]
+layout_mode = 2
+value = 100.0
+show_percentage = false
+
+[node name="FinishMissionButton" type="Button" parent="VBoxContainer" unique_id=475834374]
 layout_mode = 2
 text = "Finish Mission"
 
-[connection signal="pressed" from="VBoxContainer/Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/FinishMissionButton" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/FinishMissionButton" to="." method="_on_finish_pressed"]

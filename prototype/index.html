@@ -1,0 +1,1196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mission MartianBound — Junior Astronaut Outpost Trainer</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,400;0,600;0,700;1,700&family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Ambient Audio Synthesizer Hook -->
+  <audio id="audio-click" preload="auto"></audio>
+
+  <!-- APP CONTAINER -->
+  <div id="app" class="app-container">
+
+    <!-- GLOBAL TOP NAV / STATUS BAR (visible during active mission) -->
+    <header id="top-nav" class="top-nav hidden">
+      <div class="nav-left">
+        <span class="badge live-badge" id="nasa-live-badge" title="NASA Data Stream Status">
+          <span class="pulse-dot"></span> <span id="nasa-status-text">NASA DATA LINK: STANDBY</span>
+        </span>
+        <span class="outpost-callsign">ARES HABITAT-04 // JEZERO CRATER</span>
+      </div>
+      <div class="nav-center">
+        <div class="sol-pill-wrap">
+          <div class="sol-pill">
+            <span class="sol-label">SOL</span>
+            <span class="sol-counter" id="hud-sol">01</span>
+            <span class="sol-total">/ 30</span>
+          </div>
+          <div class="sol-progress-track" title="Expedition Progress (30 Sols Target)">
+            <div class="sol-progress-fill" id="sol-progress-fill" style="width: 3.3%;"></div>
+            <div class="sol-milestone ms-10" title="Milestone: Sol 10">10</div>
+            <div class="sol-milestone ms-20" title="Milestone: Sol 20">20</div>
+            <div class="sol-milestone ms-30" title="Target: Sol 30">30</div>
+          </div>
+        </div>
+      </div>
+      <div class="nav-right">
+        <button class="nav-btn" id="btn-open-power" title="Shortcut: [P]">⚡ Power Grid <kbd class="key-hint">P</kbd></button>
+        <button class="nav-btn" id="btn-open-rover" title="Shortcut: [R]">🚜 Rover Deck <kbd class="key-hint">R</kbd></button>
+        <button class="nav-btn" id="btn-open-sources" title="Shortcut: [N]">🛰 NASA Data <kbd class="key-hint">N</kbd></button>
+        <button class="nav-btn" id="btn-open-guide" title="Shortcut: [H]">📖 Field Manual <kbd class="key-hint">H</kbd></button>
+        <button class="nav-btn nav-btn-highlight" id="btn-open-tutorial">❓ How To Play</button>
+      </div>
+    </header>
+
+    <!-- CRITICAL RESOURCE WARNING BANNER -->
+    <div id="critical-alert-banner" class="critical-alert-banner hidden">
+      <span class="alert-pulse-icon">⚠️</span>
+      <span id="critical-alert-text">CRITICAL LIFE SUPPORT HAZARD DETECTED</span>
+      <button id="btn-dismiss-alert" class="btn-dismiss-alert">✕</button>
+    </div>
+
+    <!-- TOP HUD RESOURCE GAUGES (visible during active mission) -->
+    <section id="hud-bar" class="hud-bar hidden">
+      <div class="resource-card" id="res-o2-card" title="Oxygen Recycling & Life Support">
+        <div class="res-meta">
+          <span class="res-icon">🫁</span>
+          <span class="res-name">OXYGEN</span>
+          <span class="res-val-group">
+            <span class="res-val" id="val-o2">100%</span>
+            <span class="trend-badge" id="trend-o2">→</span>
+          </span>
+        </div>
+        <div class="progress-bar-bg"><div class="progress-fill fill-o2" id="bar-o2" style="width: 100%;"></div></div>
+        <div class="res-sub-row">
+          <span class="res-sub">MOXIE Cycle</span>
+          <span class="status-pill pill-good" id="pill-o2">STABLE</span>
+        </div>
+      </div>
+
+      <div class="resource-card" id="res-water-card" title="Water Extraction & Closed Loop Recovery">
+        <div class="res-meta">
+          <span class="res-icon">💧</span>
+          <span class="res-name">WATER</span>
+          <span class="res-val-group">
+            <span class="res-val" id="val-water">100%</span>
+            <span class="trend-badge" id="trend-water">→</span>
+          </span>
+        </div>
+        <div class="progress-bar-bg"><div class="progress-fill fill-water" id="bar-water" style="width: 100%;"></div></div>
+        <div class="res-sub-row">
+          <span class="res-sub">Subsurface Rig</span>
+          <span class="status-pill pill-good" id="pill-water">STABLE</span>
+        </div>
+      </div>
+
+      <div class="resource-card" id="res-food-card" title="Hydroponic Crop Rations">
+        <div class="res-meta">
+          <span class="res-icon">🥗</span>
+          <span class="res-name">FOOD</span>
+          <span class="res-val-group">
+            <span class="res-val" id="val-food">85%</span>
+            <span class="trend-badge" id="trend-food">→</span>
+          </span>
+        </div>
+        <div class="progress-bar-bg"><div class="progress-fill fill-food" id="bar-food" style="width: 85%;"></div></div>
+        <div class="res-sub-row">
+          <span class="res-sub">Hydroponics</span>
+          <span class="status-pill pill-good" id="pill-food">OPTIMAL</span>
+        </div>
+      </div>
+
+      <div class="resource-card" id="res-power-card" title="Battery Reserve & Solar Input">
+        <div class="res-meta">
+          <span class="res-icon">⚡</span>
+          <span class="res-name">BATTERY</span>
+          <span class="res-val-group">
+            <span class="res-val" id="val-power">80%</span>
+            <span class="trend-badge" id="trend-power">→</span>
+          </span>
+        </div>
+        <div class="progress-bar-bg"><div class="progress-fill fill-power" id="bar-power" style="width: 80%;"></div></div>
+        <div class="res-sub-row">
+          <span class="res-sub" id="sub-power">Solar Flux: Nom</span>
+          <span class="status-pill pill-good" id="pill-power">CHARGED</span>
+        </div>
+      </div>
+
+      <div class="resource-card" id="res-temp-card" title="Hab Internal Thermal Equilibrium">
+        <div class="res-meta">
+          <span class="res-icon">🌡</span>
+          <span class="res-name">HAB TEMP</span>
+          <span class="res-val-group">
+            <span class="res-val" id="val-temp">21°C</span>
+            <span class="trend-badge" id="trend-temp">→</span>
+          </span>
+        </div>
+        <div class="progress-bar-bg"><div class="progress-fill fill-temp" id="bar-temp" style="width: 75%;"></div></div>
+        <div class="res-sub-row">
+          <span class="res-sub" id="sub-ext-temp">Ext: -62°C</span>
+          <span class="status-pill pill-good" id="pill-temp">COMFORT</span>
+        </div>
+      </div>
+
+      <div class="resource-card" id="res-rad-card" title="Atmospheric & Cosmic Radiation Exposure (RAD Curiosity)">
+        <div class="res-meta">
+          <span class="res-icon">☢</span>
+          <span class="res-name">RAD FLUX</span>
+          <span class="res-val-group">
+            <span class="res-val" id="val-rad">15 µSv</span>
+            <span class="trend-badge" id="trend-rad">→</span>
+          </span>
+        </div>
+        <div class="progress-bar-bg"><div class="progress-fill fill-rad" id="bar-rad" style="width: 25%;"></div></div>
+        <div class="res-sub-row">
+          <span class="res-sub">Regolith Shield</span>
+          <span class="status-pill pill-good" id="pill-rad">SHIELDED</span>
+        </div>
+      </div>
+
+      <div class="resource-card" id="res-hull-card" title="Habitat Structural Integrity">
+        <div class="res-meta">
+          <span class="res-icon">🛡</span>
+          <span class="res-name">HAB HULL</span>
+          <span class="res-val-group">
+            <span class="res-val" id="val-hull">100%</span>
+            <span class="trend-badge" id="trend-hull">→</span>
+          </span>
+        </div>
+        <div class="progress-bar-bg"><div class="progress-fill fill-hull" id="bar-hull" style="width: 100%;"></div></div>
+        <div class="res-sub-row">
+          <span class="res-sub">Pressure 101kPa</span>
+          <span class="status-pill pill-good" id="pill-hull">SEALED</span>
+        </div>
+      </div>
+
+      <div class="resource-card highlight-card" id="res-science-card" title="Cumulative NASA Science Discoveries">
+        <div class="res-meta">
+          <span class="res-icon">🔬</span>
+          <span class="res-name">SCIENCE</span>
+          <span class="res-val-group">
+            <span class="res-val highlight-val" id="val-science">0 PTS</span>
+            <span class="trend-badge" id="trend-science">+</span>
+          </span>
+        </div>
+        <div class="progress-bar-bg"><div class="progress-fill fill-science" id="bar-science" style="width: 0%;"></div></div>
+        <div class="res-sub-row">
+          <span class="res-sub">JPL Telemetry</span>
+          <span class="status-pill pill-good" id="pill-science">LINKED</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- MAIN SCREENS CONTAINER -->
+    <main id="main-viewport">
+
+      <!-- ==================================================== -->
+      <!-- SCREEN 1: TITLE / BRIEFING -->
+      <!-- ==================================================== -->
+      <section id="screen-title" class="screen active">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+          <div class="title-badge">NASA SPACE APPS CHALLENGE 2026 // JUNIOR ASTRONAUT MISSION TRAINER</div>
+          <h1 class="game-logo">MISSION <span class="highlight-text">MARTIANBOUND</span></h1>
+          <p class="tagline">"Can you keep humanity alive on the Red Planet?"</p>
+          
+          <div class="mission-brief-card">
+            <div class="brief-header">
+              <span class="terminal-dot red"></span>
+              <span class="terminal-dot yellow"></span>
+              <span class="terminal-dot green"></span>
+              <span class="brief-title">DIRECTIVE // EXPEDITION ARES-IV</span>
+            </div>
+            <div class="brief-body">
+              <p>Welcome, Commander. You have been placed in command of the first permanent Martian settlement in <strong>Jezero Crater</strong>. Your crew consists of <strong>4 specialist astronauts</strong>.</p>
+              <div class="brief-grid">
+                <div class="brief-col">
+                  <strong>TARGET OBJECTIVE:</strong>
+                  <ul>
+                    <li>Survive <strong>30 Martian Sols</strong></li>
+                    <li>Balance life-critical power, O₂, water, and crops</li>
+                    <li>Weather dynamic Martian storms & radiation spikes</li>
+                  </ul>
+                </div>
+                <div class="brief-col">
+                  <strong>NASA SCIENTIFIC MANDATE:</strong>
+                  <ul>
+                    <li>Deploy the <strong>Perseverance-class Rover</strong></li>
+                    <li>Drill core samples & detect biosignatures</li>
+                    <li>Interpret genuine NASA rover & orbiter telemetry</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="starting-stats-row">
+                <span>🫁 O₂: 100%</span>
+                <span>💧 Water: 100%</span>
+                <span>🥗 Food: 85%</span>
+                <span>⚡ Power: 80%</span>
+                <span>🛡 Hull: 100%</span>
+                <span>👨‍🚀 Crew: 4 Alive</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="cta-actions">
+            <button id="btn-start-game" class="btn btn-primary btn-large glow-effect">
+              🚀 LAUNCH MISSION [SOL 01]
+            </button>
+            <button id="btn-open-guide-title" class="btn btn-secondary">
+              📘 HOW TO PLAY
+            </button>
+            <button id="btn-open-sources-title" class="btn btn-tertiary">
+              🛰 NASA DATA & SCIENCE
+            </button>
+          </div>
+
+          <div class="disclaimer-footnote">
+            NASA DATA-INSPIRED EDUCATIONAL PROTOTYPE • GROUNDED IN REAL MARS SCIENCE & TELEMETRY
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================================================== -->
+      <!-- SCREEN 2: 2.5D ISOMETRIC MARS OUTPOST -->
+      <!-- ==================================================== -->
+      <section id="screen-outpost" class="screen">
+        <!-- Weather / Atmospheric Overlay -->
+        <div id="weather-sky-fx" class="weather-sky-fx"></div>
+
+        <!-- OUTPOST MAP CONTROLS (Zoom In, Zoom Out, Reset Center) -->
+        <div class="map-camera-controls">
+          <button class="map-ctrl-btn" id="btn-zoom-in" title="Zoom In (+)">➕</button>
+          <button class="map-ctrl-btn" id="btn-zoom-out" title="Zoom Out (-)">➖</button>
+          <button class="map-ctrl-btn" id="btn-zoom-reset" title="Reset View">🎯</button>
+        </div>
+
+        <!-- FLOATING BUILDING HOVER QUICK-TOOLTIP -->
+        <div id="building-quick-tooltip" class="building-quick-tooltip hidden">
+          <div class="tt-header">
+            <span class="tt-icon" id="tt-icon">🏛</span>
+            <span class="tt-name" id="tt-name">FACILITY</span>
+          </div>
+          <div class="tt-status" id="tt-status">Status: Nominal</div>
+          <div class="tt-metric" id="tt-metric">Output: 100%</div>
+          <div class="tt-hint">Click building for complete diagnostics</div>
+        </div>
+
+        <!-- 2.5D Isometric World Stage -->
+        <div class="isometric-stage-container" id="isometric-stage-container">
+          <div class="isometric-world" id="isometric-world">
+
+            <!-- Martian Terrain Grid with 2.5D Craters & Dunes -->
+            <div class="terrain-floor">
+              <div class="crater crater-1"></div>
+              <div class="crater crater-2"></div>
+              <div class="crater crater-3"></div>
+              <div class="rover-tracks"></div>
+            </div>
+
+            <!-- 2.5D Isometric Building: Central Habitat Dome -->
+            <div class="iso-entity building-hab" id="entity-hab" data-target="hab" title="Click: Ares Main Habitation Dome">
+              <div class="iso-shadow"></div>
+              <div class="voxel-block block-hab">
+                <div class="face front">
+                  <div class="airlock-door">AIRLOCK 1</div>
+                  <div class="hab-window glow"></div>
+                </div>
+                <div class="face back"></div>
+                <div class="face top"><div class="dome-cap"><span class="moxie-spin">MOXIE O₂</span></div></div>
+                <div class="face left"></div>
+                <div class="face right"></div>
+              </div>
+              <div class="building-alert-badge hidden" id="badge-alert-hab">⚠️</div>
+              <div class="entity-label"><span class="label-badge">HABITAT DOME</span></div>
+            </div>
+
+            <!-- 2.5D Isometric Building: Solar Array Farm -->
+            <div class="iso-entity building-solar" id="entity-solar" data-target="solar" title="Click: UltraFlex Photovoltaic Array">
+              <div class="iso-shadow"></div>
+              <div class="voxel-block block-solar">
+                <div class="solar-panel-grid">
+                  <div class="photovoltaic-cell"></div>
+                  <div class="photovoltaic-cell"></div>
+                  <div class="photovoltaic-cell"></div>
+                  <div class="photovoltaic-cell"></div>
+                </div>
+                <div class="panel-mast"></div>
+              </div>
+              <div class="building-alert-badge hidden" id="badge-alert-solar">⚡</div>
+              <div class="entity-label"><span class="label-badge" id="lbl-solar-eff">SOLAR ARRAY (100%)</span></div>
+            </div>
+
+            <!-- 2.5D Isometric Building: Hydroponic Greenhouse -->
+            <div class="iso-entity building-greenhouse" id="entity-greenhouse" data-target="greenhouse" title="Click: LED Hydroponics Farm">
+              <div class="iso-shadow"></div>
+              <div class="voxel-block block-greenhouse">
+                <div class="face front greenhouse-glass">
+                  <div class="plant-silhouette">🌱🥦</div>
+                </div>
+                <div class="face back"></div>
+                <div class="face top greenhouse-roof glow-purple"></div>
+                <div class="face left greenhouse-glass"></div>
+                <div class="face right"></div>
+              </div>
+              <div class="building-alert-badge hidden" id="badge-alert-gh">🌱</div>
+              <div class="entity-label"><span class="label-badge">GREENHOUSE</span></div>
+            </div>
+
+            <!-- 2.5D Isometric Building: Subsurface Water & Ice Extractor -->
+            <div class="iso-entity building-water" id="entity-water" data-target="water" title="Click: Glacial Ice Melter & Water Rig">
+              <div class="iso-shadow"></div>
+              <div class="voxel-block block-water">
+                <div class="face front">
+                  <div class="tank-gauge"><div class="tank-liquid" id="tank-water-liquid"></div></div>
+                </div>
+                <div class="face back"></div>
+                <div class="face top water-pipe-cap"></div>
+                <div class="face left"></div>
+                <div class="face right"></div>
+              </div>
+              <div class="building-alert-badge hidden" id="badge-alert-water">💧</div>
+              <div class="entity-label"><span class="label-badge">WATER EXTRACTION</span></div>
+            </div>
+
+            <!-- 2.5D Isometric Building: Comm Tower & High-Gain Antenna -->
+            <div class="iso-entity building-comm" id="entity-comm" data-target="comm" title="Click: NASA Deep Space Network Dish">
+              <div class="iso-shadow"></div>
+              <div class="voxel-block block-comm">
+                <div class="dish-mast"></div>
+                <div class="radar-dish pulsing-dish"></div>
+              </div>
+              <div class="entity-label"><span class="label-badge">DSN ANTENNA</span></div>
+            </div>
+
+            <!-- 2.5D Isometric Building: Mobile Rover Unit -->
+            <div class="iso-entity building-rover" id="entity-rover" data-target="rover" title="Click: Deploy Perseverance Explorer">
+              <div class="iso-shadow"></div>
+              <div class="voxel-block block-rover rover-parked" id="rover-voxel">
+                <div class="rover-body">
+                  <div class="rover-mastcam"></div>
+                  <div class="rover-wheels">
+                    <span class="wheel w1"></span><span class="wheel w2"></span><span class="wheel w3"></span>
+                  </div>
+                </div>
+              </div>
+              <div class="entity-label"><span class="label-badge" id="lbl-rover-status">ROVER READY</span></div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- ASTRONAUT CREW COMM-DOCK (Crew Cards & Live Status) -->
+        <div class="crew-dock-container">
+          <div class="crew-dock-title">👨‍🚀 EXPEDITION CREW STATUS & LOG</div>
+          <div class="crew-roster" id="crew-roster-list">
+            <!-- Dynamically populated or rendered -->
+            <div class="crew-card" id="crew-card-chen" title="Chief Engineer - Power Systems Specialist">
+              <span class="crew-avatar">🔧</span>
+              <div class="crew-meta">
+                <span class="crew-name">Dr. Chen</span>
+                <span class="crew-role">Engineer</span>
+              </div>
+              <span class="crew-status-dot dot-nominal"></span>
+            </div>
+            <div class="crew-card" id="crew-card-patel" title="Botanist - Hydroponic Life Support">
+              <span class="crew-avatar">🌱</span>
+              <div class="crew-meta">
+                <span class="crew-name">Dr. Patel</span>
+                <span class="crew-role">Botanist</span>
+              </div>
+              <span class="crew-status-dot dot-nominal"></span>
+            </div>
+            <div class="crew-card" id="crew-card-hayes" title="Mission Commander - Emergency Protocols">
+              <span class="crew-avatar">🚀</span>
+              <div class="crew-meta">
+                <span class="crew-name">Col. Hayes</span>
+                <span class="crew-role">Commander</span>
+              </div>
+              <span class="crew-status-dot dot-nominal"></span>
+            </div>
+            <div class="crew-card" id="crew-card-okafor" title="Planetary Geologist - Surface Samples">
+              <span class="crew-avatar">🔬</span>
+              <div class="crew-meta">
+                <span class="crew-name">Dr. Okafor</span>
+                <span class="crew-role">Geologist</span>
+              </div>
+              <span class="crew-status-dot dot-nominal"></span>
+            </div>
+          </div>
+          <div class="crew-chatter-box" id="crew-chatter-text">
+            "Commander, all habitat life support loops nominal. Ready for Sol 01 operations."
+          </div>
+        </div>
+
+        <!-- OUTPOST HUD CONTROLS (Bottom Action Bar) -->
+        <div class="outpost-control-bar">
+          <div class="outpost-status-msg" id="outpost-status-banner">
+            <span class="status-icon">🛰</span>
+            <span id="outpost-banner-text">Commander, outpost telemetry nominal. All life support loops balanced for Sol 01.</span>
+          </div>
+          
+          <div class="outpost-action-buttons">
+            <button class="btn btn-action" id="btn-action-power" title="Shortcut: [P]">
+              ⚡ Power Grid (40/20/20/10/10) <kbd class="key-hint">P</kbd>
+            </button>
+            <button class="btn btn-action" id="btn-action-rover" title="Shortcut: [R]">
+              🚜 Deploy Rover <kbd class="key-hint">R</kbd>
+            </button>
+            <button class="btn btn-advance btn-large glow-effect" id="btn-advance-sol" title="Shortcut: [SPACE]">
+              ☀️ ADVANCE TO SOL <span id="lbl-next-sol-num">02</span> ➔ <kbd class="key-hint-large">SPACE</kbd>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================================================== -->
+      <!-- SCREEN 4: ENVIRONMENTAL EVENT MODAL / OVERLAY -->
+      <!-- ==================================================== -->
+      <section id="modal-event" class="modal-backdrop hidden">
+        <div class="modal-box event-modal-box">
+          <div class="event-modal-header" id="event-header-banner">
+            <div class="event-alert-tag" id="event-tag">⚠ MARS ENVIRONMENTAL EVENT</div>
+            <h2 class="event-title" id="event-title">REGIONAL DUST STORM DETECTED</h2>
+            <div class="event-source-badge" id="event-source-badge">
+              Source: NASA InSight & MRO Mars Color Imager (MARCI)
+            </div>
+          </div>
+
+          <div class="event-modal-body">
+            <div class="event-layout-grid">
+              <div class="event-visual-col">
+                <div class="event-image-frame" id="event-image-frame">
+                  <div class="event-graphic" id="event-graphic">🌪</div>
+                  <div class="event-stat-chip" id="event-impact-chip">Solar Flux: -60%</div>
+                </div>
+                <div class="science-note-box">
+                  <span class="sc-icon">🔬</span>
+                  <div class="sc-text">
+                    <strong>JUNIOR ASTRONAUT SCIENCE NOTE:</strong>
+                    <p id="event-science-explanation">
+                      Mars dust storms can span thousands of kilometers! Airborne atmospheric dust blocks sunlight from reaching solar panels and can cool the upper atmosphere while insulating the surface.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="event-decision-col">
+                <p class="event-description" id="event-description">
+                  A high-velocity dust devil storm system has crossed Jezero Crater. Solar irradiance is down by 60%. If we don't manage power immediately, life support or heating will stall.
+                </p>
+
+                <h3 class="choice-prompt">COMMANDER, SELECT STRATEGIC DIRECTIVE:</h3>
+                
+                <div class="decision-list" id="event-decisions-container">
+                  <!-- Injected via game.js -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================================================== -->
+      <!-- SCREEN 6: DECISION CONSEQUENCE SCREEN -->
+      <!-- ==================================================== -->
+      <section id="modal-consequence" class="modal-backdrop hidden">
+        <div class="modal-box consequence-modal-box">
+          <div class="modal-header">
+            <div class="consequence-badge" id="consequence-type-badge">DECISION OUTCOME EVALUATION</div>
+            <h2 id="consequence-title">Directive Executed: Use Deep-Cycle Batteries</h2>
+          </div>
+
+          <div class="modal-body">
+            <div class="consequence-summary-box" id="consequence-narrative">
+              "Your crew drew heavy current from the backup battery banks. The habitat stayed warm and oxygen generation remained uninterrupted, but reserves are critically drained."
+            </div>
+
+            <div class="resource-delta-grid" id="consequence-deltas">
+              <!-- Dynamically populated: e.g. Battery: 62% -> 39% -->
+            </div>
+
+            <div class="scientific-lesson-box">
+              <div class="lesson-header">
+                <span class="lesson-icon">🚀</span>
+                <strong>NASA REALITY CHECK:</strong>
+              </div>
+              <p id="consequence-lesson">
+                NASA's InSight and Opportunity landers both faced catastrophic dust accumulation on solar panels. Battery conservation vs essential heater operations is an authentic real-life trade-off made by JPL mission operators!
+              </p>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button class="btn btn-primary btn-large glow-effect" id="btn-consequence-continue">
+              PROCEED TO SOL TELEMETRY ➔
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================================================== -->
+      <!-- SCREEN 3: POWER MANAGEMENT MODAL -->
+      <!-- ==================================================== -->
+      <section id="modal-power" class="modal-backdrop hidden">
+        <div class="modal-box power-modal-box">
+          <div class="modal-header">
+            <div class="event-alert-tag">ELECTRICAL SUBSTATION // ARES GRID</div>
+            <h2>POWER GRID DISTRIBUTION</h2>
+            <button class="btn-close-modal" id="btn-close-power">✕</button>
+          </div>
+
+          <div class="modal-body">
+            <div class="power-summary-bar">
+              <div class="power-stat">
+                <span class="lbl">SOLAR GENERATION:</span>
+                <span class="val highlight-gold" id="power-gen-val">4.8 kW (Nominal)</span>
+              </div>
+              <div class="power-stat">
+                <span class="lbl">TOTAL ALLOCATED:</span>
+                <span class="val" id="power-total-val">100%</span>
+              </div>
+              <div class="power-stat">
+                <span class="lbl">BATTERY STORAGE:</span>
+                <span class="val highlight-blue" id="power-reserve-val">80%</span>
+              </div>
+            </div>
+
+            <div class="power-presets-wrap">
+              <span class="preset-label">QUICK ROUTING PRESETS:</span>
+              <div class="power-presets-buttons">
+                <button type="button" class="btn-preset" id="preset-balanced" title="Standard balanced load for nominal operations">
+                  ⚖️ Balanced (40/20/20/10/10)
+                </button>
+                <button type="button" class="btn-preset" id="preset-storm" title="Priority heating and life support during dust events">
+                  🌪️ Storm Safe (50/35/10/0/5)
+                </button>
+                <button type="button" class="btn-preset" id="preset-science" title="Max compute and rapid rover recharge">
+                  🔬 Science Surge (35/15/15/20/15)
+                </button>
+                <button type="button" class="btn-preset" id="preset-eco" title="Minimum energy footprint to preserve battery">
+                  🔋 Battery Saver (30/25/15/15/15)
+                </button>
+              </div>
+            </div>
+
+            <p class="power-hint">
+              Distribute total power across outpost subsystems or select a quick preset. <strong>Total allocation automatically balances to 100%</strong>.
+            </p>
+
+            <div class="sliders-list">
+              <!-- Life Support -->
+              <div class="slider-row">
+                <div class="slider-info">
+                  <span class="sys-title">🫁 Life Support (O₂ MOXIE)</span>
+                  <span class="sys-desc">Maintains 21% O₂ atmosphere & CO₂ scrubbing</span>
+                </div>
+                <input type="range" min="0" max="100" step="5" value="40" class="power-slider" id="slider-ls">
+                <span class="slider-val" id="val-slider-ls">40%</span>
+              </div>
+
+              <!-- Thermal Heating -->
+              <div class="slider-row">
+                <div class="slider-info">
+                  <span class="sys-title">🔥 Thermal Core Heating</span>
+                  <span class="sys-desc">Counters nighttime Martian drop down to -80°C</span>
+                </div>
+                <input type="range" min="0" max="100" step="5" value="20" class="power-slider" id="slider-heat">
+                <span class="slider-val" id="val-slider-heat">20%</span>
+              </div>
+
+              <!-- Greenhouse -->
+              <div class="slider-row">
+                <div class="slider-info">
+                  <span class="sys-title">🌱 Hydroponics & UV Growlights</span>
+                  <span class="sys-desc">Produces fresh food & supplementary oxygen</span>
+                </div>
+                <input type="range" min="0" max="100" step="5" value="20" class="power-slider" id="slider-gh">
+                <span class="slider-val" id="val-slider-gh">20%</span>
+              </div>
+
+              <!-- Rover Recharge -->
+              <div class="slider-row">
+                <div class="slider-info">
+                  <span class="sys-title">🚜 Rover Rapid Recharge Dock</span>
+                  <span class="sys-desc">Charges Perseverance batteries for long-range sorties</span>
+                </div>
+                <input type="range" min="0" max="100" step="5" value="10" class="power-slider" id="slider-rover">
+                <span class="slider-val" id="val-slider-rover">10%</span>
+              </div>
+
+              <!-- Scientific Labs -->
+              <div class="slider-row">
+                <div class="slider-info">
+                  <span class="sys-title">🔬 NASA Science Lab & Mass Spec</span>
+                  <span class="sys-desc">Analyzes regolith samples to score science points</span>
+                </div>
+                <input type="range" min="0" max="100" step="5" value="10" class="power-slider" id="slider-lab">
+                <span class="slider-val" id="val-slider-lab">10%</span>
+              </div>
+            </div>
+
+            <div class="power-status-feedback" id="power-alloc-feedback">
+              Allocation Balanced: 100% / 100%
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button class="btn btn-secondary" id="btn-power-reset">Reset to Default (40/20/20/10/10)</button>
+            <button class="btn btn-primary" id="btn-save-power">Confirm Power Routing</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================================================== -->
+      <!-- SCREEN 5: ROVER EXPEDITION MISSION SCREEN -->
+      <!-- ==================================================== -->
+      <section id="modal-rover" class="modal-backdrop hidden">
+        <div class="modal-box rover-modal-box">
+          <div class="modal-header">
+            <div class="event-alert-tag">AUTONOMOUS SURFACE EXPLORATION // PERSEVERANCE CLASS</div>
+            <h2>JEZERO CRATER EXPEDITION PLANNING</h2>
+            <button class="btn-close-modal" id="btn-close-rover">✕</button>
+          </div>
+
+          <div class="modal-body">
+            <div class="rover-layout">
+              <!-- Left: Target Selector -->
+              <div class="rover-sites-list">
+                <h3>SELECT DRILL & SURVEY TARGET</h3>
+
+                <!-- Site A -->
+                <div class="site-card selected" data-site="A">
+                  <div class="site-card-header">
+                    <span class="site-name">SITE A: DELTA SCRAP FLATS</span>
+                    <span class="risk-pill risk-low">LOW RISK</span>
+                  </div>
+                  <div class="site-metrics">
+                    <span>📏 Distance: 1.2 km</span>
+                    <span>⚡ Energy: 15 kWh</span>
+                    <span>🔬 Science Potential: +15 pts</span>
+                  </div>
+                  <p class="site-desc">
+                    Sedimentary siltstone bed with gentle slopes. High safety margin; minimal wheel wear.
+                  </p>
+                </div>
+
+                <!-- Site B -->
+                <div class="site-card" data-site="B">
+                  <div class="site-card-header">
+                    <span class="site-name">SITE B: ANCIENT CRATER RIVER BED</span>
+                    <span class="risk-pill risk-med">MEDIUM RISK</span>
+                  </div>
+                  <div class="site-metrics">
+                    <span>📏 Distance: 3.8 km</span>
+                    <span>⚡ Energy: 30 kWh</span>
+                    <span>🔬 Science Potential: +35 pts</span>
+                  </div>
+                  <p class="site-desc">
+                    Conglomerate rocks and rocky boulders. Opportunity to uncover clay carbonates indicating past standing water!
+                  </p>
+                </div>
+
+                <!-- Site C -->
+                <div class="site-card" data-site="C">
+                  <div class="site-card-header">
+                    <span class="site-name">SITE C: NERETVA VALLIS CANYON RIM</span>
+                    <span class="risk-pill risk-high">HIGH VALUE / HIGH RISK</span>
+                  </div>
+                  <div class="site-metrics">
+                    <span>📏 Distance: 7.5 km</span>
+                    <span>⚡ Energy: 50 kWh</span>
+                    <span>🔬 Science Potential: +60 pts</span>
+                  </div>
+                  <p class="site-desc">
+                    Steep loose scree slopes. Risk of getting bogged down in soft dunes, but potential discovery of organic biosignatures!
+                  </p>
+                </div>
+              </div>
+
+              <!-- Right: Rover Mission Radar & NASA Data Viewer -->
+              <div class="rover-preview-panel">
+                <div class="rover-map-radar" id="jezero-svg-map-wrap">
+                  <svg viewBox="0 0 340 220" class="jezero-svg-map">
+                    <defs>
+                      <radialGradient id="craterGrad" cx="50%" cy="50%" r="50%">
+                        <stop offset="0%" stop-color="#24130e" />
+                        <stop offset="70%" stop-color="#190e0b" />
+                        <stop offset="100%" stop-color="#0e0705" />
+                      </radialGradient>
+                      <linearGradient id="deltaGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#b85d34" stop-opacity="0.45" />
+                        <stop offset="100%" stop-color="#6e3118" stop-opacity="0.2" />
+                      </linearGradient>
+                      <filter id="glowGreen" x="-20%" y="-20%" width="140%" height="140%">
+                        <feDropShadow dx="0" dy="0" stdDeviation="3" flood-color="#2ed573" />
+                      </filter>
+                      <filter id="glowGold" x="-20%" y="-20%" width="140%" height="140%">
+                        <feDropShadow dx="0" dy="0" stdDeviation="3" flood-color="#ffd166" />
+                      </filter>
+                      <filter id="glowRed" x="-20%" y="-20%" width="140%" height="140%">
+                        <feDropShadow dx="0" dy="0" stdDeviation="3" flood-color="#ff4757" />
+                      </filter>
+                    </defs>
+
+                    <!-- Jezero Crater Basin Background -->
+                    <rect width="340" height="220" fill="url(#craterGrad)" />
+
+                    <!-- Topographic Elevation Contour Lines -->
+                    <ellipse cx="170" cy="110" rx="155" ry="98" fill="none" stroke="#5a2c1d" stroke-width="1.5" stroke-dasharray="3,3" opacity="0.6" />
+                    <ellipse cx="170" cy="110" rx="125" ry="78" fill="none" stroke="#6e3725" stroke-width="1" opacity="0.5" />
+                    <ellipse cx="170" cy="110" rx="90" ry="55" fill="none" stroke="#87432d" stroke-width="1" stroke-dasharray="4,2" opacity="0.4" />
+
+                    <!-- Ancient Riverbed & Delta Fan Influx (Neretva Vallis) -->
+                    <path d="M 10 70 Q 70 85 115 110 L 150 100 Q 180 130 140 160 L 90 140 Z" fill="url(#deltaGrad)" stroke="#c26338" stroke-width="1.2" />
+                    <path d="M 10 70 Q 75 88 120 115 Q 145 125 170 120" fill="none" stroke="#00d2ff" stroke-width="1.8" stroke-dasharray="2,3" opacity="0.65" />
+
+                    <!-- Trajectory / Route Lines to Sites -->
+                    <line x1="170" y1="120" x2="225" y2="88" stroke="#2ed573" stroke-width="2" stroke-dasharray="4,3" class="map-route route-a" />
+                    <line x1="170" y1="120" x2="110" y2="60" stroke="#ffd166" stroke-width="2" stroke-dasharray="4,3" class="map-route route-b" />
+                    <line x1="170" y1="120" x2="65" y2="165" stroke="#ff4757" stroke-width="2" stroke-dasharray="4,3" class="map-route route-c" />
+
+                    <!-- Central Base Node (Habitat Core) -->
+                    <g class="svg-node base-node" transform="translate(170, 120)">
+                      <circle r="9" fill="#ff8c42" stroke="#ffffff" stroke-width="2" />
+                      <circle r="15" fill="none" stroke="#ff8c42" stroke-width="1" opacity="0.7">
+                        <animate attributeName="r" values="9;18;9" dur="2.4s" repeatCount="indefinite" />
+                        <animate attributeName="opacity" values="0.8;0;0.8" dur="2.4s" repeatCount="indefinite" />
+                      </circle>
+                      <text y="3.5" text-anchor="middle" font-family="'Chakra Petch', sans-serif" font-size="8" font-weight="700" fill="#fff">HAB</text>
+                    </g>
+
+                    <!-- Site A Node -->
+                    <g class="svg-node site-node site-node-a" data-site="A" transform="translate(225, 88)" filter="url(#glowGreen)">
+                      <circle r="9" fill="#2ed573" stroke="#ffffff" stroke-width="1.5" />
+                      <text y="3.5" text-anchor="middle" font-family="'Orbitron', sans-serif" font-size="9" font-weight="900" fill="#000">A</text>
+                      <text y="-12" text-anchor="middle" font-family="'Chakra Petch', sans-serif" font-size="9" font-weight="700" fill="#2ed573">Site A (1.2km)</text>
+                    </g>
+
+                    <!-- Site B Node -->
+                    <g class="svg-node site-node site-node-b" data-site="B" transform="translate(110, 60)" filter="url(#glowGold)">
+                      <circle r="9" fill="#ffd166" stroke="#ffffff" stroke-width="1.5" />
+                      <text y="3.5" text-anchor="middle" font-family="'Orbitron', sans-serif" font-size="9" font-weight="900" fill="#000">B</text>
+                      <text y="-12" text-anchor="middle" font-family="'Chakra Petch', sans-serif" font-size="9" font-weight="700" fill="#ffd166">Site B (3.8km)</text>
+                    </g>
+
+                    <!-- Site C Node -->
+                    <g class="svg-node site-node site-node-c" data-site="C" transform="translate(65, 165)" filter="url(#glowRed)">
+                      <circle r="9" fill="#ff4757" stroke="#ffffff" stroke-width="1.5" />
+                      <text y="3.5" text-anchor="middle" font-family="'Orbitron', sans-serif" font-size="9" font-weight="900" fill="#fff">C</text>
+                      <text y="20" text-anchor="middle" font-family="'Chakra Petch', sans-serif" font-size="9" font-weight="700" fill="#ff7675">Site C (7.5km)</text>
+                    </g>
+
+                    <!-- Animated Rover Explorer Icon -->
+                    <g id="rover-svg-marker" transform="translate(170, 120)">
+                      <circle r="11" fill="rgba(0, 210, 255, 0.3)" stroke="#00d2ff" stroke-width="1.5" />
+                      <text y="3.5" text-anchor="middle" font-size="11">🚜</text>
+                    </g>
+                  </svg>
+
+                  <!-- Map Overlays: Compass, Scale, Coordinates -->
+                  <div class="map-overlay-compass" title="True Martian North">↑ N</div>
+                  <div class="map-overlay-scale">
+                    <span class="scale-bar"></span>
+                    <span class="scale-text">5 KM</span>
+                  </div>
+                  <div class="map-overlay-legend">
+                    <span class="leg-item"><span class="leg-dot dot-low"></span> Low</span>
+                    <span class="leg-item"><span class="leg-dot dot-med"></span> Med</span>
+                    <span class="leg-item"><span class="leg-dot dot-high"></span> High</span>
+                  </div>
+                </div>
+
+                <div class="rover-telemetry-box">
+                  <div class="tel-row"><strong>SELECTED DESTINATION:</strong> <span id="rover-modal-target-name" class="highlight-gold">SITE A: DELTA SCRAP FLATS</span></div>
+                  <div class="tel-row"><strong>ROVER BATTERY:</strong> <span id="rover-modal-batt">100%</span></div>
+                  <div class="tel-row"><strong>TERRAIN ELEVATION:</strong> <span id="rover-modal-elev">-2,500m (MOLA Data)</span></div>
+                  <div class="tel-row"><strong>SURVEY DISTANCE:</strong> <span id="rover-modal-dist">1.2 km</span></div>
+                  <div class="tel-row"><strong>NASA DATASET:</strong> HiRISE Mars Reconnaissance Orbiter (Jezero DEM)</div>
+                </div>
+
+                <!-- Mission In-Progress Animation Box -->
+                <div class="rover-mission-executing hidden" id="rover-mission-executing">
+                  <div class="spinner-orbit"></div>
+                  <div class="exec-text" id="rover-exec-text">TRANSMITTING AUTONAV WAYPOINTS...</div>
+                  <div class="progress-bar-bg" style="height: 10px; margin-top: 10px;">
+                    <div class="progress-fill fill-science" id="rover-exec-bar" style="width: 0%;"></div>
+                  </div>
+                </div>
+
+                <button class="btn btn-primary btn-large btn-block glow-effect" id="btn-deploy-rover">
+                  🚜 DEPLOY PERSEVERANCE ROVER
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================================================== -->
+      <!-- SCREEN: BUILDING INSPECTION MODAL -->
+      <!-- ==================================================== -->
+      <section id="modal-building" class="modal-backdrop hidden">
+        <div class="modal-box building-modal-box">
+          <div class="modal-header">
+            <div class="event-alert-tag" id="bldg-tag">FACILITY TELEMETRY</div>
+            <h2 id="bldg-name">Ares Habitat Core</h2>
+            <button class="btn-close-modal" id="btn-close-building">✕</button>
+          </div>
+          <div class="modal-body">
+            <div class="bldg-details-layout">
+              <div class="bldg-icon-show" id="bldg-icon">🏛</div>
+              <div class="bldg-text-info">
+                <p id="bldg-desc">
+                  Pressurized living module engineered with multi-layered Kevlar regolith shielding to insulate astronauts from severe cosmic radiation and vacuum conditions.
+                </p>
+                <div class="bldg-stats-list" id="bldg-stats-list">
+                  <!-- Populated dynamically -->
+                </div>
+                <div class="science-note-box" style="margin-top: 12px;">
+                  <span class="sc-icon">🛰</span>
+                  <div class="sc-text">
+                    <strong>NASA TECHNOLOGICAL INSPIRATION:</strong>
+                    <p id="bldg-tech-note">
+                      Based on NASA Langley's Ice Dome Habitat and CHAPEA (Crew Health and Animal Performance Exploration Analog) 3D-printed habitats at Johnson Space Center.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer" id="bldg-actions">
+            <button class="btn btn-secondary" id="btn-bldg-action-1">Subsystem Diagnostics</button>
+            <button class="btn btn-primary" id="btn-bldg-close">Close Telemetry</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================================================== -->
+      <!-- SCREEN 7: MISSION RESULTS (VICTORY / DEFEAT) -->
+      <!-- ==================================================== -->
+      <section id="screen-results" class="screen">
+        <div class="results-container">
+          <div class="results-card">
+            <div class="results-header" id="results-header-banner">
+              <div class="result-badge" id="results-badge">MISSION SUCCESS</div>
+              <h1 id="results-headline">30 / 30 SOLS SURVIVED</h1>
+              <p id="results-subtext">The Ares Outpost maintained human life in the harsh Martian environment.</p>
+            </div>
+
+            <div class="score-breakdown-grid">
+              <div class="score-item">
+                <div class="score-lbl">CREW SURVIVAL</div>
+                <div class="score-bar-wrap"><div class="score-bar-fill" id="bar-score-crew" style="width: 100%;"></div></div>
+                <div class="score-num" id="score-crew-num">30 / 30</div>
+              </div>
+
+              <div class="score-item">
+                <div class="score-lbl">RESOURCE MANAGEMENT</div>
+                <div class="score-bar-wrap"><div class="score-bar-fill" id="bar-score-res" style="width: 80%;"></div></div>
+                <div class="score-num" id="score-res-num">18 / 20</div>
+              </div>
+
+              <div class="score-item">
+                <div class="score-lbl">NASA SCIENCE REVENUE</div>
+                <div class="score-bar-wrap"><div class="score-bar-fill" id="bar-score-sci" style="width: 90%;"></div></div>
+                <div class="score-num" id="score-sci-num">15 / 15</div>
+              </div>
+
+              <div class="score-item">
+                <div class="score-lbl">BASE SUSTAINABILITY</div>
+                <div class="score-bar-wrap"><div class="score-bar-fill" id="bar-score-sust" style="width: 85%;"></div></div>
+                <div class="score-num" id="score-sust-num">13 / 15</div>
+              </div>
+
+              <div class="score-item">
+                <div class="score-lbl">STRATEGIC DECISION-MAKING</div>
+                <div class="score-bar-wrap"><div class="score-bar-fill" id="bar-score-dec" style="width: 85%;"></div></div>
+                <div class="score-num" id="score-dec-num">17 / 20</div>
+              </div>
+            </div>
+
+            <!-- Total Score & Rank Display -->
+            <div class="total-score-box">
+              <div class="total-rank-wrap">
+                <span class="rank-caption">MISSION EVALUATION RANK:</span>
+                <span class="rank-title highlight-gold" id="final-rank-title">ELITE MARS COMMANDER</span>
+              </div>
+              <div class="total-score-badge">
+                <span class="score-label">OVERALL SCORE</span>
+                <span class="score-large" id="final-total-score">93</span>
+                <span class="score-max">/ 100</span>
+              </div>
+            </div>
+
+            <!-- Debrief Narrative -->
+            <div class="debrief-box">
+              <h3>COMMANDER DEBRIEF & MISSION LOG:</h3>
+              <p id="results-narrative">
+                Through prudent energy allocation during Sol 3's regional dust storm and aggressive robotic exploration of Neretva Vallis, your crew preserved 100% of life support reserves while transmitting groundbreaking planetary data back to NASA JPL.
+              </p>
+            </div>
+
+            <div class="results-actions">
+              <button class="btn btn-primary btn-large glow-effect" id="btn-restart-mission">
+                🔄 COMMENCE NEW EXPEDITION
+              </button>
+              <button class="btn btn-secondary" id="btn-open-sources-results">
+                🛰 REVIEW NASA DATA SOURCES
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================================================== -->
+      <!-- DATA SOURCES MODAL (NASA SCIENTIFIC INTEGRITY) -->
+      <!-- ==================================================== -->
+      <section id="modal-sources" class="modal-backdrop hidden">
+        <div class="modal-box sources-modal-box">
+          <div class="modal-header">
+            <div class="event-alert-tag">SCIENTIFIC TRANSPARENCY & DATA PROVENANCE</div>
+            <h2>OFFICIAL NASA OPEN DATA SOURCES</h2>
+            <button class="btn-close-modal" id="btn-close-sources">✕</button>
+          </div>
+
+          <div class="modal-body">
+            <p class="sources-intro">
+              <strong>MISSION MARTIANBOUND</strong> adheres to strict scientific integrity standards. In accordance with NASA Space Apps rules, genuine NASA datasets are converted into authentic game mechanics. Below is the full catalog of datasets and simulation mappings:
+            </p>
+
+            <div class="sources-table-container">
+              <table class="sources-table">
+                <thead>
+                  <tr>
+                    <th>Category</th>
+                    <th>Official NASA Source / Mission</th>
+                    <th>Live / Cached Telemetry Used</th>
+                    <th>Gameplay Consequence & Rule</th>
+                    <th>Official Portal</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>Atmospheric & Weather</strong></td>
+                    <td>NASA InSight Lander (TWINS Weather Suite) & Curiosity REMS</td>
+                    <td>Martian ambient temperature (-95°C to -15°C) & surface air pressure (610 Pa)</td>
+                    <td>Severe temperature drops increase thermal heating power consumption; failure damages astronaut morale.</td>
+                    <td><a href="https://mars.nasa.gov/insight/weather/" target="_blank" rel="noopener">mars.nasa.gov/insight/weather</a></td>
+                  </tr>
+                  <tr>
+                    <td><strong>Dust & Optical Depth</strong></td>
+                    <td>NASA Mars Reconnaissance Orbiter (MRO) MARCI & Curiosity Tau</td>
+                    <td>Atmospheric optical depth (Tau measurement: 0.4 nominal to 3.5+ storm)</td>
+                    <td>Dust storms attenuate photovoltaic solar efficiency by up to 60%, forcing battery or greenhouse rationing.</td>
+                    <td><a href="https://pds-atmospheres.nmsu.edu/" target="_blank" rel="noopener">pds-atmospheres.nmsu.edu</a></td>
+                  </tr>
+                  <tr>
+                    <td><strong>Mars Surface Terrain</strong></td>
+                    <td>NASA MOLA (Mars Orbiter Laser Altimeter) & HiRISE / Jezero Elevation</td>
+                    <td>Topographic elevation profiles and Jezero delta slope steepness maps</td>
+                    <td>Steep canyon routes demand higher rover electrical kilowatt-hours and risk wheel entrapment.</td>
+                    <td><a href="https://astrogeology.usgs.gov/search/map/Mars/Global/Mars_MGS_MOLA_DEM_mosaic_global_463m" target="_blank" rel="noopener">astrogeology.usgs.gov/MOLA</a></td>
+                  </tr>
+                  <tr>
+                    <td><strong>Radiation Environment</strong></td>
+                    <td>NASA Curiosity Rover RAD (Radiation Assessment Detector)</td>
+                    <td>Surface galactic cosmic ray (GCR) & solar energetic particle (SEP) flux (avg 0.21 mSv/day)</td>
+                    <td>Solar proton events trigger radiation alerts, requiring crew lockdown in shielded habitats.</td>
+                    <td><a href="https://www.nasa.gov/mission_pages/msl/telemetry/rad.html" target="_blank" rel="noopener">nasa.gov/mission_pages/msl/rad</a></td>
+                  </tr>
+                  <tr>
+                    <td><strong>Rover Science Data</strong></td>
+                    <td>NASA Mars 2020 Perseverance Rover (PIXL & SHERLOC Instruments)</td>
+                    <td>Spectroscopic mineral signatures (silica, carbonate, clay cores drilled at Jezero)</td>
+                    <td>Drilling in delta deposits discovers verified biosignatures and awards NASA science research points.</td>
+                    <td><a href="https://mars.nasa.gov/mars2020/" target="_blank" rel="noopener">mars.nasa.gov/mars2020</a></td>
+                  </tr>
+                  <tr>
+                    <td><strong>Oxygen Generation</strong></td>
+                    <td>NASA MOXIE (Mars Oxygen ISRU Experiment)</td>
+                    <td>In-situ atmospheric carbon dioxide electrolysis into breathable O₂ (up to 12g O₂/hr)</td>
+                    <td>Life support oxygen recovery loop directly depends on continuous grid electrical supply.</td>
+                    <td><a href="https://mars.nasa.gov/mars2020/spacecraft/instruments/moxie/" target="_blank" rel="noopener">mars.nasa.gov/moxie</a></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="data-live-status-card">
+              <h4>📡 TELEMETRY STATUS MONITOR</h4>
+              <div class="status-feed" id="api-status-feed">
+                Checking NASA Open API status (https://api.nasa.gov/insight_weather/?api_key=DEMO_KEY)...
+              </div>
+              <p class="fallback-note">
+                <strong>NOTE:</strong> If NASA's endpoint experiences network latency, rate-limiting, or cors blocks in local file context, the prototype automatically switches to our calibrated scientific fallback dataset verified against real PDS archival logs.
+              </p>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button class="btn btn-primary" id="btn-close-sources-bottom">Close & Return</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================================================== -->
+      <!-- HOW TO PLAY / FIELD MANUAL MODAL -->
+      <!-- ==================================================== -->
+      <section id="modal-guide" class="modal-backdrop hidden">
+        <div class="modal-box guide-modal-box">
+          <div class="modal-header">
+            <div class="event-alert-tag">JUNIOR ASTRONAUT ACADEMY</div>
+            <h2>FIELD MANUAL: SURVIVAL GUIDE</h2>
+            <button class="btn-close-modal" id="btn-close-guide">✕</button>
+          </div>
+
+          <div class="modal-body">
+            <div class="guide-grid">
+              <div class="guide-card">
+                <div class="guide-icon">1️⃣</div>
+                <h3>THE DAILY SOL CYCLE</h3>
+                <p>
+                  Each Martian day is called a <strong>Sol</strong> (24 hours and 39 minutes). Every Sol, your crew breathes O₂, drinks water, eats food, and consumes electricity. Click <strong>"ADVANCE TO SOL"</strong> to run daily outpost operations.
+                </p>
+              </div>
+
+              <div class="guide-card">
+                <div class="guide-icon">2️⃣</div>
+                <h3>REAL ENVIRONMENTAL HAZARDS</h3>
+                <p>
+                  Mars is hostile! You will encounter <strong>dust storms</strong>, <strong>extreme deep-freeze cold</strong>, and <strong>radiation bursts</strong> derived from genuine NASA rover data. Read the scientific alerts and choose strategic directives carefully.
+                </p>
+              </div>
+
+              <div class="guide-card">
+                <div class="guide-icon">3️⃣</div>
+                <h3>POWER GRID ALLOCATION</h3>
+                <p>
+                  Click the <strong>Power Grid</strong> button at any time. When dust covers solar panels, you must decide what to sacrifice: turn down greenhouse lights, pause rover recharging, or tap emergency battery banks.
+                </p>
+              </div>
+
+              <div class="guide-card">
+                <div class="guide-icon">4️⃣</div>
+                <h3>DEPLOYING THE ROVER</h3>
+                <p>
+                  Send the <strong>Perseverance Rover</strong> out into Jezero Crater. Safer routes yield steady data; riskier canyon rims can uncover groundbreaking water ice or ancient fossil biosignatures for maximum NASA science points!
+                </p>
+              </div>
+            </div>
+
+            <div class="survival-golden-rule">
+              <strong>⭐ GOLDEN RULE OF MARS COMMAND:</strong>
+              Never let Oxygen or Water reach 0%, or your mission ends in disaster. Keep your battery healthy before storms strike!
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button class="btn btn-primary" id="btn-close-guide-bottom">Understood, Ready to Command</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================================================== -->
+      <!-- DAILY SOL SUMMARY DEBRIEF MODAL -->
+      <!-- ==================================================== -->
+      <section id="modal-sol-summary" class="modal-backdrop hidden">
+        <div class="modal-box sol-summary-box">
+          <div class="modal-header">
+            <div class="event-alert-tag">DAILY LOG ARCHIVE // NASA TELEMETRY LINK</div>
+            <h2 id="summary-title">SOL 01 TELEMETRY DEBRIEF</h2>
+            <button class="btn-close-modal" id="btn-close-summary">✕</button>
+          </div>
+          <div class="modal-body">
+            <div class="sol-summary-grid">
+              <div class="summary-card">
+                <span class="summary-icon">🫁</span>
+                <div class="summary-info">
+                  <span class="summary-lbl">OXYGEN CYCLE</span>
+                  <span class="summary-stat" id="sum-o2">Nominal (+0%)</span>
+                </div>
+              </div>
+              <div class="summary-card">
+                <span class="summary-icon">💧</span>
+                <div class="summary-info">
+                  <span class="summary-lbl">WATER FLOW</span>
+                  <span class="summary-stat" id="sum-water">-2% (Closed-loop)</span>
+                </div>
+              </div>
+              <div class="summary-card">
+                <span class="summary-icon">🥗</span>
+                <div class="summary-info">
+                  <span class="summary-lbl">FOOD RATIONS</span>
+                  <span class="summary-stat" id="sum-food">-1% (Greenhouse)</span>
+                </div>
+              </div>
+              <div class="summary-card">
+                <span class="summary-icon">⚡</span>
+                <div class="summary-info">
+                  <span class="summary-lbl">POWER RESERVE</span>
+                  <span class="summary-stat" id="sum-power">+5% Solar Net</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="sol-fact-box">
+              <div class="fact-header">
+                <span class="fact-icon">🚀</span>
+                <strong>NASA JEZERO FACT OF THE SOL:</strong>
+              </div>
+              <p id="sol-fact-text">
+                Jezero Crater was once filled with liquid water 3.5 billion years ago, forming a lake and river delta where sedimentary minerals preserved chemical biosignatures!
+              </p>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-primary btn-large glow-effect" id="btn-summary-continue">
+              COMMENCE OPERATIONS FOR SOL <span id="lbl-summary-next-sol">02</span> ➔
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================================================== -->
+      <!-- INTERACTIVE ONBOARDING TUTORIAL MODAL -->
+      <!-- ==================================================== -->
+      <section id="modal-tutorial" class="modal-backdrop hidden">
+        <div class="modal-box tutorial-box">
+          <div class="modal-header">
+            <div class="event-alert-tag">JUNIOR ASTRONAUT TRAINING PROTOCOL</div>
+            <h2 id="tut-step-title">1. MONITORING LIFE SUPPORT</h2>
+            <button class="btn-close-modal" id="btn-close-tutorial">✕</button>
+          </div>
+          <div class="modal-body">
+            <div class="tutorial-card-body">
+              <div class="tut-icon-display" id="tut-icon">🫁</div>
+              <p id="tut-text" class="tut-description">
+                The top HUD gauges display your life-critical systems. Keep Oxygen, Water, and Battery above 0% at all times!
+              </p>
+              <div class="tut-progress-dots" id="tut-dots">
+                <span class="tut-dot active"></span>
+                <span class="tut-dot"></span>
+                <span class="tut-dot"></span>
+                <span class="tut-dot"></span>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" id="btn-tutorial-skip">Skip Briefing</button>
+            <button class="btn btn-primary" id="btn-tutorial-next">Next Directive ➔</button>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- JAVASCRIPT ENGINE -->
+  <script src="game.js"></script>
+</body>
+</html>
