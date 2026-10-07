@@ -1,0 +1,55 @@
+[gd_scene format=3 uid="uid://lrbc8kpfog1v"]
+
+[ext_resource type="Script" uid="uid://dnxs4x16e7kl5" path="res://scenes/ui/event_screen.gd" id="1_7rbp2"]
+
+[node name="EventScreen" type="Control" unique_id=1675636901]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_7rbp2")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=553092836]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.09019608, 0.15294118, 0.26666668, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ColorRect" unique_id=487438596]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -185.0
+offset_top = -69.5
+offset_right = 185.0
+offset_bottom = 69.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="EventTitleLabel" type="Label" parent="ColorRect/VBoxContainer" unique_id=2054359563]
+layout_mode = 2
+text = "Solar Storm"
+
+[node name="EventDescriptionLabel" type="Label" parent="ColorRect/VBoxContainer" unique_id=896342836]
+layout_mode = 2
+text = "A strong solar storm affects the habitat"
+
+[node name="DecisionTitleLabel" type="Label" parent="ColorRect/VBoxContainer" unique_id=945851398]
+layout_mode = 2
+text = "Rainforce Shielding"
+
+[node name="DecisionDescriptionLabel" type="Label" parent="ColorRect/VBoxContainer" unique_id=83520888]
+layout_mode = 2
+text = "Spend budget to strenghen radiation protection"
+
+[node name="DecisionButton" type="Button" parent="ColorRect/VBoxContainer" unique_id=1081528779]
+layout_mode = 2
+text = "Rainforce Shielding"
