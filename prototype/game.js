@@ -135,10 +135,12 @@ const INITIAL_GAME_STATE = {
 
   // Environmental Physics (Updated Sol by Sol from NASA data)
   externalTemp: -62,    // °C
+  externalPressure: 712,// Pa (Martian surface atmospheric pressure)
   solarEfficiency: 1.0, // 100% nominal; dropped by dust storms
   atmosphericTau: 0.42, // Optical depth
   weatherStatus: "Jezero Crater: Clear Conditions",
   isDustStormActive: false,
+  nasaLiveSols: [],     // Live/parsed telemetry points from InSight & MSL
 
   // Power Distribution Grid (% sum = 100%)
   powerAlloc: {
@@ -621,15 +623,20 @@ function advanceTutorialStep() {
 }
 
 function startGame() {
+  const preservedLiveData = gameState.nasaLiveSols;
+  const preservedDataSource = gameState.nasaDataSource;
   gameState = JSON.parse(JSON.stringify(INITIAL_GAME_STATE));
+  gameState.nasaLiveSols = preservedLiveData;
+  gameState.nasaDataSource = preservedDataSource;
   gameState.activeScreen = 'outpost';
   
+  applyNasaSolTelemetry();
   document.getElementById('top-nav').classList.remove('hidden');
   document.getElementById('hud-bar').classList.remove('hidden');
   
   renderScreen('outpost');
   updateHUD();
-  updateOutpostBanner("Welcome to Ares Outpost, Commander. Telemetry calibrated to Jezero Crater. Sol 01 begins.");
+  updateOutpostBanner(`Welcome to Ares Outpost, Commander. Telemetry calibrated to Jezero Crater (${gameState.weatherStatus}). Sol 01 begins.`);
 
   // Check if first time player tutorial needed
   if (!localStorage.getItem('martianbound_tutorial_seen')) {
@@ -727,7 +734,11 @@ function updateHUD() {
     solarEffLbl.style.color = '#fff';
   }
 
-  // Water tank graphical level
+  // External Weather Sub-indicator
+  const extTempEl = document.getElementById('sub-ext-temp');
+  if (extTempEl) {
+    extTempEl.textContent = `Ext: ${Math.round(gameState.externalTemp)}°C (${Math.round(gameState.externalPressure)} Pa)`;
+  }
   const tank = document.getElementById('tank-water-liquid');
   if (tank) tank.style.height = `${Math.max(0, Math.min(100, gameState.water))}%`;
 
@@ -896,12 +907,15 @@ function advanceSol() {
     gameState.rover.battery = Math.min(100, gameState.rover.battery + 25);
   }
 
-  // Temperature baseline adjustment
+  // Temperature baseline adjustment linked to NASA external temperature
+  applyNasaSolTelemetry();
   const heatAlloc = gameState.powerAlloc.heating;
-  if (heatAlloc < 15) {
+  // Extreme cold from NASA data (< -70°C) demands at least 25% heating
+  const requiredHeating = gameState.externalTemp < -70 ? 25 : 20;
+  if (heatAlloc < requiredHeating) {
     gameState.temperature = Math.max(8, gameState.temperature - 4);
     gameState.morale = Math.max(0, gameState.morale - 6);
-  } else if (heatAlloc >= 20 && gameState.temperature < 21) {
+  } else if (heatAlloc >= requiredHeating && gameState.temperature < 21) {
     gameState.temperature = Math.min(21, gameState.temperature + 3);
   }
 
@@ -1563,16 +1577,15 @@ function calculateFinalScore(victory) {
 }
 
 /* =====================================================================
-   13. NASA OPEN DATA VERIFICATION & LIVE/FALLBACK TOGGLE
+   13. NASA OPEN DATA VERIFICATION & LIVE TELEMETRY INTEGRATION
    ===================================================================== */
 async function testNasaApiConnection() {
   const statusEl = document.getElementById('api-status-feed');
   const badgeText = document.getElementById('nasa-status-text');
 
   try {
-    // Attempt official endpoint with DEMO_KEY
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 2500);
+    const timeoutId = setTimeout(() => controller.abort(), 4000);
 
     const res = await fetch("https://api.nasa.gov/insight_weather/?api_key=DEMO_KEY&feedtype=json&ver=1.0", {
       signal: controller.signal
@@ -1580,22 +1593,59 @@ async function testNasaApiConnection() {
     clearTimeout(timeoutId);
 
     if (res.ok) {
+      const data = await res.json();
+      const solKeys = data.sol_keys || [];
+      
+      if (solKeys.length > 0) {
+        gameState.nasaLiveSols = solKeys.map(k => {
+          const s = data[k] || {};
+          return {
+            solKey: k,
+            tempAvg: s.AT ? s.AT.av : -62,
+            tempMin: s.AT ? s.AT.mn : -96,
+            tempMax: s.AT ? s.AT.mx : -16,
+            pressure: s.PRE ? s.PRE.av : 740,
+            windSpeed: s.HWS ? s.HWS.av : 6.5,
+            season: s.Northern_season || "early winter"
+          };
+        });
+      }
+
       gameState.nasaDataSource = "LIVE_API";
-      if (statusEl) statusEl.textContent = "CONNECTED: Official NASA Open API feed active (InSight Live).";
+      if (statusEl) {
+        statusEl.innerHTML = `<strong>CONNECTED:</strong> Official NASA Open API feed active.<br>Live InSight Sols loaded: <code>${solKeys.join(', ')}</code>.<br>Atmospheric telemetry synchronized with game simulation.`;
+      }
       if (badgeText) badgeText.textContent = "NASA DATA LINK: LIVE FEED";
+      applyNasaSolTelemetry();
       return;
     }
   } catch (e) {
-    // Expected fallback for local file execution or rate limits
+    // Expected fallback for local sandbox / offline / rate limits
   }
 
-  // Graceful scientific fallback adhering to prompt integrity rule
+  // Graceful scientific fallback adhering to PDS archival logs
   gameState.nasaDataSource = "CACHED_OFFICIAL";
   if (statusEl) {
-    statusEl.textContent = "ACTIVE: Verified NASA InSight & MSL PDS Archival Baseline (Telemetry Synchronized).";
+    statusEl.innerHTML = "<strong>ACTIVE:</strong> Verified NASA InSight & MSL PDS Archival Baseline (Telemetry Synchronized).";
   }
   if (badgeText) {
     badgeText.textContent = "NASA DATA LINK: PDS ARCHIVE";
+  }
+  applyNasaSolTelemetry();
+}
+
+function applyNasaSolTelemetry() {
+  const solIndex = (gameState.sol - 1);
+  if (gameState.nasaLiveSols && gameState.nasaLiveSols.length > 0) {
+    const livePoint = gameState.nasaLiveSols[solIndex % gameState.nasaLiveSols.length];
+    gameState.externalTemp = livePoint.tempAvg;
+    gameState.externalPressure = livePoint.pressure;
+    gameState.weatherStatus = `InSight Sol ${livePoint.solKey}: ${Math.round(livePoint.tempAvg)}°C, Press: ${Math.round(livePoint.pressure)} Pa, Wind: ${Math.round(livePoint.windSpeed)} m/s (${livePoint.season})`;
+  } else {
+    const cachePoint = NASA_HISTORICAL_CACHE[solIndex % NASA_HISTORICAL_CACHE.length];
+    gameState.externalTemp = cachePoint.tempAvg;
+    gameState.externalPressure = cachePoint.pressure;
+    gameState.weatherStatus = `PDS Sol ${cachePoint.sol}: ${cachePoint.condition} (${cachePoint.tempAvg}°C, ${cachePoint.pressure} Pa)`;
   }
 }
 
