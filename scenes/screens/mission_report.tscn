@@ -1,0 +1,300 @@
+[gd_scene format=3 uid="uid://cg1v4m8k3yaq2"]
+
+[ext_resource type="Script" path="res://scripts/ui/mission_report.gd" id="1_report"]
+[ext_resource type="FontFile" uid="uid://tnaj2tfiddu4" path="res://assets/fonts/PressStart2P.ttf" id="2_press"]
+[ext_resource type="FontFile" uid="uid://divkjp72mcdmk" path="res://assets/fonts/Silkscreen-Bold.ttf" id="3_silk_b"]
+[ext_resource type="FontFile" uid="uid://valqcvnfal4n" path="res://assets/fonts/Silkscreen-Regular.ttf" id="4_silk_r"]
+[ext_resource type="Script" path="res://scenes/components/terminal_panel.gd" id="5_panel"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_nav_primary"]
+bg_color = Color(0.0862745, 0.168627, 0.223529, 0.95)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.235294, 0.890196, 0.85098, 1)
+
+[node name="MissionReport" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_report")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.0431373, 0.0666667, 0.0941176, 1)
+
+[node name="Margin" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 30
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 25
+
+[node name="VBox" type="VBoxContainer" parent="Margin"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Header" type="VBoxContainer" parent="Margin/VBox"]
+layout_mode = 2
+alignment = 1
+
+[node name="Title" type="Label" parent="Margin/VBox/Header"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.92, 0.96, 0.98, 1)
+theme_override_fonts/font = ExtResource("2_press")
+theme_override_font_sizes/font_size = 38
+text = "MISSION REPORT"
+horizontal_alignment = 1
+
+[node name="Subtitle" type="Label" parent="Margin/VBox/Header"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.235294, 0.890196, 0.85098, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 16
+text = "EXPEDITION DEBRIEF & MISSION CONTROL DOSSIER"
+horizontal_alignment = 1
+
+[node name="CenterContent" type="HBoxContainer" parent="Margin/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 20
+
+[node name="LeftCol" type="PanelContainer" parent="Margin/VBox/CenterContent"]
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+script = ExtResource("5_panel")
+corner_accent = true
+
+[node name="VBox" type="VBoxContainer" parent="Margin/VBox/CenterContent/LeftCol"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="OutcomeHdr" type="Label" parent="Margin/VBox/CenterContent/LeftCol/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.235294, 0.890196, 0.85098, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 14
+text = "EXPEDITION STATUS"
+
+[node name="OutcomeBox" type="VBoxContainer" parent="Margin/VBox/CenterContent/LeftCol/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="OutcomeLabel" type="Label" parent="Margin/VBox/CenterContent/LeftCol/VBox/OutcomeBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.235294, 0.890196, 0.55, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 16
+text = "EXPEDITION SUCCESSFUL"
+
+[node name="SubLabel" type="Label" parent="Margin/VBox/CenterContent/LeftCol/VBox/OutcomeBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.8, 0.9, 1)
+theme_override_fonts/font = ExtResource("4_silk_r")
+theme_override_font_sizes/font_size = 12
+text = "Primary campaign directives fulfilled."
+
+[node name="Divider" type="ColorRect" parent="Margin/VBox/CenterContent/LeftCol/VBox"]
+custom_minimum_size = Vector2(0, 1)
+layout_mode = 2
+color = Color(0.160784, 0.231373, 0.305882, 1)
+
+[node name="ResourceHdr" type="Label" parent="Margin/VBox/CenterContent/LeftCol/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.235294, 0.890196, 0.85098, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 14
+text = "FINAL RESOURCE MARGIN"
+
+[node name="ResourceSummary" type="VBoxContainer" parent="Margin/VBox/CenterContent/LeftCol/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="O2" type="HBoxContainer" parent="Margin/VBox/CenterContent/LeftCol/VBox/ResourceSummary"]
+layout_mode = 2
+
+[node name="T" type="Label" parent="Margin/VBox/CenterContent/LeftCol/VBox/ResourceSummary/O2"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.56, 0.68, 0.8, 1)
+theme_override_fonts/font = ExtResource("4_silk_r")
+theme_override_font_sizes/font_size = 12
+text = "OXYGEN REMAINING:"
+
+[node name="Val" type="Label" parent="Margin/VBox/CenterContent/LeftCol/VBox/ResourceSummary/O2"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.235294, 0.890196, 0.85098, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 13
+text = "800 O2"
+
+[node name="Water" type="HBoxContainer" parent="Margin/VBox/CenterContent/LeftCol/VBox/ResourceSummary"]
+layout_mode = 2
+
+[node name="T" type="Label" parent="Margin/VBox/CenterContent/LeftCol/VBox/ResourceSummary/Water"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.56, 0.68, 0.8, 1)
+theme_override_fonts/font = ExtResource("4_silk_r")
+theme_override_font_sizes/font_size = 12
+text = "WATER RESERVES:"
+
+[node name="Val" type="Label" parent="Margin/VBox/CenterContent/LeftCol/VBox/ResourceSummary/Water"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.235294, 0.890196, 0.85098, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 13
+text = "720 L"
+
+[node name="Food" type="HBoxContainer" parent="Margin/VBox/CenterContent/LeftCol/VBox/ResourceSummary"]
+layout_mode = 2
+
+[node name="T" type="Label" parent="Margin/VBox/CenterContent/LeftCol/VBox/ResourceSummary/Food"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.56, 0.68, 0.8, 1)
+theme_override_fonts/font = ExtResource("4_silk_r")
+theme_override_font_sizes/font_size = 12
+text = "FOOD RATIONS:"
+
+[node name="Val" type="Label" parent="Margin/VBox/CenterContent/LeftCol/VBox/ResourceSummary/Food"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.235294, 0.890196, 0.55, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 13
+text = "85 PACKS"
+
+[node name="Power" type="HBoxContainer" parent="Margin/VBox/CenterContent/LeftCol/VBox/ResourceSummary"]
+layout_mode = 2
+
+[node name="T" type="Label" parent="Margin/VBox/CenterContent/LeftCol/VBox/ResourceSummary/Power"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.56, 0.68, 0.8, 1)
+theme_override_fonts/font = ExtResource("4_silk_r")
+theme_override_font_sizes/font_size = 12
+text = "STORED ENERGY:"
+
+[node name="Val" type="Label" parent="Margin/VBox/CenterContent/LeftCol/VBox/ResourceSummary/Power"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.898039, 0.513726, 0.282353, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 13
+text = "1,150 kWh"
+
+[node name="MiddleCol" type="PanelContainer" parent="Margin/VBox/CenterContent"]
+custom_minimum_size = Vector2(650, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+script = ExtResource("5_panel")
+corner_accent = true
+
+[node name="VBox" type="VBoxContainer" parent="Margin/VBox/CenterContent/MiddleCol"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="ObjHdr" type="Label" parent="Margin/VBox/CenterContent/MiddleCol/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.235294, 0.890196, 0.85098, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 14
+text = "MISSION OBJECTIVES RESOLUTION"
+
+[node name="Scroll" type="ScrollContainer" parent="Margin/VBox/CenterContent/MiddleCol/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="ObjList" type="VBoxContainer" parent="Margin/VBox/CenterContent/MiddleCol/VBox/Scroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 10
+
+[node name="RightCol" type="PanelContainer" parent="Margin/VBox/CenterContent"]
+custom_minimum_size = Vector2(550, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+script = ExtResource("5_panel")
+corner_accent = true
+
+[node name="VBox" type="VBoxContainer" parent="Margin/VBox/CenterContent/RightCol"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="DiscHdr" type="Label" parent="Margin/VBox/CenterContent/RightCol/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.235294, 0.890196, 0.85098, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 14
+text = "SCIENTIFIC DISCOVERIES & EVIDENCE"
+
+[node name="Scroll" type="ScrollContainer" parent="Margin/VBox/CenterContent/RightCol/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="DiscList" type="VBoxContainer" parent="Margin/VBox/CenterContent/RightCol/VBox/Scroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 10
+
+[node name="NarrativeBox" type="PanelContainer" parent="Margin/VBox"]
+custom_minimum_size = Vector2(0, 80)
+layout_mode = 2
+script = ExtResource("5_panel")
+corner_accent = false
+is_card = true
+
+[node name="Margin" type="MarginContainer" parent="Margin/VBox/NarrativeBox"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 10
+
+[node name="VBox" type="VBoxContainer" parent="Margin/VBox/NarrativeBox/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Hdr" type="Label" parent="Margin/VBox/NarrativeBox/Margin/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.898039, 0.513726, 0.282353, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 12
+text = "MISSION CONTROL SUMMARY EVALUATION"
+
+[node name="Text" type="Label" parent="Margin/VBox/NarrativeBox/Margin/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.9, 0.95, 1)
+theme_override_fonts/font = ExtResource("4_silk_r")
+theme_override_font_sizes/font_size = 12
+text = "ARES Expedition Unit has concluded operations at Acidalia Planitia..."
+autowrap_mode = 2
+
+[node name="BottomDock" type="HBoxContainer" parent="Margin/VBox"]
+layout_mode = 2
+alignment = 1
+
+[node name="FinishBtn" type="Button" parent="Margin/VBox/BottomDock"]
+custom_minimum_size = Vector2(400, 50)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.235294, 0.890196, 0.85098, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 15
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_nav_primary")
+text = "TRANSMIT DOSSIER & RETURN TO MAIN MENU  ▶"

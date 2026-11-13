@@ -1,0 +1,37 @@
+# =========================================================================
+# Godot 4 & NASA Space Apps Submission .gitignore
+# =========================================================================
+
+# Godot 4 engine internal cache and imported artifacts
+.godot/
+*.translation
+
+# OS metadata & temporary files
+.DS_Store
+Thumbs.db
+*.tmp
+*~
+*.swp
+*.bak
+
+# User local saves, telemetry dumps, and test logs
+user://*
+*.log
+*.pid
+
+# IDE & Editor configurations
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Build and export binaries (Keep repo clean of large prebuilt binaries)
+build/
+export/
+bin/
+*.exe
+*.x86_64
+*.app
+*.apk
+*.wasm
+*.pck

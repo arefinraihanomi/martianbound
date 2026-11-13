@@ -1,0 +1,280 @@
+[gd_scene format=3 uid="uid://b1v7lam2x4q8p"]
+
+[ext_resource type="Script" path="res://scripts/world/mars_surface.gd" id="1_surface"]
+[ext_resource type="Texture2D" path="res://assets/sprites/ground_regolith.png" id="2_ground"]
+[ext_resource type="Texture2D" path="res://assets/sprites/hab_module.png" id="3_hab"]
+[ext_resource type="Texture2D" path="res://assets/sprites/solar_panel.png" id="4_solar"]
+[ext_resource type="Texture2D" path="res://assets/sprites/comms_dish.png" id="5_dish"]
+[ext_resource type="Texture2D" path="res://assets/sprites/aquifer_drill.png" id="6_drill"]
+[ext_resource type="Texture2D" path="res://assets/sprites/anomaly_crater.png" id="7_crater"]
+[ext_resource type="PackedScene" path="res://scenes/world/interactable_poi.tscn" id="8_poi"]
+[ext_resource type="PackedScene" path="res://scenes/world/astronaut_player.tscn" id="9_player"]
+[ext_resource type="Texture2D" path="res://assets/sprites/rock_large.png" id="10_rock_lg"]
+[ext_resource type="Texture2D" path="res://assets/sprites/rock_small.png" id="11_rock_sm"]
+[ext_resource type="Texture2D" path="res://assets/sprites/storage_crate.png" id="12_crate"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hab"]
+size = Vector2(96, 60)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_solar"]
+size = Vector2(64, 40)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_dish"]
+radius = 24.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_drill"]
+size = Vector2(50, 50)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_crater"]
+radius = 28.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_rock_lg"]
+radius = 14.0
+height = 42.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_rock_sm"]
+radius = 9.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_crate"]
+size = Vector2(30, 24)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_top"]
+normal = Vector2(0, 1)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_bottom"]
+normal = Vector2(0, -1)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_left"]
+normal = Vector2(1, 0)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_right"]
+normal = Vector2(-1, 0)
+
+[node name="MarsSurface" type="Node2D"]
+script = ExtResource("1_surface")
+
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+color = Color(1, 0.96, 0.9, 1)
+
+[node name="GroundTiling" type="TextureRect" parent="."]
+texture_filter = 0
+offset_left = -1400.0
+offset_top = -1200.0
+offset_right = 1800.0
+offset_bottom = 1400.0
+texture = ExtResource("2_ground")
+stretch_mode = 1
+
+[node name="WorldBoundaries" type="StaticBody2D" parent="."]
+collision_layer = 2
+collision_mask = 1
+
+[node name="Top" type="CollisionShape2D" parent="WorldBoundaries"]
+position = Vector2(0, -900)
+shape = SubResource("WorldBoundaryShape2D_top")
+
+[node name="Bottom" type="CollisionShape2D" parent="WorldBoundaries"]
+position = Vector2(0, 1000)
+shape = SubResource("WorldBoundaryShape2D_bottom")
+
+[node name="Left" type="CollisionShape2D" parent="WorldBoundaries"]
+position = Vector2(-1100, 0)
+shape = SubResource("WorldBoundaryShape2D_left")
+
+[node name="Right" type="CollisionShape2D" parent="WorldBoundaries"]
+position = Vector2(1400, 0)
+shape = SubResource("WorldBoundaryShape2D_right")
+
+[node name="HabStructure" type="StaticBody2D" parent="."]
+position = Vector2(0, -30)
+collision_layer = 2
+collision_mask = 1
+
+[node name="Sprite2D" type="Sprite2D" parent="HabStructure"]
+texture_filter = 0
+texture = ExtResource("3_hab")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HabStructure"]
+shape = SubResource("RectangleShape2D_hab")
+
+[node name="HabPOI" parent="HabStructure" instance=ExtResource("8_poi")]
+position = Vector2(0, 40)
+poi_id = "hab_airlock"
+poi_name = "HAB-01 Alpha Core Airlock"
+prompt_action = "ACCESS LIFE SUPPORT CONSOLE"
+ring_radius = 34.0
+
+[node name="SolarArray" type="StaticBody2D" parent="."]
+position = Vector2(-260, -140)
+collision_layer = 2
+collision_mask = 1
+
+[node name="Sprite2D" type="Sprite2D" parent="SolarArray"]
+texture_filter = 0
+texture = ExtResource("4_solar")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SolarArray"]
+shape = SubResource("RectangleShape2D_solar")
+
+[node name="SolarPOI" parent="SolarArray" instance=ExtResource("8_poi")]
+position = Vector2(0, 10)
+poi_id = "solar_array"
+poi_name = "Photovoltaic Solar Array 01"
+prompt_action = "CLEAR DUST & CALIBRATE POWER"
+ring_radius = 30.0
+
+[node name="CommsDish" type="StaticBody2D" parent="."]
+position = Vector2(250, -150)
+collision_layer = 2
+collision_mask = 1
+
+[node name="Sprite2D" type="Sprite2D" parent="CommsDish"]
+texture_filter = 0
+texture = ExtResource("5_dish")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CommsDish"]
+shape = SubResource("CircleShape2D_dish")
+
+[node name="CommsPOI" parent="CommsDish" instance=ExtResource("8_poi")]
+position = Vector2(0, 10)
+poi_id = "comms_dish"
+poi_name = "High-Gain Comms Dish Array"
+prompt_action = "ALIGN ORBITAL TELEMETRY"
+ring_radius = 28.0
+
+[node name="AquiferDrill" type="StaticBody2D" parent="."]
+position = Vector2(460, 40)
+collision_layer = 2
+collision_mask = 1
+
+[node name="Sprite2D" type="Sprite2D" parent="AquiferDrill"]
+texture_filter = 0
+texture = ExtResource("6_drill")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AquiferDrill"]
+shape = SubResource("RectangleShape2D_drill")
+
+[node name="DrillPOI" parent="AquiferDrill" instance=ExtResource("8_poi")]
+position = Vector2(0, 10)
+poi_id = "aquifer_drill"
+poi_name = "Sub-Surface Aquifer Extraction Rig"
+prompt_action = "ENGAGE EXTRACTION PUMP"
+ring_radius = 36.0
+
+[node name="AnomalyCrater" type="StaticBody2D" parent="."]
+position = Vector2(340, 360)
+collision_layer = 2
+collision_mask = 1
+
+[node name="Sprite2D" type="Sprite2D" parent="AnomalyCrater"]
+texture_filter = 0
+texture = ExtResource("7_crater")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AnomalyCrater"]
+shape = SubResource("CircleShape2D_crater")
+
+[node name="CraterPOI" parent="AnomalyCrater" instance=ExtResource("8_poi")]
+position = Vector2(0, 10)
+poi_id = "basalt_anomaly"
+poi_name = "Sector 4 Basalt Crater Fault"
+prompt_action = "EXTRACT CORE SAMPLE"
+ring_radius = 32.0
+
+[node name="PrecursorCrate" type="StaticBody2D" parent="."]
+position = Vector2(-120, 120)
+collision_layer = 2
+collision_mask = 1
+
+[node name="Sprite2D" type="Sprite2D" parent="PrecursorCrate"]
+texture_filter = 0
+texture = ExtResource("12_crate")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PrecursorCrate"]
+shape = SubResource("RectangleShape2D_crate")
+
+[node name="CratePOI" parent="PrecursorCrate" instance=ExtResource("8_poi")]
+position = Vector2(0, 4)
+poi_id = "crate_supplies"
+poi_name = "Precursor Ares Stash Crate"
+prompt_action = "INSPECT SPARE CANISTERS"
+ring_radius = 24.0
+
+[node name="Rocks" type="Node2D" parent="."]
+
+[node name="RockLg1" type="StaticBody2D" parent="Rocks"]
+position = Vector2(-180, 20)
+collision_layer = 2
+collision_mask = 1
+
+[node name="Sprite" type="Sprite2D" parent="Rocks/RockLg1"]
+texture_filter = 0
+texture = ExtResource("10_rock_lg")
+
+[node name="Col" type="CollisionShape2D" parent="Rocks/RockLg1"]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_rock_lg")
+
+[node name="RockLg2" type="StaticBody2D" parent="Rocks"]
+position = Vector2(160, 180)
+collision_layer = 2
+collision_mask = 1
+
+[node name="Sprite" type="Sprite2D" parent="Rocks/RockLg2"]
+texture_filter = 0
+texture = ExtResource("10_rock_lg")
+
+[node name="Col" type="CollisionShape2D" parent="Rocks/RockLg2"]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_rock_lg")
+
+[node name="RockLg3" type="StaticBody2D" parent="Rocks"]
+position = Vector2(380, -80)
+collision_layer = 2
+collision_mask = 1
+
+[node name="Sprite" type="Sprite2D" parent="Rocks/RockLg3"]
+texture_filter = 0
+texture = ExtResource("10_rock_lg")
+
+[node name="Col" type="CollisionShape2D" parent="Rocks/RockLg3"]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_rock_lg")
+
+[node name="RockSm1" type="StaticBody2D" parent="Rocks"]
+position = Vector2(-60, 180)
+collision_layer = 2
+collision_mask = 1
+
+[node name="Sprite" type="Sprite2D" parent="Rocks/RockSm1"]
+texture_filter = 0
+texture = ExtResource("11_rock_sm")
+
+[node name="Col" type="CollisionShape2D" parent="Rocks/RockSm1"]
+shape = SubResource("CircleShape2D_rock_sm")
+
+[node name="RockSm2" type="StaticBody2D" parent="Rocks"]
+position = Vector2(280, 80)
+collision_layer = 2
+collision_mask = 1
+
+[node name="Sprite" type="Sprite2D" parent="Rocks/RockSm2"]
+texture_filter = 0
+texture = ExtResource("11_rock_sm")
+
+[node name="Col" type="CollisionShape2D" parent="Rocks/RockSm2"]
+shape = SubResource("CircleShape2D_rock_sm")
+
+[node name="RockSm3" type="StaticBody2D" parent="Rocks"]
+position = Vector2(-340, -40)
+collision_layer = 2
+collision_mask = 1
+
+[node name="Sprite" type="Sprite2D" parent="Rocks/RockSm3"]
+texture_filter = 0
+texture = ExtResource("11_rock_sm")
+
+[node name="Col" type="CollisionShape2D" parent="Rocks/RockSm3"]
+shape = SubResource("CircleShape2D_rock_sm")
+
+[node name="AstronautPlayer" parent="." instance=ExtResource("9_player")]
+position = Vector2(0, 70)

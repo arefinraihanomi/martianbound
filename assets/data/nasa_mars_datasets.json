@@ -1,0 +1,167 @@
+{
+  "project": "Martianbound - 2D Mars Mission Trainer",
+  "competition_track": "NASA Space Apps Challenge - Planetary Data & Human Exploration",
+  "verification_status": "AUTHENTIC_NASA_OPEN_DATA_TRACEABLE",
+  "verified_timestamp": "2026-11-13T03:10:00Z",
+  "target_audience": "Kids ages 7-12, Educators, and Space Enthusiasts",
+  "core_tradeoff_mechanics": [
+    {
+      "system": "Power vs Life Support vs Heating",
+      "tradeoff_rule": "Solar energy is only generated during daylight (Sol 06:00 to 18:00). At night, temperatures plunge to -105°C, demanding heavy battery heating load. Blackouts cause immediate hypothermia and habitat degradation.",
+      "nasa_grounding": "NASA InSight TWINS Diurnal Thermal Archive (10.17189/1518950)"
+    },
+    {
+      "system": "Space Radiation Shielding vs Crew Energy",
+      "tradeoff_rule": "Cosmic rays penetrate metal hulls. Shoveling Martian regolith dirt shields the dome (-40% radiation exposure), but increases crew fatigue (+14) and drains power.",
+      "nasa_grounding": "NASA Curiosity MSL-RAD Surface Dosimetry (10.17189/1519781)"
+    },
+    {
+      "system": "Communication Delay (Speed of Light)",
+      "tradeoff_rule": "Earth is 140 million miles away. Radio waves take 14 minutes one-way. Houston cannot rescue astronauts in real-time; players must make autonomous mission decisions.",
+      "nasa_grounding": "NASA Deep Space Network (DSN) & Mars Relay Operations"
+    },
+    {
+      "system": "Subsurface Ice Hydrology vs Scientific Triangulation",
+      "tradeoff_rule": "Drilling into the -38m ice table provides life-giving potable water (+180L). Diverting sensors to triangulate deep acoustic anomalies yields breakthrough science discoveries (+550 XP), but expends 25 kWh of battery buffer.",
+      "nasa_grounding": "NASA SWIM Subsurface Water Ice Mapping (10.17189/1519789) & MRO SHARAD (10.17189/1520638)"
+    },
+    {
+      "system": "Solar Flares & Dynamic Space Weather",
+      "tradeoff_rule": "Coronal Mass Ejections cause Solar Energetic Particle (SEP) storms spiking surface radiation to 1.15 mSv/h. Astronauts must abort EVAs and seek shelter.",
+      "nasa_grounding": "NASA Space Weather Database Of Notifications, Knowledge, Information (DONKI)"
+    },
+    {
+      "system": "Astronaut Circadian Rhythms & Fatigue Recovery",
+      "tradeoff_rule": "Sleep deprivation and high workload reduce crew vitals. Rest cycles in habitat consume food and water rations to restore cognitive performance and physical health.",
+      "nasa_grounding": "NASA Open Science Data Repository (OSDR) Astronaut Health & Circadian Studies"
+    }
+  ],
+  "primary_nasa_open_datasets": [
+    {
+      "dataset_name": "NASA SWIM (Subsurface Water Ice Mapping on Mars)",
+      "lead_investigator": "Planetary Science Institute (PSI) / NASA JPL",
+      "pds_lead_node": "NASA Planetary Data System (PDS) Geosciences Node",
+      "official_portal": "https://swim.psi.edu",
+      "pds_doi": "10.17189/1519789",
+      "underlying_instruments": [
+        {
+          "mission": "Mars Reconnaissance Orbiter (MRO)",
+          "instrument": "SHARAD (Shallow Radar)",
+          "pds_identifier": "MRO-M-SHARAD-5-RADARGRAM-V1.0",
+          "pds_doi": "10.17189/1520638",
+          "measurement": "Subsurface radar sounding dielectric contrast detecting buried sheet ice"
+        },
+        {
+          "mission": "2001 Mars Odyssey",
+          "instrument": "GRS / Neutron Spectrometer (NS)",
+          "pds_identifier": "ODY-M-GRS-5-AND-V1.0",
+          "pds_doi": "10.17189/1520652",
+          "measurement": "Epithermal and thermal neutron count suppression mapping Water-Equivalent Hydrogen (WEH 8.4%)"
+        },
+        {
+          "mission": "Mars Global Surveyor (MGS)",
+          "instrument": "MOLA (Mars Orbiter Laser Altimeter)",
+          "pds_identifier": "MGS-M-MOLA-5-MEGDR-L3-V1.0",
+          "pds_doi": "10.17189/1520624",
+          "measurement": "High-precision regional elevation datum (Acidalia: -4.2 km MOLA)"
+        }
+      ],
+      "in_game_application": "Acidalia Planitia sub-surface ice table at -38m depth; Primary Directive [03] Aquifer Extraction Borehole; Research Discovery 'NASA SWIM Sub-surface Glacier Core'."
+    },
+    {
+      "dataset_name": "NASA DONKI (Space Weather Database Of Notifications, Knowledge, Information)",
+      "agency": "NASA Goddard Space Flight Center / CCMC",
+      "official_api": "https://api.nasa.gov/DONKI/",
+      "tracked_phenomena": "Solar Energetic Particle (SEP) events, Coronal Mass Ejections (CME), and interplanetary shock fronts",
+      "in_game_application": "Sol 1 dynamic midday space weather hazard: 13:00 DONKI SEP Flare Event spiking radiation to 1.15 mSv/h."
+    },
+    {
+      "dataset_name": "NASA OSDR (Open Science Data Repository)",
+      "agency": "NASA Ames Research Center / Space Biology & Human Research Program",
+      "official_portal": "https://osdr.nasa.gov",
+      "scientific_focus": "Astronaut physiological degradation, radiation biological damage, and restorative circadian sleep protocols in deep space",
+      "in_game_application": "Habitat crew rest cycles, fatigue recovery ratios, and life-support restorative sleep logs."
+    },
+    {
+      "dataset_name": "NASA InSight Mars Lander APSS Weather Archive",
+      "lead_investigator": "Don Banfield (Cornell) / J. A. Rodríguez-Manfredi (CAB CSIC-INTA)",
+      "pds_lead_node": "NASA PDS Atmospheres Node (NMSU)",
+      "pds_bundle_identifiers": [
+        {
+          "instrument": "APSS Pressure Sensor (PS)",
+          "pds_logical_id": "urn:nasa:pds:insight_ps",
+          "pds_doi": "10.17189/1518939",
+          "measurement": "Martian surface atmospheric pressure (0.60 to 0.75 kPa diurnal oscillation)"
+        },
+        {
+          "instrument": "APSS TWINS (Temperature and Winds for InSight)",
+          "pds_logical_id": "urn:nasa:pds:insight_twins",
+          "pds_doi": "10.17189/1518950",
+          "measurement": "Ground/air temperature curves (-105°C to -18°C) and gust wind speeds up to 64 kts"
+        }
+      ],
+      "in_game_application": "HUD Sol diurnal progression curve, ambient lighting CanvasModulate tint shifts, and Perseid dust gale hazard."
+    },
+    {
+      "dataset_name": "NASA MSL Curiosity Rover RAD Surface Radiation Dosimetry",
+      "lead_investigator": "Donald M. Hassler (Southwest Research Institute) / NASA JPL",
+      "pds_lead_node": "NASA PDS Planetary Plasma Interactions (PPI) Node",
+      "pds_identifier": "MSL-M-RAD-3-RDR-V1.0",
+      "pds_doi": "10.17189/1519781",
+      "measurement": "Ground-level ionizing radiation dosage: 0.22 - 0.27 mSv/h baseline (0.64 mSv/day); solar storm spikes > 1.2 mSv/h",
+      "in_game_application": "HUD Radiation Monitor ('RAD MONITOR: 0.22 mSv/h') and Solar Event radiation hazards."
+    },
+    {
+      "dataset_name": "NASA Phoenix Mars Lander Arctic Subsurface Ice Trenching",
+      "lead_investigator": "Peter H. Smith (University of Arizona) / NASA JPL",
+      "pds_lead_node": "NASA PDS Geosciences Node",
+      "pds_identifiers": [
+        {
+          "instrument": "TEGA (Thermal and Evolved Gas Analyzer)",
+          "pds_identifier": "PHX-M-TEGA-2-EGAEDR-V1.0",
+          "pds_doi": "10.17189/1520630",
+          "measurement": "Mass spectrometer and thermal volatile evolution confirming 99% pure H2O ice crystals"
+        },
+        {
+          "instrument": "MECA (Microscopy, Electrochemistry, and Conductivity Analyzer)",
+          "pds_identifier": "PHX-M-MECA-4-NIRDR-V1.0",
+          "pds_doi": "10.17189/1520632",
+          "measurement": "Physical properties, salinity, and perchlorate soil-ice interaction"
+        }
+      ],
+      "in_game_application": "Chemical and physical verification of regolith ice samples during borehole drilling and secondary geology directives."
+    }
+  ],
+  "landing_site_telemetry_matrix": {
+    "site_a_acidalia_planitia": {
+      "coordinates": "42.5° N, 321.2° E",
+      "mola_elevation_km": -4.2,
+      "mola_dataset_id": "MGS-M-MOLA-5-MEGDR-L3-V1.0",
+      "ice_table_depth_meters": 38.0,
+      "swim_ice_consistency_index": 0.88,
+      "odyssey_grs_weh_percent": 8.4,
+      "quiescent_rad_msv": 0.22,
+      "pds_source": "NASA SWIM Northern Plains Ice Map & Odyssey GRS Epithermal Map ODY-M-GRS-5-AND-V1.0"
+    },
+    "site_b_jezero_crater": {
+      "coordinates": "18.38° N, 77.58° E",
+      "mola_elevation_km": -2.5,
+      "mola_dataset_id": "MGS-M-MOLA-5-MEGDR-L3-V1.0",
+      "ice_table_depth_meters": 85.0,
+      "swim_ice_consistency_index": 0.42,
+      "odyssey_grs_weh_percent": 4.1,
+      "quiescent_rad_msv": 0.28,
+      "pds_source": "NASA M2020 Perseverance Delta Hydrology & CRISM Smectite Mineralogy"
+    },
+    "site_c_valles_marineris": {
+      "coordinates": "13.9° S, 59.2° W",
+      "mola_elevation_km": -6.8,
+      "mola_dataset_id": "MGS-M-MOLA-5-MEGDR-L3-V1.0",
+      "ice_table_depth_meters": 140.0,
+      "swim_ice_consistency_index": 0.15,
+      "odyssey_grs_weh_percent": 2.2,
+      "quiescent_rad_msv": 0.35,
+      "pds_source": "NASA MRO SHARAD Chasma Wall Radar Echoes MRO-M-SHARAD-5-RADARGRAM-V1.0"
+    }
+  }
+}

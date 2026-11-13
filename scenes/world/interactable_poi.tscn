@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://df7k2nav3x5q1"]
+
+[ext_resource type="Script" path="res://scripts/world/interactable_poi.gd" id="1_poi"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_trig"]
+radius = 48.0
+
+[node name="InteractablePOI" type="Area2D"]
+collision_layer = 4
+collision_mask = 4
+script = ExtResource("1_poi")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_trig")

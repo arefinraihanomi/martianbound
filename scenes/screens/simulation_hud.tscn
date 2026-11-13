@@ -1,0 +1,890 @@
+[gd_scene format=3 uid="uid://cs6m8p2lav1q5"]
+
+[ext_resource type="Script" path="res://scripts/ui/simulation_hud.gd" id="1_hud"]
+[ext_resource type="PackedScene" path="res://scenes/world/mars_surface.tscn" id="2_surface"]
+[ext_resource type="FontFile" uid="uid://tnaj2tfiddu4" path="res://assets/fonts/PressStart2P.ttf" id="3_press"]
+[ext_resource type="FontFile" uid="uid://divkjp72mcdmk" path="res://assets/fonts/Silkscreen-Bold.ttf" id="4_silk_b"]
+[ext_resource type="FontFile" uid="uid://valqcvnfal4n" path="res://assets/fonts/Silkscreen-Regular.ttf" id="5_silk_r"]
+[ext_resource type="Script" path="res://scenes/components/terminal_panel.gd" id="6_panel"]
+[ext_resource type="Script" path="res://scenes/components/segmented_bar.gd" id="7_segbar"]
+[ext_resource type="Script" path="res://scenes/components/radar_minimap.gd" id="8_radar"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_nav_norm"]
+bg_color = Color(0.0862745, 0.129412, 0.176471, 0.95)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.160784, 0.231373, 0.305882, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_nav_primary"]
+bg_color = Color(0.0862745, 0.168627, 0.223529, 0.95)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.235294, 0.890196, 0.85098, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_prompt"]
+bg_color = Color(0.0588235, 0.0901961, 0.12549, 0.95)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.898039, 0.513726, 0.282353, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_alert"]
+bg_color = Color(0.24, 0.08, 0.08, 0.95)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.905882, 0.352941, 0.352941, 1)
+
+[node name="SimulationHUD" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_hud")
+
+[node name="ViewportContainer" type="SubViewportContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="ViewportContainer"]
+handle_input_locally = false
+size = Vector2i(1920, 1080)
+render_target_update_mode = 4
+
+[node name="MarsSurface" parent="ViewportContainer/SubViewport" instance=ExtResource("2_surface")]
+
+[node name="HUD" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Margin" type="MarginContainer" parent="HUD"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 30
+theme_override_constants/margin_bottom = 20
+
+[node name="VBox" type="VBoxContainer" parent="HUD/Margin"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="TopBar" type="PanelContainer" parent="HUD/Margin/VBox"]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+script = ExtResource("6_panel")
+corner_accent = true
+
+[node name="Margin" type="MarginContainer" parent="HUD/Margin/VBox/TopBar"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_right = 16
+
+[node name="HBox" type="HBoxContainer" parent="HUD/Margin/VBox/TopBar/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 24
+
+[node name="Telemetry" type="HBoxContainer" parent="HUD/Margin/VBox/TopBar/Margin/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 20
+
+[node name="O2Box" type="VBoxContainer" parent="HUD/Margin/VBox/TopBar/Margin/HBox/Telemetry"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="Hdr" type="HBoxContainer" parent="HUD/Margin/VBox/TopBar/Margin/HBox/Telemetry/O2Box"]
+layout_mode = 2
+
+[node name="T" type="Label" parent="HUD/Margin/VBox/TopBar/Margin/HBox/Telemetry/O2Box/Hdr"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.56, 0.68, 0.8, 1)
+theme_override_fonts/font = ExtResource("4_silk_b")
+theme_override_font_sizes/font_size = 11
+text = "O2 STORES"
+
+[node name="Val" type="Label" parent="HUD/Margin/VBox/TopBar/Margin/HBox/Telemetry/O2Box/Hdr"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.235294, 0.890196, 0.85098, 1)
+theme_override_fonts/font = ExtResource("4_silk_b")
+theme_override_font_sizes/font_size = 11
+text = "850 O2"
+
+[node name="Bar" type="Control" parent="HUD/Margin/VBox/TopBar/Margin/HBox/Telemetry/O2Box"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+script = ExtResource("7_segbar")
+total_segments = 14
+fill_ratio = 0.85
+
+[node name="WaterBox" type="VBoxContainer" parent="HUD/Margin/VBox/TopBar/Margin/HBox/Telemetry"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="Hdr" type="HBoxContainer" parent="HUD/Margin/VBox/TopBar/Margin/HBox/Telemetry/WaterBox"]
+layout_mode = 2
+
+[node name="T" type="Label" parent="HUD/Margin/VBox/TopBar/Margin/HBox/Telemetry/WaterBox/Hdr"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.56, 0.68, 0.8, 1)
+theme_override_fonts/font = ExtResource("4_silk_b")
+theme_override_font_sizes/font_size = 11
+text = "H2O RESERVE"
+
+[node name="Val" type="Label" parent="HUD/Margin/VBox/TopBar/Margin/HBox/Telemetry/WaterBox/Hdr"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.235294, 0.890196, 0.85098, 1)
+theme_override_fonts/font = ExtResource("4_silk_b")
+theme_override_font_sizes/font_size = 11
+text = "620 L"
+
+[node name="Bar" type="Control" parent="HUD/Margin/VBox/TopBar/Margin/HBox/Telemetry/WaterBox"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+script = ExtResource("7_segbar")
+total_segments = 14
+fill_ratio = 0.77
+
+[node name="FoodBox" type="VBoxContainer" parent="HUD/Margin/VBox/TopBar/Margin/HBox/Telemetry"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="Hdr" type="HBoxContainer" parent="HUD/Margin/VBox/TopBar/Margin/HBox/Telemetry/FoodBox"]
+layout_mode = 2
+
+[node name="T" type="Label" parent="HUD/Margin/VBox/TopBar/Margin/HBox/Telemetry/FoodBox/Hdr"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.56, 0.68, 0.8, 1)
+theme_override_fonts/font = ExtResource("4_silk_b")
+theme_override_font_sizes/font_size = 11
+text = "FOOD RATIONS"
+
+[node name="Val" type="Label" parent="HUD/Margin/VBox/TopBar/Margin/HBox/Telemetry/FoodBox/Hdr"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.235294, 0.890196, 0.55, 1)
+theme_override_fonts/font = ExtResource("4_silk_b")
+theme_override_font_sizes/font_size = 11
+text = "90 PACKS"
+
+[node name="Bar" type="Control" parent="HUD/Margin/VBox/TopBar/Margin/HBox/Telemetry/FoodBox"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+script = ExtResource("7_segbar")
+total_segments = 14
+fill_ratio = 0.9
+fill_color = Color(0.235294, 0.890196, 0.55, 1)
+
+[node name="PowerBox" type="VBoxContainer" parent="HUD/Margin/VBox/TopBar/Margin/HBox/Telemetry"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="Hdr" type="HBoxContainer" parent="HUD/Margin/VBox/TopBar/Margin/HBox/Telemetry/PowerBox"]
+layout_mode = 2
+
+[node name="T" type="Label" parent="HUD/Margin/VBox/TopBar/Margin/HBox/Telemetry/PowerBox/Hdr"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.56, 0.68, 0.8, 1)
+theme_override_fonts/font = ExtResource("4_silk_b")
+theme_override_font_sizes/font_size = 11
+text = "POWER BATTERY"
+
+[node name="Val" type="Label" parent="HUD/Margin/VBox/TopBar/Margin/HBox/Telemetry/PowerBox/Hdr"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.898039, 0.513726, 0.282353, 1)
+theme_override_fonts/font = ExtResource("4_silk_b")
+theme_override_font_sizes/font_size = 11
+text = "1,200 kWh"
+
+[node name="Bar" type="Control" parent="HUD/Margin/VBox/TopBar/Margin/HBox/Telemetry/PowerBox"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+script = ExtResource("7_segbar")
+total_segments = 14
+fill_ratio = 0.8
+fill_color = Color(0.898039, 0.513726, 0.282353, 1)
+
+[node name="TimeBox" type="VBoxContainer" parent="HUD/Margin/VBox/TopBar/Margin/HBox"]
+custom_minimum_size = Vector2(260, 0)
+layout_mode = 2
+alignment = 1
+
+[node name="SolLabel" type="Label" parent="HUD/Margin/VBox/TopBar/Margin/HBox/TimeBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.235294, 0.890196, 0.85098, 1)
+theme_override_fonts/font = ExtResource("4_silk_b")
+theme_override_font_sizes/font_size = 14
+text = "SOL 001 // 08:30"
+horizontal_alignment = 2
+
+[node name="HabLabel" type="Label" parent="HUD/Margin/VBox/TopBar/Margin/HBox/TimeBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.898039, 0.513726, 0.282353, 1)
+theme_override_fonts/font = ExtResource("5_silk_r")
+theme_override_font_sizes/font_size = 12
+text = "HAB: 100% | RAD: 0.22 mSv"
+horizontal_alignment = 2
+
+[node name="Center" type="Control" parent="HUD/Margin/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+
+[node name="RadarBox" type="PanelContainer" parent="HUD/Margin/VBox/Center"]
+custom_minimum_size = Vector2(170, 185)
+layout_mode = 1
+offset_top = 10.0
+offset_right = 170.0
+offset_bottom = 195.0
+script = ExtResource("6_panel")
+corner_accent = false
+is_card = true
+
+[node name="Margin" type="MarginContainer" parent="HUD/Margin/VBox/Center/RadarBox"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 8
+
+[node name="VBox" type="VBoxContainer" parent="HUD/Margin/VBox/Center/RadarBox/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Hdr" type="Label" parent="HUD/Margin/VBox/Center/RadarBox/Margin/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.235294, 0.890196, 0.85098, 1)
+theme_override_fonts/font = ExtResource("4_silk_b")
+theme_override_font_sizes/font_size = 10
+text = "RADAR SCANNER"
+
+[node name="Minimap" type="Control" parent="HUD/Margin/VBox/Center/RadarBox/Margin/VBox"]
+custom_minimum_size = Vector2(140, 140)
+layout_mode = 2
+size_flags_vertical = 3
+script = ExtResource("8_radar")
+radar_range = 650.0
+
+[node name="ObjectiveBox" type="PanelContainer" parent="HUD/Margin/VBox/Center"]
+custom_minimum_size = Vector2(480, 0)
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -480.0
+offset_top = 10.0
+offset_bottom = 90.0
+grow_horizontal = 0
+script = ExtResource("6_panel")
+corner_accent = false
+is_card = true
+
+[node name="Margin" type="MarginContainer" parent="HUD/Margin/VBox/Center/ObjectiveBox"]
+layout_mode = 2
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 14
+theme_override_constants/margin_bottom = 8
+
+[node name="VBox" type="VBoxContainer" parent="HUD/Margin/VBox/Center/ObjectiveBox/Margin"]
+layout_mode = 2
+
+[node name="Hdr" type="Label" parent="HUD/Margin/VBox/Center/ObjectiveBox/Margin/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.898039, 0.513726, 0.282353, 1)
+theme_override_fonts/font = ExtResource("4_silk_b")
+theme_override_font_sizes/font_size = 11
+text = "ACTIVE MISSION DIRECTIVE"
+
+[node name="ObjText" type="Label" parent="HUD/Margin/VBox/Center/ObjectiveBox/Margin/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("5_silk_r")
+theme_override_font_sizes/font_size = 12
+text = "★ SECURE OUTPOST HAB & ACTIVATE SUB-SURFACE WATER EXTRACTOR"
+autowrap_mode = 2
+
+[node name="AlertBanner" type="PanelContainer" parent="HUD/Margin/VBox/Center"]
+visible = false
+custom_minimum_size = Vector2(680, 40)
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -340.0
+offset_top = 10.0
+offset_right = 340.0
+offset_bottom = 50.0
+grow_horizontal = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_alert")
+
+[node name="Margin" type="MarginContainer" parent="HUD/Margin/VBox/Center/AlertBanner"]
+layout_mode = 2
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_right = 14
+
+[node name="AlertLabel" type="Label" parent="HUD/Margin/VBox/Center/AlertBanner/Margin"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("4_silk_b")
+theme_override_font_sizes/font_size = 12
+text = "⚠ WARNING: CRITICAL TELEMETRY ALERT"
+horizontal_alignment = 1
+
+[node name="PromptBanner" type="PanelContainer" parent="HUD/Margin/VBox/Center"]
+visible = false
+custom_minimum_size = Vector2(600, 48)
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -300.0
+offset_top = -60.0
+offset_right = 300.0
+offset_bottom = -12.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_prompt")
+
+[node name="Margin" type="MarginContainer" parent="HUD/Margin/VBox/Center/PromptBanner"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_right = 16
+
+[node name="PromptLabel" type="Label" parent="HUD/Margin/VBox/Center/PromptBanner/Margin"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("4_silk_b")
+theme_override_font_sizes/font_size = 14
+text = "[E] INTERACT WITH HABITAT AIRLOCK"
+horizontal_alignment = 1
+
+[node name="BottomDock" type="PanelContainer" parent="HUD/Margin/VBox"]
+custom_minimum_size = Vector2(0, 54)
+layout_mode = 2
+script = ExtResource("6_panel")
+corner_accent = true
+
+[node name="HBox" type="HBoxContainer" parent="HUD/Margin/VBox/BottomDock"]
+layout_mode = 2
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="BtnExplore" type="Button" parent="HUD/Margin/VBox/BottomDock/HBox"]
+custom_minimum_size = Vector2(180, 40)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.235294, 0.890196, 0.85098, 1)
+theme_override_fonts/font = ExtResource("4_silk_b")
+theme_override_font_sizes/font_size = 13
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_nav_primary")
+text = "[1] EXPLORE"
+
+[node name="BtnCrew" type="Button" parent="HUD/Margin/VBox/BottomDock/HBox"]
+custom_minimum_size = Vector2(210, 40)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.9, 0.95, 1)
+theme_override_fonts/font = ExtResource("4_silk_b")
+theme_override_font_sizes/font_size = 13
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_nav_norm")
+text = "[2] CREW & RESOURCES"
+
+[node name="BtnObj" type="Button" parent="HUD/Margin/VBox/BottomDock/HBox"]
+custom_minimum_size = Vector2(180, 40)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.9, 0.95, 1)
+theme_override_fonts/font = ExtResource("4_silk_b")
+theme_override_font_sizes/font_size = 13
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_nav_norm")
+text = "[3] OBJECTIVES"
+
+[node name="BtnLogs" type="Button" parent="HUD/Margin/VBox/BottomDock/HBox"]
+custom_minimum_size = Vector2(190, 40)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.9, 0.95, 1)
+theme_override_fonts/font = ExtResource("4_silk_b")
+theme_override_font_sizes/font_size = 13
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_nav_norm")
+text = "[4] RESEARCH & LOGS"
+
+[node name="Spacer" type="Control" parent="HUD/Margin/VBox/BottomDock/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="BtnPause" type="Button" parent="HUD/Margin/VBox/BottomDock/HBox"]
+custom_minimum_size = Vector2(180, 40)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.9, 0.95, 1)
+theme_override_fonts/font = ExtResource("4_silk_b")
+theme_override_font_sizes/font_size = 13
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_nav_norm")
+text = "[ESC] PAUSE / MENU"
+
+[node name="Modals" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="EventModal" type="PanelContainer" parent="Modals"]
+visible = false
+custom_minimum_size = Vector2(650, 320)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -325.0
+offset_top = -160.0
+offset_right = 325.0
+offset_bottom = 160.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("6_panel")
+corner_accent = true
+is_highlighted = true
+
+[node name="Margin" type="MarginContainer" parent="Modals/EventModal"]
+layout_mode = 2
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 25
+theme_override_constants/margin_bottom = 20
+
+[node name="VBox" type="VBoxContainer" parent="Modals/EventModal/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Header" type="HBoxContainer" parent="Modals/EventModal/Margin/VBox"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="Modals/EventModal/Margin/VBox/Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.898039, 0.513726, 0.282353, 1)
+theme_override_fonts/font = ExtResource("4_silk_b")
+theme_override_font_sizes/font_size = 16
+text = "⚠ EVENT NOTICE"
+
+[node name="Desc" type="Label" parent="Modals/EventModal/Margin/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0.9, 0.95, 1, 1)
+theme_override_constants/line_spacing = 4
+theme_override_fonts/font = ExtResource("5_silk_r")
+theme_override_font_sizes/font_size = 13
+text = "Event description context..."
+autowrap_mode = 2
+
+[node name="Options" type="VBoxContainer" parent="Modals/EventModal/Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Opt1" type="Button" parent="Modals/EventModal/Margin/VBox/Options"]
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.235294, 0.890196, 0.85098, 1)
+theme_override_fonts/font = ExtResource("4_silk_b")
+theme_override_font_sizes/font_size = 13
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_nav_primary")
+text = "OPTION 1"
+
+[node name="Opt2" type="Button" parent="Modals/EventModal/Margin/VBox/Options"]
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.9, 0.95, 1)
+theme_override_fonts/font = ExtResource("4_silk_b")
+theme_override_font_sizes/font_size = 13
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_nav_norm")
+text = "OPTION 2"
+
+[node name="CrewModal" type="PanelContainer" parent="Modals"]
+visible = false
+custom_minimum_size = Vector2(850, 520)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -425.0
+offset_top = -260.0
+offset_right = 425.0
+offset_bottom = 260.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("6_panel")
+corner_accent = true
+
+[node name="Margin" type="MarginContainer" parent="Modals/CrewModal"]
+layout_mode = 2
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 25
+theme_override_constants/margin_bottom = 20
+
+[node name="VBox" type="VBoxContainer" parent="Modals/CrewModal/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Title" type="Label" parent="Modals/CrewModal/Margin/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.235294, 0.890196, 0.85098, 1)
+theme_override_fonts/font = ExtResource("4_silk_b")
+theme_override_font_sizes/font_size = 16
+text = "CREW STATUS & VITALS DASHBOARD"
+
+[node name="Scroll" type="ScrollContainer" parent="Modals/CrewModal/Margin/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="List" type="VBoxContainer" parent="Modals/CrewModal/Margin/VBox/Scroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 12
+
+[node name="Actions" type="HBoxContainer" parent="Modals/CrewModal/Margin/VBox"]
+layout_mode = 2
+alignment = 1
+theme_override_constants/separation = 20
+
+[node name="RestBtn" type="Button" parent="Modals/CrewModal/Margin/VBox/Actions"]
+custom_minimum_size = Vector2(300, 42)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.235294, 0.890196, 0.85098, 1)
+theme_override_fonts/font = ExtResource("4_silk_b")
+theme_override_font_sizes/font_size = 13
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_nav_primary")
+text = "REST CYCLE [4 HOURS]"
+
+[node name="CloseBtn" type="Button" parent="Modals/CrewModal/Margin/VBox/Actions"]
+custom_minimum_size = Vector2(160, 42)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.9, 0.95, 1)
+theme_override_fonts/font = ExtResource("4_silk_b")
+theme_override_font_sizes/font_size = 13
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_nav_norm")
+text = "CLOSE"
+
+[node name="ObjectivesModal" type="PanelContainer" parent="Modals"]
+visible = false
+custom_minimum_size = Vector2(800, 480)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -400.0
+offset_top = -240.0
+offset_right = 400.0
+offset_bottom = 240.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("6_panel")
+corner_accent = true
+
+[node name="Margin" type="MarginContainer" parent="Modals/ObjectivesModal"]
+layout_mode = 2
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 25
+theme_override_constants/margin_bottom = 20
+
+[node name="VBox" type="VBoxContainer" parent="Modals/ObjectivesModal/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Title" type="Label" parent="Modals/ObjectivesModal/Margin/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.235294, 0.890196, 0.85098, 1)
+theme_override_fonts/font = ExtResource("4_silk_b")
+theme_override_font_sizes/font_size = 16
+text = "MISSION OBJECTIVES & DIRECTIVES TRACKER"
+
+[node name="Scroll" type="ScrollContainer" parent="Modals/ObjectivesModal/Margin/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="List" type="VBoxContainer" parent="Modals/ObjectivesModal/Margin/VBox/Scroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 12
+
+[node name="CloseBtn" type="Button" parent="Modals/ObjectivesModal/Margin/VBox"]
+custom_minimum_size = Vector2(160, 40)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0.85, 0.9, 0.95, 1)
+theme_override_fonts/font = ExtResource("4_silk_b")
+theme_override_font_sizes/font_size = 13
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_nav_norm")
+text = "CLOSE"
+
+[node name="LogsModal" type="PanelContainer" parent="Modals"]
+visible = false
+custom_minimum_size = Vector2(850, 520)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -425.0
+offset_top = -260.0
+offset_right = 425.0
+offset_bottom = 260.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("6_panel")
+corner_accent = true
+
+[node name="Margin" type="MarginContainer" parent="Modals/LogsModal"]
+layout_mode = 2
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 25
+theme_override_constants/margin_bottom = 20
+
+[node name="VBox" type="VBoxContainer" parent="Modals/LogsModal/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="Title" type="Label" parent="Modals/LogsModal/Margin/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.235294, 0.890196, 0.85098, 1)
+theme_override_fonts/font = ExtResource("4_silk_b")
+theme_override_font_sizes/font_size = 16
+text = "CHRONOLOGICAL MISSION LOG & RESEARCH JOURNAL"
+
+[node name="Tabs" type="HBoxContainer" parent="Modals/LogsModal/Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="TabDiscoveries" type="Button" parent="Modals/LogsModal/Margin/VBox/Tabs"]
+custom_minimum_size = Vector2(270, 38)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.235294, 0.890196, 0.85098, 1)
+theme_override_fonts/font = ExtResource("4_silk_b")
+theme_override_font_sizes/font_size = 12
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_nav_primary")
+text = "RESEARCH DISCOVERIES (0)"
+
+[node name="TabLogs" type="Button" parent="Modals/LogsModal/Margin/VBox/Tabs"]
+custom_minimum_size = Vector2(250, 38)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.9, 0.95, 1)
+theme_override_fonts/font = ExtResource("4_silk_b")
+theme_override_font_sizes/font_size = 12
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_nav_norm")
+text = "MISSION LOGS"
+
+[node name="Scroll" type="ScrollContainer" parent="Modals/LogsModal/Margin/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="List" type="VBoxContainer" parent="Modals/LogsModal/Margin/VBox/Scroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 6
+
+[node name="CloseBtn" type="Button" parent="Modals/LogsModal/Margin/VBox"]
+custom_minimum_size = Vector2(160, 40)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0.85, 0.9, 0.95, 1)
+theme_override_fonts/font = ExtResource("4_silk_b")
+theme_override_font_sizes/font_size = 13
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_nav_norm")
+text = "CLOSE"
+
+[node name="PauseModal" type="PanelContainer" parent="Modals"]
+visible = false
+custom_minimum_size = Vector2(560, 480)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -280.0
+offset_top = -240.0
+offset_right = 280.0
+offset_bottom = 240.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("6_panel")
+corner_accent = true
+
+[node name="Margin" type="MarginContainer" parent="Modals/PauseModal"]
+layout_mode = 2
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 22
+theme_override_constants/margin_right = 30
+theme_override_constants/margin_bottom = 22
+
+[node name="VBox" type="VBoxContainer" parent="Modals/PauseModal/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 12
+alignment = 1
+
+[node name="Title" type="Label" parent="Modals/PauseModal/Margin/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.235294, 0.890196, 0.85098, 1)
+theme_override_fonts/font = ExtResource("4_silk_b")
+theme_override_font_sizes/font_size = 18
+text = "MISSION PAUSED"
+horizontal_alignment = 1
+
+[node name="SaveStatus" type="Label" parent="Modals/PauseModal/Margin/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.56, 0.68, 0.8, 1)
+theme_override_fonts/font = ExtResource("5_silk_r")
+theme_override_font_sizes/font_size = 12
+text = "Simulation suspended. Telemetry stable."
+horizontal_alignment = 1
+
+[node name="AudioHdr" type="Label" parent="Modals/PauseModal/Margin/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.898039, 0.513726, 0.282353, 1)
+theme_override_fonts/font = ExtResource("4_silk_b")
+theme_override_font_sizes/font_size = 12
+text = "AUDIO CHANNELS"
+
+[node name="AudioBox" type="VBoxContainer" parent="Modals/PauseModal/Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Master" type="HBoxContainer" parent="Modals/PauseModal/Margin/VBox/AudioBox"]
+layout_mode = 2
+
+[node name="Lbl" type="Label" parent="Modals/PauseModal/Margin/VBox/AudioBox/Master"]
+custom_minimum_size = Vector2(140, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.9, 0.95, 1)
+theme_override_fonts/font = ExtResource("5_silk_r")
+theme_override_font_sizes/font_size = 11
+text = "MASTER VOL:"
+
+[node name="Slider" type="HSlider" parent="Modals/PauseModal/Margin/VBox/AudioBox/Master"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+max_value = 100.0
+value = 85.0
+
+[node name="Val" type="Label" parent="Modals/PauseModal/Margin/VBox/AudioBox/Master"]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.235294, 0.890196, 0.85098, 1)
+theme_override_fonts/font = ExtResource("5_silk_r")
+theme_override_font_sizes/font_size = 11
+text = "85%"
+horizontal_alignment = 2
+
+[node name="Sfx" type="HBoxContainer" parent="Modals/PauseModal/Margin/VBox/AudioBox"]
+layout_mode = 2
+
+[node name="Lbl" type="Label" parent="Modals/PauseModal/Margin/VBox/AudioBox/Sfx"]
+custom_minimum_size = Vector2(140, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.9, 0.95, 1)
+theme_override_fonts/font = ExtResource("5_silk_r")
+theme_override_font_sizes/font_size = 11
+text = "SFX TELEMETRY:"
+
+[node name="Slider" type="HSlider" parent="Modals/PauseModal/Margin/VBox/AudioBox/Sfx"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+max_value = 100.0
+value = 90.0
+
+[node name="Val" type="Label" parent="Modals/PauseModal/Margin/VBox/AudioBox/Sfx"]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.235294, 0.890196, 0.85098, 1)
+theme_override_fonts/font = ExtResource("5_silk_r")
+theme_override_font_sizes/font_size = 11
+text = "90%"
+horizontal_alignment = 2
+
+[node name="Divider" type="ColorRect" parent="Modals/PauseModal/Margin/VBox"]
+custom_minimum_size = Vector2(0, 1)
+layout_mode = 2
+color = Color(0.160784, 0.231373, 0.305882, 1)
+
+[node name="ResumeBtn" type="Button" parent="Modals/PauseModal/Margin/VBox"]
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.235294, 0.890196, 0.85098, 1)
+theme_override_fonts/font = ExtResource("4_silk_b")
+theme_override_font_sizes/font_size = 13
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_nav_primary")
+text = "RESUME MISSION"
+
+[node name="SaveBtn" type="Button" parent="Modals/PauseModal/Margin/VBox"]
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.9, 0.95, 1)
+theme_override_fonts/font = ExtResource("4_silk_b")
+theme_override_font_sizes/font_size = 13
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_nav_norm")
+text = "SAVE EXPEDITION"
+
+[node name="AbortBtn" type="Button" parent="Modals/PauseModal/Margin/VBox"]
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.898039, 0.513726, 0.282353, 1)
+theme_override_fonts/font = ExtResource("4_silk_b")
+theme_override_font_sizes/font_size = 13
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_nav_norm")
+text = "ABORT EXPEDITION TO MISSION REPORT"
+
+[node name="QuitBtn" type="Button" parent="Modals/PauseModal/Margin/VBox"]
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.905882, 0.352941, 0.352941, 1)
+theme_override_fonts/font = ExtResource("4_silk_b")
+theme_override_font_sizes/font_size = 13
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_nav_norm")
+text = "QUIT TO MAIN MENU"

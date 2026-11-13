@@ -1,0 +1,1188 @@
+[gd_scene format=3 uid="uid://c6r2j3d8xav1q"]
+
+[ext_resource type="Script" uid="uid://cdd1ow71i25uh" path="res://scripts/ui/main_menu.gd" id="1_menu"]
+[ext_resource type="FontFile" uid="uid://tnaj2tfiddu4" path="res://assets/fonts/PressStart2P.ttf" id="2_press"]
+[ext_resource type="FontFile" uid="uid://divkjp72mcdmk" path="res://assets/fonts/Silkscreen-Bold.ttf" id="3_silk_b"]
+[ext_resource type="FontFile" uid="uid://valqcvnfal4n" path="res://assets/fonts/Silkscreen-Regular.ttf" id="4_silk_r"]
+[ext_resource type="Script" uid="uid://cuswavucryypk" path="res://scenes/components/terminal_panel.gd" id="5_panel"]
+[ext_resource type="Script" uid="uid://cas7a1f7xj5xj" path="res://scenes/components/segmented_bar.gd" id="6_segbar"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_focus"]
+bg_color = Color(0.0862745, 0.168627, 0.223529, 0.9)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.235294, 0.890196, 0.85098, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_hover"]
+bg_color = Color(0.109804, 0.180392, 0.247059, 0.9)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.235294, 0.890196, 0.85098, 0.8)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_norm"]
+bg_color = Color(0.0862745, 0.129412, 0.176471, 0.9)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.160784, 0.231373, 0.305882, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_dis"]
+bg_color = Color(0.054902, 0.0823529, 0.109804, 0.6)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.101961, 0.145098, 0.192157, 1)
+
+[node name="MainMenu" type="Control" unique_id=583826240]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_menu")
+
+[node name="Background" type="ColorRect" parent="." unique_id=1845834862]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.0431373, 0.0666667, 0.0941176, 1)
+
+[node name="Margin" type="MarginContainer" parent="." unique_id=515168824]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 80
+theme_override_constants/margin_top = 50
+theme_override_constants/margin_right = 80
+theme_override_constants/margin_bottom = 30
+
+[node name="VBox" type="VBoxContainer" parent="Margin" unique_id=1423064673]
+layout_mode = 2
+theme_override_constants/separation = 40
+
+[node name="TitleSection" type="VBoxContainer" parent="Margin/VBox" unique_id=1628648573]
+layout_mode = 2
+alignment = 1
+
+[node name="TitleLabel" type="Label" parent="Margin/VBox/TitleSection" unique_id=1567363348]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.92, 0.96, 0.98, 1)
+theme_override_colors/font_shadow_color = Color(0.145098, 0.54902, 0.52549, 0.8)
+theme_override_constants/shadow_offset_x = 4
+theme_override_constants/shadow_offset_y = 4
+theme_override_fonts/font = ExtResource("2_press")
+theme_override_font_sizes/font_size = 64
+text = "MARTIANBOUND"
+horizontal_alignment = 1
+
+[node name="TitleBar" type="HBoxContainer" parent="Margin/VBox/TitleSection" unique_id=2003091771]
+layout_mode = 2
+alignment = 1
+
+[node name="LineLeft" type="ColorRect" parent="Margin/VBox/TitleSection/TitleBar" unique_id=1993942517]
+custom_minimum_size = Vector2(360, 4)
+layout_mode = 2
+size_flags_vertical = 4
+color = Color(0.898039, 0.513726, 0.282353, 1)
+
+[node name="Diamond" type="Label" parent="Margin/VBox/TitleSection/TitleBar" unique_id=2056227734]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.898039, 0.513726, 0.282353, 1)
+theme_override_fonts/font = ExtResource("4_silk_r")
+theme_override_font_sizes/font_size = 20
+text = " ◆ "
+
+[node name="LineRight" type="ColorRect" parent="Margin/VBox/TitleSection/TitleBar" unique_id=312389739]
+custom_minimum_size = Vector2(360, 4)
+layout_mode = 2
+size_flags_vertical = 4
+color = Color(0.898039, 0.513726, 0.282353, 1)
+
+[node name="Subtitle" type="Label" parent="Margin/VBox/TitleSection" unique_id=2088282830]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.898039, 0.513726, 0.282353, 1)
+theme_override_fonts/font = ExtResource("4_silk_r")
+theme_override_font_sizes/font_size = 18
+text = "[ YOUR MISSION.  YOUR SURVIVAL ]"
+horizontal_alignment = 1
+
+[node name="CenterContent" type="HBoxContainer" parent="Margin/VBox" unique_id=1129637690]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 50
+
+[node name="LeftPanel" type="PanelContainer" parent="Margin/VBox/CenterContent" unique_id=597242611]
+custom_minimum_size = Vector2(800, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+script = ExtResource("5_panel")
+
+[node name="VBox" type="VBoxContainer" parent="Margin/VBox/CenterContent/LeftPanel" unique_id=2083749537]
+layout_mode = 2
+theme_override_constants/separation = 18
+alignment = 1
+
+[node name="NewMissionBtn" type="Button" parent="Margin/VBox/CenterContent/LeftPanel/VBox" unique_id=94211240]
+custom_minimum_size = Vector2(0, 72)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_focus")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_focus")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
+theme_override_styles/focus = SubResource("StyleBoxFlat_btn_focus")
+
+[node name="Margin" type="MarginContainer" parent="Margin/VBox/CenterContent/LeftPanel/VBox/NewMissionBtn" unique_id=42652746]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_right = 25
+
+[node name="HBox" type="HBoxContainer" parent="Margin/VBox/CenterContent/LeftPanel/VBox/NewMissionBtn/Margin" unique_id=851566165]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Margin/VBox/CenterContent/LeftPanel/VBox/NewMissionBtn/Margin/HBox" unique_id=1508771602]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 20
+text = "▶  NEW MISSION"
+
+[node name="Badge" type="Label" parent="Margin/VBox/CenterContent/LeftPanel/VBox/NewMissionBtn/Margin/HBox" unique_id=1806783570]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.898039, 0.513726, 0.282353, 1)
+theme_override_fonts/font = ExtResource("4_silk_r")
+theme_override_font_sizes/font_size = 16
+text = "PRIMARY"
+
+[node name="ContinueBtn" type="Button" parent="Margin/VBox/CenterContent/LeftPanel/VBox" unique_id=1060253266]
+custom_minimum_size = Vector2(0, 72)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_norm")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_focus")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_btn_dis")
+
+[node name="Margin" type="MarginContainer" parent="Margin/VBox/CenterContent/LeftPanel/VBox/ContinueBtn" unique_id=5043993]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_right = 25
+
+[node name="HBox" type="HBoxContainer" parent="Margin/VBox/CenterContent/LeftPanel/VBox/ContinueBtn/Margin" unique_id=1208243026]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Margin/VBox/CenterContent/LeftPanel/VBox/ContinueBtn/Margin/HBox" unique_id=517369061]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.458824, 0.564706, 0.666667, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 20
+text = "   CONTINUE MISSION"
+
+[node name="Badge" type="Label" parent="Margin/VBox/CenterContent/LeftPanel/VBox/ContinueBtn/Margin/HBox" unique_id=1698364186]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.458824, 0.564706, 0.666667, 1)
+theme_override_fonts/font = ExtResource("4_silk_r")
+theme_override_font_sizes/font_size = 16
+text = "NO SAVE FOUND"
+
+[node name="ArchiveBtn" type="Button" parent="Margin/VBox/CenterContent/LeftPanel/VBox" unique_id=786572354]
+custom_minimum_size = Vector2(0, 72)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_norm")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_focus")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
+
+[node name="Margin" type="MarginContainer" parent="Margin/VBox/CenterContent/LeftPanel/VBox/ArchiveBtn" unique_id=1597616515]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_right = 25
+
+[node name="HBox" type="HBoxContainer" parent="Margin/VBox/CenterContent/LeftPanel/VBox/ArchiveBtn/Margin" unique_id=1323950116]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Margin/VBox/CenterContent/LeftPanel/VBox/ArchiveBtn/Margin/HBox" unique_id=957356933]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.85, 0.9, 0.95, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 20
+text = "   CADET FIELD GUIDE"
+
+[node name="Badge" type="Label" parent="Margin/VBox/CenterContent/LeftPanel/VBox/ArchiveBtn/Margin/HBox" unique_id=405898732]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.235294, 0.890196, 0.85098, 1)
+theme_override_fonts/font = ExtResource("4_silk_r")
+theme_override_font_sizes/font_size = 16
+text = "AGES 7-12 HELP"
+
+[node name="SettingsBtn" type="Button" parent="Margin/VBox/CenterContent/LeftPanel/VBox" unique_id=1388602539]
+custom_minimum_size = Vector2(0, 72)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_norm")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_focus")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
+
+[node name="Margin" type="MarginContainer" parent="Margin/VBox/CenterContent/LeftPanel/VBox/SettingsBtn" unique_id=877487613]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_right = 25
+
+[node name="HBox" type="HBoxContainer" parent="Margin/VBox/CenterContent/LeftPanel/VBox/SettingsBtn/Margin" unique_id=513773831]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Margin/VBox/CenterContent/LeftPanel/VBox/SettingsBtn/Margin/HBox" unique_id=76885710]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.85, 0.9, 0.95, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 20
+text = "   SETTINGS"
+
+[node name="Badge" type="Label" parent="Margin/VBox/CenterContent/LeftPanel/VBox/SettingsBtn/Margin/HBox" unique_id=1110318958]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.56, 0.68, 0.8, 1)
+theme_override_fonts/font = ExtResource("4_silk_r")
+theme_override_font_sizes/font_size = 16
+text = "AV / CONTROLS"
+
+[node name="ExitBtn" type="Button" parent="Margin/VBox/CenterContent/LeftPanel/VBox" unique_id=199882350]
+custom_minimum_size = Vector2(0, 72)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_norm")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_focus")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
+
+[node name="Margin" type="MarginContainer" parent="Margin/VBox/CenterContent/LeftPanel/VBox/ExitBtn" unique_id=465216509]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_right = 25
+
+[node name="HBox" type="HBoxContainer" parent="Margin/VBox/CenterContent/LeftPanel/VBox/ExitBtn/Margin" unique_id=300614434]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Margin/VBox/CenterContent/LeftPanel/VBox/ExitBtn/Margin/HBox" unique_id=803586050]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.85, 0.9, 0.95, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 20
+text = "   EXIT GAME"
+
+[node name="Badge" type="Label" parent="Margin/VBox/CenterContent/LeftPanel/VBox/ExitBtn/Margin/HBox" unique_id=1524003009]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.905882, 0.352941, 0.352941, 1)
+theme_override_fonts/font = ExtResource("4_silk_r")
+theme_override_font_sizes/font_size = 16
+text = "[PWR OFF]"
+
+[node name="RightPanel" type="PanelContainer" parent="Margin/VBox/CenterContent" unique_id=639947799]
+custom_minimum_size = Vector2(800, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+script = ExtResource("5_panel")
+
+[node name="VBox" type="VBoxContainer" parent="Margin/VBox/CenterContent/RightPanel" unique_id=957741443]
+layout_mode = 2
+theme_override_constants/separation = 22
+
+[node name="DeploySection" type="VBoxContainer" parent="Margin/VBox/CenterContent/RightPanel/VBox" unique_id=94025791]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Header" type="Label" parent="Margin/VBox/CenterContent/RightPanel/VBox/DeploySection" unique_id=1687256103]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.56, 0.68, 0.8, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 18
+text = "DEPLOYMENT STATUS"
+
+[node name="Status" type="Label" parent="Margin/VBox/CenterContent/RightPanel/VBox/DeploySection" unique_id=1323591870]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.898039, 0.513726, 0.282353, 1)
+theme_override_fonts/font = ExtResource("4_silk_r")
+theme_override_font_sizes/font_size = 16
+text = "■ STANDBY — ORBITAL INSERTION READY"
+
+[node name="Divider1" type="ColorRect" parent="Margin/VBox/CenterContent/RightPanel/VBox" unique_id=813905047]
+custom_minimum_size = Vector2(0, 1)
+layout_mode = 2
+color = Color(0.160784, 0.231373, 0.305882, 1)
+
+[node name="CrewHeader" type="HBoxContainer" parent="Margin/VBox/CenterContent/RightPanel/VBox" unique_id=2042991999]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="Margin/VBox/CenterContent/RightPanel/VBox/CrewHeader" unique_id=1826756800]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.56, 0.68, 0.8, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 18
+text = "CREW MANIFEST"
+
+[node name="CountLabel" type="Label" parent="Margin/VBox/CenterContent/RightPanel/VBox/CrewHeader" unique_id=504525833]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.235294, 0.890196, 0.85098, 1)
+theme_override_fonts/font = ExtResource("4_silk_r")
+theme_override_font_sizes/font_size = 16
+text = "4/4 ACTIVE"
+
+[node name="CrewBoxes" type="HBoxContainer" parent="Margin/VBox/CenterContent/RightPanel/VBox" unique_id=2046169480]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Box1" type="PanelContainer" parent="Margin/VBox/CenterContent/RightPanel/VBox/CrewBoxes" unique_id=537728015]
+custom_minimum_size = Vector2(0, 70)
+layout_mode = 2
+size_flags_horizontal = 3
+script = ExtResource("5_panel")
+corner_accent = false
+is_card = true
+
+[node name="VBox" type="VBoxContainer" parent="Margin/VBox/CenterContent/RightPanel/VBox/CrewBoxes/Box1" unique_id=1167775766]
+layout_mode = 2
+alignment = 1
+
+[node name="Icon" type="ColorRect" parent="Margin/VBox/CenterContent/RightPanel/VBox/CrewBoxes/Box1/VBox" unique_id=94058259]
+custom_minimum_size = Vector2(14, 14)
+layout_mode = 2
+size_flags_horizontal = 4
+color = Color(0.235294, 0.890196, 0.85098, 1)
+
+[node name="Code" type="Label" parent="Margin/VBox/CenterContent/RightPanel/VBox/CrewBoxes/Box1/VBox" unique_id=1121684396]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.9, 0.95, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 14
+text = "CMD"
+horizontal_alignment = 1
+
+[node name="Box2" type="PanelContainer" parent="Margin/VBox/CenterContent/RightPanel/VBox/CrewBoxes" unique_id=326557455]
+custom_minimum_size = Vector2(0, 70)
+layout_mode = 2
+size_flags_horizontal = 3
+script = ExtResource("5_panel")
+corner_accent = false
+is_card = true
+
+[node name="VBox" type="VBoxContainer" parent="Margin/VBox/CenterContent/RightPanel/VBox/CrewBoxes/Box2" unique_id=384810083]
+layout_mode = 2
+alignment = 1
+
+[node name="Icon" type="ColorRect" parent="Margin/VBox/CenterContent/RightPanel/VBox/CrewBoxes/Box2/VBox" unique_id=1935048320]
+custom_minimum_size = Vector2(14, 14)
+layout_mode = 2
+size_flags_horizontal = 4
+color = Color(0.235294, 0.890196, 0.85098, 1)
+
+[node name="Code" type="Label" parent="Margin/VBox/CenterContent/RightPanel/VBox/CrewBoxes/Box2/VBox" unique_id=1119751517]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.9, 0.95, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 14
+text = "ENG"
+horizontal_alignment = 1
+
+[node name="Box3" type="PanelContainer" parent="Margin/VBox/CenterContent/RightPanel/VBox/CrewBoxes" unique_id=1317407334]
+custom_minimum_size = Vector2(0, 70)
+layout_mode = 2
+size_flags_horizontal = 3
+script = ExtResource("5_panel")
+corner_accent = false
+is_card = true
+
+[node name="VBox" type="VBoxContainer" parent="Margin/VBox/CenterContent/RightPanel/VBox/CrewBoxes/Box3" unique_id=1365182032]
+layout_mode = 2
+alignment = 1
+
+[node name="Icon" type="ColorRect" parent="Margin/VBox/CenterContent/RightPanel/VBox/CrewBoxes/Box3/VBox" unique_id=725126383]
+custom_minimum_size = Vector2(14, 14)
+layout_mode = 2
+size_flags_horizontal = 4
+color = Color(0.235294, 0.890196, 0.85098, 1)
+
+[node name="Code" type="Label" parent="Margin/VBox/CenterContent/RightPanel/VBox/CrewBoxes/Box3/VBox" unique_id=790241443]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.9, 0.95, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 14
+text = "BIO"
+horizontal_alignment = 1
+
+[node name="Box4" type="PanelContainer" parent="Margin/VBox/CenterContent/RightPanel/VBox/CrewBoxes" unique_id=4166701]
+custom_minimum_size = Vector2(0, 70)
+layout_mode = 2
+size_flags_horizontal = 3
+script = ExtResource("5_panel")
+corner_accent = false
+is_card = true
+
+[node name="VBox" type="VBoxContainer" parent="Margin/VBox/CenterContent/RightPanel/VBox/CrewBoxes/Box4" unique_id=390278338]
+layout_mode = 2
+alignment = 1
+
+[node name="Icon" type="ColorRect" parent="Margin/VBox/CenterContent/RightPanel/VBox/CrewBoxes/Box4/VBox" unique_id=1991725031]
+custom_minimum_size = Vector2(14, 14)
+layout_mode = 2
+size_flags_horizontal = 4
+color = Color(0.235294, 0.890196, 0.85098, 1)
+
+[node name="Code" type="Label" parent="Margin/VBox/CenterContent/RightPanel/VBox/CrewBoxes/Box4/VBox" unique_id=1080379323]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.9, 0.95, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 14
+text = "GEO"
+horizontal_alignment = 1
+
+[node name="Divider2" type="ColorRect" parent="Margin/VBox/CenterContent/RightPanel/VBox" unique_id=1874065418]
+custom_minimum_size = Vector2(0, 1)
+layout_mode = 2
+color = Color(0.160784, 0.231373, 0.305882, 1)
+
+[node name="LocAtmosHBox" type="HBoxContainer" parent="Margin/VBox/CenterContent/RightPanel/VBox" unique_id=1353461541]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="LocVBox" type="VBoxContainer" parent="Margin/VBox/CenterContent/RightPanel/VBox/LocAtmosHBox" unique_id=261578322]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Hdr" type="Label" parent="Margin/VBox/CenterContent/RightPanel/VBox/LocAtmosHBox/LocVBox" unique_id=1344331379]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.56, 0.68, 0.8, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 14
+text = "LOCATION"
+
+[node name="Val1" type="Label" parent="Margin/VBox/CenterContent/RightPanel/VBox/LocAtmosHBox/LocVBox" unique_id=1554454613]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 18
+text = "ACIDALIA PLANITIA"
+
+[node name="Val2" type="Label" parent="Margin/VBox/CenterContent/RightPanel/VBox/LocAtmosHBox/LocVBox" unique_id=1858084016]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.898039, 0.513726, 0.282353, 1)
+theme_override_fonts/font = ExtResource("4_silk_r")
+theme_override_font_sizes/font_size = 15
+text = "[28.4° N, 332.1° E]"
+
+[node name="AtmosVBox" type="VBoxContainer" parent="Margin/VBox/CenterContent/RightPanel/VBox/LocAtmosHBox" unique_id=2099786459]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Hdr" type="Label" parent="Margin/VBox/CenterContent/RightPanel/VBox/LocAtmosHBox/AtmosVBox" unique_id=1699748640]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.56, 0.68, 0.8, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 14
+text = "ATMOSPHERE"
+
+[node name="Val1" type="Label" parent="Margin/VBox/CenterContent/RightPanel/VBox/LocAtmosHBox/AtmosVBox" unique_id=1858893332]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.235294, 0.890196, 0.85098, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 18
+text = "SOL 001 // -63°C"
+
+[node name="Val2" type="Label" parent="Margin/VBox/CenterContent/RightPanel/VBox/LocAtmosHBox/AtmosVBox" unique_id=301469180]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.458824, 0.564706, 0.666667, 1)
+theme_override_fonts/font = ExtResource("4_silk_r")
+theme_override_font_sizes/font_size = 15
+text = "PRESSURE: 0.6 kPa"
+
+[node name="Divider3" type="ColorRect" parent="Margin/VBox/CenterContent/RightPanel/VBox" unique_id=978511573]
+custom_minimum_size = Vector2(0, 1)
+layout_mode = 2
+color = Color(0.160784, 0.231373, 0.305882, 1)
+
+[node name="SolarSection" type="VBoxContainer" parent="Margin/VBox/CenterContent/RightPanel/VBox" unique_id=1225485076]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="SolarHeader" type="HBoxContainer" parent="Margin/VBox/CenterContent/RightPanel/VBox/SolarSection" unique_id=1481093994]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="Margin/VBox/CenterContent/RightPanel/VBox/SolarSection/SolarHeader" unique_id=1674404252]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.56, 0.68, 0.8, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 15
+text = "SOLAR COLLECTOR EFFICIENCY"
+
+[node name="PctLabel" type="Label" parent="Margin/VBox/CenterContent/RightPanel/VBox/SolarSection/SolarHeader" unique_id=1386749397]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.235294, 0.890196, 0.85098, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 16
+text = "94%"
+
+[node name="SolarBar" type="Control" parent="Margin/VBox/CenterContent/RightPanel/VBox/SolarSection" unique_id=1376600622]
+custom_minimum_size = Vector2(0, 18)
+layout_mode = 2
+script = ExtResource("6_segbar")
+total_segments = 20
+fill_ratio = 0.94
+fill_color = Color(0.235294, 0.890196, 0.85098, 1)
+
+[node name="FooterBar" type="HBoxContainer" parent="Margin/VBox" unique_id=2086895681]
+layout_mode = 2
+
+[node name="HabStatus" type="Label" parent="Margin/VBox/FooterBar" unique_id=1536015016]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.898039, 0.513726, 0.282353, 1)
+theme_override_fonts/font = ExtResource("4_silk_r")
+theme_override_font_sizes/font_size = 14
+text = "HABITAT DOME-A1 INTEGRITY: 100%"
+
+[node name="NasaBadge" type="Button" parent="Margin/VBox/FooterBar" unique_id=2086895682]
+custom_minimum_size = Vector2(480, 32)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.235294, 0.890196, 0.85098, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 12
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_focus")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
+text = "🔬 NASA OPEN DATASETS & PDS ARCHIVES ACTIVE [VIEW]"
+
+[node name="RadStatus" type="Label" parent="Margin/VBox/FooterBar" unique_id=978277720]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.235294, 0.890196, 0.85098, 1)
+theme_override_fonts/font = ExtResource("4_silk_r")
+theme_override_font_sizes/font_size = 14
+text = "RAD MONITOR: 0.22 mSv/h"
+horizontal_alignment = 2
+
+[node name="SettingsModal" type="PanelContainer" parent="." unique_id=992837411]
+visible = false
+custom_minimum_size = Vector2(560, 420)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -280.0
+offset_top = -210.0
+offset_right = 280.0
+offset_bottom = 210.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("5_panel")
+corner_accent = true
+
+[node name="Margin" type="MarginContainer" parent="SettingsModal" unique_id=992837412]
+layout_mode = 2
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 25
+theme_override_constants/margin_right = 30
+theme_override_constants/margin_bottom = 25
+
+[node name="VBox" type="VBoxContainer" parent="SettingsModal/Margin" unique_id=992837413]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Title" type="Label" parent="SettingsModal/Margin/VBox" unique_id=992837414]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.235294, 0.890196, 0.85098, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 18
+text = "MISSION TRAINER SETTINGS & AUDIO"
+horizontal_alignment = 1
+
+[node name="Sub" type="Label" parent="SettingsModal/Margin/VBox" unique_id=992837415]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.56, 0.68, 0.8, 1)
+theme_override_fonts/font = ExtResource("4_silk_r")
+theme_override_font_sizes/font_size = 12
+text = "AUDIO CHANNELS // DISPLAY PROTOCOLS"
+horizontal_alignment = 1
+
+[node name="AudioSection" type="VBoxContainer" parent="SettingsModal/Margin/VBox" unique_id=992837416]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="MasterVol" type="HBoxContainer" parent="SettingsModal/Margin/VBox/AudioSection" unique_id=992837417]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="SettingsModal/Margin/VBox/AudioSection/MasterVol" unique_id=992837418]
+custom_minimum_size = Vector2(160, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.9, 0.95, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 12
+text = "MASTER VOLUME:"
+
+[node name="Slider" type="HSlider" parent="SettingsModal/Margin/VBox/AudioSection/MasterVol" unique_id=992837419]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+max_value = 100.0
+value = 85.0
+
+[node name="Val" type="Label" parent="SettingsModal/Margin/VBox/AudioSection/MasterVol" unique_id=992837420]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.235294, 0.890196, 0.85098, 1)
+theme_override_fonts/font = ExtResource("4_silk_r")
+theme_override_font_sizes/font_size = 12
+text = "85%"
+horizontal_alignment = 2
+
+[node name="SfxVol" type="HBoxContainer" parent="SettingsModal/Margin/VBox/AudioSection" unique_id=992837421]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="SettingsModal/Margin/VBox/AudioSection/SfxVol" unique_id=992837422]
+custom_minimum_size = Vector2(160, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.9, 0.95, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 12
+text = "SFX TELEMETRY:"
+
+[node name="Slider" type="HSlider" parent="SettingsModal/Margin/VBox/AudioSection/SfxVol" unique_id=992837423]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+max_value = 100.0
+value = 90.0
+
+[node name="Val" type="Label" parent="SettingsModal/Margin/VBox/AudioSection/SfxVol" unique_id=992837424]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.235294, 0.890196, 0.85098, 1)
+theme_override_fonts/font = ExtResource("4_silk_r")
+theme_override_font_sizes/font_size = 12
+text = "90%"
+horizontal_alignment = 2
+
+[node name="MusicVol" type="HBoxContainer" parent="SettingsModal/Margin/VBox/AudioSection" unique_id=992837425]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="SettingsModal/Margin/VBox/AudioSection/MusicVol" unique_id=992837426]
+custom_minimum_size = Vector2(160, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.9, 0.95, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 12
+text = "AMBIENT SYNTH:"
+
+[node name="Slider" type="HSlider" parent="SettingsModal/Margin/VBox/AudioSection/MusicVol" unique_id=992837427]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+max_value = 100.0
+value = 75.0
+
+[node name="Val" type="Label" parent="SettingsModal/Margin/VBox/AudioSection/MusicVol" unique_id=992837428]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.235294, 0.890196, 0.85098, 1)
+theme_override_fonts/font = ExtResource("4_silk_r")
+theme_override_font_sizes/font_size = 12
+text = "75%"
+horizontal_alignment = 2
+
+[node name="Divider" type="ColorRect" parent="SettingsModal/Margin/VBox" unique_id=992837429]
+custom_minimum_size = Vector2(0, 1)
+layout_mode = 2
+color = Color(0.160784, 0.231373, 0.305882, 1)
+
+[node name="Actions" type="HBoxContainer" parent="SettingsModal/Margin/VBox" unique_id=992837430]
+layout_mode = 2
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="CloseBtn" type="Button" parent="SettingsModal/Margin/VBox/Actions" unique_id=992837431]
+custom_minimum_size = Vector2(180, 44)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.235294, 0.890196, 0.85098, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 13
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_focus")
+text = "CLOSE"
+
+[node name="GuideModal" type="PanelContainer" parent="." unique_id=993821001]
+visible = false
+custom_minimum_size = Vector2(820, 560)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -410.0
+offset_top = -280.0
+offset_right = 410.0
+offset_bottom = 280.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("5_panel")
+corner_accent = true
+
+[node name="Margin" type="MarginContainer" parent="GuideModal" unique_id=993821002]
+layout_mode = 2
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 25
+theme_override_constants/margin_bottom = 20
+
+[node name="VBox" type="VBoxContainer" parent="GuideModal/Margin" unique_id=993821003]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Header" type="HBoxContainer" parent="GuideModal/Margin/VBox" unique_id=993821004]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="GuideModal/Margin/VBox/Header" unique_id=993821005]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.235294, 0.890196, 0.85098, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 16
+text = "★ ASTRONAUT CADET SURVIVAL FIELD GUIDE"
+
+[node name="Sub" type="Label" parent="GuideModal/Margin/VBox" unique_id=993821006]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.898039, 0.513726, 0.282353, 1)
+theme_override_fonts/font = ExtResource("4_silk_r")
+theme_override_font_sizes/font_size = 12
+text = "SPACE SCIENCE MADE SIMPLE FOR JUNIOR MISSION COMMANDERS (AGES 7-12)"
+
+[node name="Scroll" type="ScrollContainer" parent="GuideModal/Margin/VBox" unique_id=993821007]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="Content" type="VBoxContainer" parent="GuideModal/Margin/VBox/Scroll" unique_id=993821008]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 10
+
+[node name="CardSol" type="PanelContainer" parent="GuideModal/Margin/VBox/Scroll/Content" unique_id=993821009]
+layout_mode = 2
+script = ExtResource("5_panel")
+is_card = true
+
+[node name="M" type="MarginContainer" parent="GuideModal/Margin/VBox/Scroll/Content/CardSol" unique_id=993821010]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 8
+
+[node name="V" type="VBoxContainer" parent="GuideModal/Margin/VBox/Scroll/Content/CardSol/M" unique_id=993821011]
+layout_mode = 2
+
+[node name="H" type="Label" parent="GuideModal/Margin/VBox/Scroll/Content/CardSol/M/V" unique_id=993821012]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.235294, 0.890196, 0.85098, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 13
+text = "☀️ WHAT IS A 'SOL'?"
+
+[node name="D" type="Label" parent="GuideModal/Margin/VBox/Scroll/Content/CardSol/M/V" unique_id=993821013]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.9, 0.95, 1)
+theme_override_fonts/font = ExtResource("4_silk_r")
+theme_override_font_sizes/font_size = 11
+text = "A Sol is one Martian day! Because Mars spins slightly slower than Earth, a Sol is 24 hours, 39 minutes, and 35 seconds long. In Martianbound, your mission lasts exactly 1 complete Sol from morning landing to evening extraction!"
+autowrap_mode = 2
+
+[node name="CardRad" type="PanelContainer" parent="GuideModal/Margin/VBox/Scroll/Content" unique_id=993821014]
+layout_mode = 2
+script = ExtResource("5_panel")
+is_card = true
+
+[node name="M" type="MarginContainer" parent="GuideModal/Margin/VBox/Scroll/Content/CardRad" unique_id=993821015]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 8
+
+[node name="V" type="VBoxContainer" parent="GuideModal/Margin/VBox/Scroll/Content/CardRad/M" unique_id=993821016]
+layout_mode = 2
+
+[node name="H" type="Label" parent="GuideModal/Margin/VBox/Scroll/Content/CardRad/M/V" unique_id=993821017]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.898039, 0.513726, 0.282353, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 13
+text = "☢️ WHAT IS 'mSv RADIATION'?"
+
+[node name="D" type="Label" parent="GuideModal/Margin/VBox/Scroll/Content/CardRad/M/V" unique_id=993821018]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.9, 0.95, 1)
+theme_override_fonts/font = ExtResource("4_silk_r")
+theme_override_font_sizes/font_size = 11
+text = "Mars doesn't have a thick magnetic shield like Earth, so invisible cosmic rays hit the surface. mSv (milliSievert) measures radiation dose. Safe baseline is 0.22 mSv/h (NASA Curiosity Rover RAD data). If a solar flare hits, it spikes over 0.80 mSv—get inside the Hab dome immediately!"
+autowrap_mode = 2
+
+[node name="CardComm" type="PanelContainer" parent="GuideModal/Margin/VBox/Scroll/Content" unique_id=993821019]
+layout_mode = 2
+script = ExtResource("5_panel")
+is_card = true
+
+[node name="M" type="MarginContainer" parent="GuideModal/Margin/VBox/Scroll/Content/CardComm" unique_id=993821020]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 8
+
+[node name="V" type="VBoxContainer" parent="GuideModal/Margin/VBox/Scroll/Content/CardComm/M" unique_id=993821021]
+layout_mode = 2
+
+[node name="H" type="Label" parent="GuideModal/Margin/VBox/Scroll/Content/CardComm/M/V" unique_id=993821022]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.235294, 0.890196, 0.55, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 13
+text = "📡 WHY IS THERE A '14-MINUTE RADIO DELAY'?"
+
+[node name="D" type="Label" parent="GuideModal/Margin/VBox/Scroll/Content/CardComm/M/V" unique_id=993821023]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.9, 0.95, 1)
+theme_override_fonts/font = ExtResource("4_silk_r")
+theme_override_font_sizes/font_size = 11
+text = "Earth and Mars are over 100 million miles apart! Even at light-speed (186,000 miles every second!), a radio message takes 4 to 20 minutes to cross space. If an emergency happens on Mars, Houston cannot remote-control your base—you must think like an astronaut and make decisions yourself!"
+autowrap_mode = 2
+
+[node name="CardTradeoff" type="PanelContainer" parent="GuideModal/Margin/VBox/Scroll/Content" unique_id=993821024]
+layout_mode = 2
+script = ExtResource("5_panel")
+is_card = true
+
+[node name="M" type="MarginContainer" parent="GuideModal/Margin/VBox/Scroll/Content/CardTradeoff" unique_id=993821025]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 8
+
+[node name="V" type="VBoxContainer" parent="GuideModal/Margin/VBox/Scroll/Content/CardTradeoff/M" unique_id=993821026]
+layout_mode = 2
+
+[node name="H" type="Label" parent="GuideModal/Margin/VBox/Scroll/Content/CardTradeoff/M/V" unique_id=993821027]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.905882, 0.352941, 0.352941, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 13
+text = "⚖️ THE GOLDEN RULE OF ENGINEERING: NO FREE LUNCHES!"
+
+[node name="D" type="Label" parent="GuideModal/Margin/VBox/Scroll/Content/CardTradeoff/M/V" unique_id=993821028]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.9, 0.95, 1)
+theme_override_fonts/font = ExtResource("4_silk_r")
+theme_override_font_sizes/font_size = 11
+text = "Every choice has a cost: Shoveling regolith dirt shields against radiation, but tires out your astronauts. Overclocking solar panels generates big battery power, but wears out your capacitors. Pumping ice gives you water, but diverts power away from night heaters!"
+autowrap_mode = 2
+
+[node name="BtnCloseGuide" type="Button" parent="GuideModal/Margin/VBox" unique_id=993821029]
+custom_minimum_size = Vector2(220, 44)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0.235294, 0.890196, 0.85098, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 13
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_focus")
+text = "GOT IT, MISSION CONTROL!  ▶"
+
+[node name="NasaDatasetsModal" type="PanelContainer" parent="." unique_id=994821001]
+visible = false
+custom_minimum_size = Vector2(860, 580)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -430.0
+offset_top = -290.0
+offset_right = 430.0
+offset_bottom = 290.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("5_panel")
+corner_accent = true
+
+[node name="Margin" type="MarginContainer" parent="NasaDatasetsModal" unique_id=994821002]
+layout_mode = 2
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 25
+theme_override_constants/margin_bottom = 20
+
+[node name="VBox" type="VBoxContainer" parent="NasaDatasetsModal/Margin" unique_id=994821003]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Header" type="HBoxContainer" parent="NasaDatasetsModal/Margin/VBox" unique_id=994821004]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="NasaDatasetsModal/Margin/VBox/Header" unique_id=994821005]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.235294, 0.890196, 0.85098, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 16
+text = "🔬 NASA OPEN DATASETS & PDS ARCHIVE VERIFICATION"
+
+[node name="Sub" type="Label" parent="NasaDatasetsModal/Margin/VBox" unique_id=994821006]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.898039, 0.513726, 0.282353, 1)
+theme_override_fonts/font = ExtResource("4_silk_r")
+theme_override_font_sizes/font_size = 12
+text = "OFFICIAL NASA OPEN SCIENCE SOURCES INTEGRATED INTO MARTIANBOUND"
+
+[node name="Scroll" type="ScrollContainer" parent="NasaDatasetsModal/Margin/VBox" unique_id=994821007]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="List" type="VBoxContainer" parent="NasaDatasetsModal/Margin/VBox/Scroll" unique_id=994821008]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 10
+
+[node name="D1" type="PanelContainer" parent="NasaDatasetsModal/Margin/VBox/Scroll/List" unique_id=994821009]
+layout_mode = 2
+script = ExtResource("5_panel")
+is_card = true
+
+[node name="M" type="MarginContainer" parent="NasaDatasetsModal/Margin/VBox/Scroll/List/D1" unique_id=994821010]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 8
+
+[node name="V" type="VBoxContainer" parent="NasaDatasetsModal/Margin/VBox/Scroll/List/D1/M" unique_id=994821011]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="H" type="Label" parent="NasaDatasetsModal/Margin/VBox/Scroll/List/D1/M/V" unique_id=994821012]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.235294, 0.890196, 0.85098, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 13
+text = "1. NASA SWIM — Subsurface Water Ice Mapping on Mars"
+
+[node name="Meta" type="Label" parent="NasaDatasetsModal/Margin/VBox/Scroll/List/D1/M/V" unique_id=994821013]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.898039, 0.513726, 0.282353, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 10
+text = "PDS GEOSCIENCES NODE // DOI: 10.17189/1519789 | swim.psi.edu"
+
+[node name="D" type="Label" parent="NasaDatasetsModal/Margin/VBox/Scroll/List/D1/M/V" unique_id=994821014]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.9, 0.95, 1)
+theme_override_fonts/font = ExtResource("4_silk_r")
+theme_override_font_sizes/font_size = 11
+text = "Integrates MRO SHARAD shallow radar (MRO-M-SHARAD-5-RADARGRAM-V1.0) and Odyssey GRS neutron suppression (ODY-M-GRS-5-AND-V1.0). In Martianbound, it governs the -38m Acidalia aquifer borehole extraction directive and 84% pure sub-surface glacier discovery."
+autowrap_mode = 2
+
+[node name="D2" type="PanelContainer" parent="NasaDatasetsModal/Margin/VBox/Scroll/List" unique_id=994821015]
+layout_mode = 2
+script = ExtResource("5_panel")
+is_card = true
+
+[node name="M" type="MarginContainer" parent="NasaDatasetsModal/Margin/VBox/Scroll/List/D2" unique_id=994821016]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 8
+
+[node name="V" type="VBoxContainer" parent="NasaDatasetsModal/Margin/VBox/Scroll/List/D2/M" unique_id=994821017]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="H" type="Label" parent="NasaDatasetsModal/Margin/VBox/Scroll/List/D2/M/V" unique_id=994821018]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.235294, 0.890196, 0.85098, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 13
+text = "2. NASA InSight Lander APSS / TWINS Meteorological Archive"
+
+[node name="Meta" type="Label" parent="NasaDatasetsModal/Margin/VBox/Scroll/List/D2/M/V" unique_id=994821019]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.898039, 0.513726, 0.282353, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 10
+text = "PDS ATMOSPHERES NODE // DOIs: 10.17189/1518939 & 10.17189/1518950"
+
+[node name="D" type="Label" parent="NasaDatasetsModal/Margin/VBox/Scroll/List/D2/M/V" unique_id=994821020]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.9, 0.95, 1)
+theme_override_fonts/font = ExtResource("4_silk_r")
+theme_override_font_sizes/font_size = 11
+text = "Provides in-situ surface atmospheric pressure (0.60 - 0.75 kPa), diurnal thermal curves (-105°C night to -18°C noon), and wind speed telemetry. Powers our HUD pressure telemetry, daylight ambient tint, and 58 kt Perseid storm hazard."
+autowrap_mode = 2
+
+[node name="D3" type="PanelContainer" parent="NasaDatasetsModal/Margin/VBox/Scroll/List" unique_id=994821021]
+layout_mode = 2
+script = ExtResource("5_panel")
+is_card = true
+
+[node name="M" type="MarginContainer" parent="NasaDatasetsModal/Margin/VBox/Scroll/List/D3" unique_id=994821022]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 8
+
+[node name="V" type="VBoxContainer" parent="NasaDatasetsModal/Margin/VBox/Scroll/List/D3/M" unique_id=994821023]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="H" type="Label" parent="NasaDatasetsModal/Margin/VBox/Scroll/List/D3/M/V" unique_id=994821024]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.235294, 0.890196, 0.85098, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 13
+text = "3. NASA Curiosity Rover (MSL) RAD Surface Radiation Dosimetry"
+
+[node name="Meta" type="Label" parent="NasaDatasetsModal/Margin/VBox/Scroll/List/D3/M/V" unique_id=994821025]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.898039, 0.513726, 0.282353, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 10
+text = "PDS PLANETARY PLASMA INTERACTIONS NODE // DOI: 10.17189/1519781"
+
+[node name="D" type="Label" parent="NasaDatasetsModal/Margin/VBox/Scroll/List/D3/M/V" unique_id=994821026]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.9, 0.95, 1)
+theme_override_fonts/font = ExtResource("4_silk_r")
+theme_override_font_sizes/font_size = 11
+text = "First in-situ surface radiation measurements on Mars, proving a quiescent baseline of 0.22 mSv/h (0.64 mSv/day). Directly calibrates the HUD radiation monitor and regolith dome shielding trade-off."
+autowrap_mode = 2
+
+[node name="D4" type="PanelContainer" parent="NasaDatasetsModal/Margin/VBox/Scroll/List" unique_id=994821027]
+layout_mode = 2
+script = ExtResource("5_panel")
+is_card = true
+
+[node name="M" type="MarginContainer" parent="NasaDatasetsModal/Margin/VBox/Scroll/List/D4" unique_id=994821028]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 8
+
+[node name="V" type="VBoxContainer" parent="NasaDatasetsModal/Margin/VBox/Scroll/List/D4/M" unique_id=994821029]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="H" type="Label" parent="NasaDatasetsModal/Margin/VBox/Scroll/List/D4/M/V" unique_id=994821030]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.235294, 0.890196, 0.85098, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 13
+text = "4. NASA DONKI — Space Weather Database Of Notifications"
+
+[node name="Meta" type="Label" parent="NasaDatasetsModal/Margin/VBox/Scroll/List/D4/M/V" unique_id=994821031]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.898039, 0.513726, 0.282353, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 10
+text = "NASA GODDARD SPACE FLIGHT CENTER // api.nasa.gov/DONKI/"
+
+[node name="D" type="Label" parent="NasaDatasetsModal/Margin/VBox/Scroll/List/D4/M/V" unique_id=994821032]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.9, 0.95, 1)
+theme_override_fonts/font = ExtResource("4_silk_r")
+theme_override_font_sizes/font_size = 11
+text = "Tracks Coronal Mass Ejections (CME) and Solar Energetic Particle (SEP) storm events. Simulates the midday space weather emergency that spikes radiation to 1.15 mSv/h."
+autowrap_mode = 2
+
+[node name="D5" type="PanelContainer" parent="NasaDatasetsModal/Margin/VBox/Scroll/List" unique_id=994821033]
+layout_mode = 2
+script = ExtResource("5_panel")
+is_card = true
+
+[node name="M" type="MarginContainer" parent="NasaDatasetsModal/Margin/VBox/Scroll/List/D5" unique_id=994821034]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 8
+
+[node name="V" type="VBoxContainer" parent="NasaDatasetsModal/Margin/VBox/Scroll/List/D5/M" unique_id=994821035]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="H" type="Label" parent="NasaDatasetsModal/Margin/VBox/Scroll/List/D5/M/V" unique_id=994821036]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.235294, 0.890196, 0.85098, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 13
+text = "5. NASA OSDR — Open Science Data Repository (Astronaut Health)"
+
+[node name="Meta" type="Label" parent="NasaDatasetsModal/Margin/VBox/Scroll/List/D5/M/V" unique_id=994821037]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.898039, 0.513726, 0.282353, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 10
+text = "NASA AMES RESEARCH CENTER // osdr.nasa.gov"
+
+[node name="D" type="Label" parent="NasaDatasetsModal/Margin/VBox/Scroll/List/D5/M/V" unique_id=994821038]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.9, 0.95, 1)
+theme_override_fonts/font = ExtResource("4_silk_r")
+theme_override_font_sizes/font_size = 11
+text = "Houses space biology and astronaut physiological data. Drives our habitat crew restorative sleep cycles, fatigue recovery ratios, and cognitive performance stabilization."
+autowrap_mode = 2
+
+[node name="BtnCloseDatasets" type="Button" parent="NasaDatasetsModal/Margin/VBox" unique_id=994821039]
+custom_minimum_size = Vector2(220, 44)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0.235294, 0.890196, 0.85098, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 13
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_focus")
+text = "CLOSE NASA ARCHIVE  ▶"

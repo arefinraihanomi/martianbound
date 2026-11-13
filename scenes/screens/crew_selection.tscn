@@ -1,0 +1,640 @@
+[gd_scene format=3 uid="uid://cb4g7p9w2x8y1"]
+
+[ext_resource type="Script" path="res://scripts/ui/crew_selection.gd" id="1_crew"]
+[ext_resource type="FontFile" uid="uid://tnaj2tfiddu4" path="res://assets/fonts/PressStart2P.ttf" id="2_press"]
+[ext_resource type="FontFile" uid="uid://divkjp72mcdmk" path="res://assets/fonts/Silkscreen-Bold.ttf" id="3_silk_b"]
+[ext_resource type="FontFile" uid="uid://valqcvnfal4n" path="res://assets/fonts/Silkscreen-Regular.ttf" id="4_silk_r"]
+[ext_resource type="Script" path="res://scenes/components/terminal_panel.gd" id="5_panel"]
+[ext_resource type="Script" path="res://scenes/components/segmented_bar.gd" id="6_segbar"]
+[ext_resource type="Script" path="res://scenes/components/radar_chart.gd" id="7_radar"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_nav_norm"]
+bg_color = Color(0.0862745, 0.129412, 0.176471, 0.9)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.160784, 0.231373, 0.305882, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_nav_primary"]
+bg_color = Color(0.0862745, 0.168627, 0.223529, 0.9)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.235294, 0.890196, 0.85098, 1)
+
+[node name="CrewSelection" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_crew")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.0431373, 0.0666667, 0.0941176, 1)
+
+[node name="Margin" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_top = 30
+theme_override_constants/margin_right = 40
+theme_override_constants/margin_bottom = 25
+
+[node name="VBox" type="VBoxContainer" parent="Margin"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="Header" type="VBoxContainer" parent="Margin/VBox"]
+layout_mode = 2
+alignment = 1
+
+[node name="Title" type="Label" parent="Margin/VBox/Header"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.92, 0.96, 0.98, 1)
+theme_override_fonts/font = ExtResource("2_press")
+theme_override_font_sizes/font_size = 38
+text = "CREW SELECTION"
+horizontal_alignment = 1
+
+[node name="Subtitle" type="Label" parent="Margin/VBox/Header"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.235294, 0.890196, 0.85098, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 16
+text = "EXPEDITION CREW COMPOSITION & ROSTER"
+horizontal_alignment = 1
+
+[node name="CenterContent" type="HBoxContainer" parent="Margin/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 25
+
+[node name="LeftCol" type="PanelContainer" parent="Margin/VBox/CenterContent"]
+custom_minimum_size = Vector2(520, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+script = ExtResource("5_panel")
+corner_accent = true
+
+[node name="VBox" type="VBoxContainer" parent="Margin/VBox/CenterContent/LeftCol"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="Hdr" type="Label" parent="Margin/VBox/CenterContent/LeftCol/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.235294, 0.890196, 0.85098, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 16
+text = "▶ CANDIDATE POOL"
+
+[node name="Tabs" type="HBoxContainer" parent="Margin/VBox/CenterContent/LeftCol/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="ALL" type="Button" parent="Margin/VBox/CenterContent/LeftCol/VBox/Tabs"]
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.235294, 0.890196, 0.85098, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 12
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_nav_primary")
+text = "ALL"
+
+[node name="ENG" type="Button" parent="Margin/VBox/CenterContent/LeftCol/VBox/Tabs"]
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.56, 0.68, 0.8, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 12
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_nav_norm")
+text = "ENG"
+
+[node name="MED" type="Button" parent="Margin/VBox/CenterContent/LeftCol/VBox/Tabs"]
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.56, 0.68, 0.8, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 12
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_nav_norm")
+text = "MED"
+
+[node name="SCI" type="Button" parent="Margin/VBox/CenterContent/LeftCol/VBox/Tabs"]
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.56, 0.68, 0.8, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 12
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_nav_norm")
+text = "SCI"
+
+[node name="EXP" type="Button" parent="Margin/VBox/CenterContent/LeftCol/VBox/Tabs"]
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.56, 0.68, 0.8, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 12
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_nav_norm")
+text = "EXP"
+
+[node name="CandidateScroll" type="ScrollContainer" parent="Margin/VBox/CenterContent/LeftCol/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="List" type="VBoxContainer" parent="Margin/VBox/CenterContent/LeftCol/VBox/CandidateScroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 10
+
+[node name="CrewReq" type="Label" parent="Margin/VBox/CenterContent/LeftCol/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.56, 0.68, 0.8, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 13
+text = "CREW REQ: 4 ASTRONAUTS"
+
+[node name="MiddleCol" type="PanelContainer" parent="Margin/VBox/CenterContent"]
+custom_minimum_size = Vector2(700, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+script = ExtResource("5_panel")
+corner_accent = true
+
+[node name="VBox" type="VBoxContainer" parent="Margin/VBox/CenterContent/MiddleCol"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Hdr" type="Label" parent="Margin/VBox/CenterContent/MiddleCol/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.235294, 0.890196, 0.85098, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 16
+text = "▶ DR. ELENA ROSTOVA"
+
+[node name="RadarContainer" type="PanelContainer" parent="Margin/VBox/CenterContent/MiddleCol/VBox"]
+custom_minimum_size = Vector2(0, 310)
+layout_mode = 2
+script = ExtResource("5_panel")
+corner_accent = false
+is_card = true
+
+[node name="RadarChart" type="Control" parent="Margin/VBox/CenterContent/MiddleCol/VBox/RadarContainer"]
+layout_mode = 2
+script = ExtResource("7_radar")
+
+[node name="RadarFooter" type="HBoxContainer" parent="Margin/VBox/CenterContent/MiddleCol/VBox"]
+layout_mode = 2
+
+[node name="LeftTag" type="Label" parent="Margin/VBox/CenterContent/MiddleCol/VBox/RadarFooter"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.458824, 0.564706, 0.666667, 1)
+theme_override_fonts/font = ExtResource("4_silk_r")
+theme_override_font_sizes/font_size = 12
+text = "5-AXIS RADAR"
+
+[node name="RightTag" type="Label" parent="Margin/VBox/CenterContent/MiddleCol/VBox/RadarFooter"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.458824, 0.564706, 0.666667, 1)
+theme_override_fonts/font = ExtResource("4_silk_r")
+theme_override_font_sizes/font_size = 12
+text = "CLASS: ARES-V"
+
+[node name="MatrixHdr" type="HBoxContainer" parent="Margin/VBox/CenterContent/MiddleCol/VBox"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="Margin/VBox/CenterContent/MiddleCol/VBox/MatrixHdr"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.235294, 0.890196, 0.85098, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 12
+text = "= TACTICAL ATTRIBUTE MATRIX & RADAR READOUT ="
+
+[node name="IndexLabel" type="Label" parent="Margin/VBox/CenterContent/MiddleCol/VBox/MatrixHdr"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.898039, 0.513726, 0.282353, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 12
+text = "INDEX: OPTIMAL (84.4 OVR)"
+
+[node name="Bars" type="VBoxContainer" parent="Margin/VBox/CenterContent/MiddleCol/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Phys" type="VBoxContainer" parent="Margin/VBox/CenterContent/MiddleCol/VBox/Bars"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="Hdr" type="HBoxContainer" parent="Margin/VBox/CenterContent/MiddleCol/VBox/Bars/Phys"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="Margin/VBox/CenterContent/MiddleCol/VBox/Bars/Phys/Hdr"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.56, 0.68, 0.8, 1)
+theme_override_fonts/font = ExtResource("4_silk_r")
+theme_override_font_sizes/font_size = 12
+text = "PHYSICAL & MEDICAL:"
+
+[node name="Val" type="Label" parent="Margin/VBox/CenterContent/MiddleCol/VBox/Bars/Phys/Hdr"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.235294, 0.890196, 0.85098, 1)
+theme_override_fonts/font = ExtResource("4_silk_r")
+theme_override_font_sizes/font_size = 12
+text = "76% FIT-A"
+
+[node name="Bar" type="Control" parent="Margin/VBox/CenterContent/MiddleCol/VBox/Bars/Phys"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+script = ExtResource("6_segbar")
+total_segments = 20
+fill_ratio = 0.76
+
+[node name="Sci" type="VBoxContainer" parent="Margin/VBox/CenterContent/MiddleCol/VBox/Bars"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="Hdr" type="HBoxContainer" parent="Margin/VBox/CenterContent/MiddleCol/VBox/Bars/Sci"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="Margin/VBox/CenterContent/MiddleCol/VBox/Bars/Sci/Hdr"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.56, 0.68, 0.8, 1)
+theme_override_fonts/font = ExtResource("4_silk_r")
+theme_override_font_sizes/font_size = 12
+text = "TECH & SCIENTIFIC:"
+
+[node name="Val" type="Label" parent="Margin/VBox/CenterContent/MiddleCol/VBox/Bars/Sci/Hdr"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.235294, 0.890196, 0.85098, 1)
+theme_override_fonts/font = ExtResource("4_silk_r")
+theme_override_font_sizes/font_size = 12
+text = "96% EXPERT"
+
+[node name="Bar" type="Control" parent="Margin/VBox/CenterContent/MiddleCol/VBox/Bars/Sci"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+script = ExtResource("6_segbar")
+total_segments = 20
+fill_ratio = 0.96
+
+[node name="Lead" type="VBoxContainer" parent="Margin/VBox/CenterContent/MiddleCol/VBox/Bars"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="Hdr" type="HBoxContainer" parent="Margin/VBox/CenterContent/MiddleCol/VBox/Bars/Lead"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="Margin/VBox/CenterContent/MiddleCol/VBox/Bars/Lead/Hdr"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.56, 0.68, 0.8, 1)
+theme_override_fonts/font = ExtResource("4_silk_r")
+theme_override_font_sizes/font_size = 12
+text = "LEADERSHIP & TEAMWORK:"
+
+[node name="Val" type="Label" parent="Margin/VBox/CenterContent/MiddleCol/VBox/Bars/Lead/Hdr"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.235294, 0.890196, 0.85098, 1)
+theme_override_fonts/font = ExtResource("4_silk_r")
+theme_override_font_sizes/font_size = 12
+text = "70% CLASS-II"
+
+[node name="Bar" type="Control" parent="Margin/VBox/CenterContent/MiddleCol/VBox/Bars/Lead"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+script = ExtResource("6_segbar")
+total_segments = 20
+fill_ratio = 0.7
+
+[node name="Psy" type="VBoxContainer" parent="Margin/VBox/CenterContent/MiddleCol/VBox/Bars"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="Hdr" type="HBoxContainer" parent="Margin/VBox/CenterContent/MiddleCol/VBox/Bars/Psy"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="Margin/VBox/CenterContent/MiddleCol/VBox/Bars/Psy/Hdr"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.56, 0.68, 0.8, 1)
+theme_override_fonts/font = ExtResource("4_silk_r")
+theme_override_font_sizes/font_size = 12
+text = "PSYCHOLOGICAL READINESS:"
+
+[node name="Val" type="Label" parent="Margin/VBox/CenterContent/MiddleCol/VBox/Bars/Psy/Hdr"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.235294, 0.890196, 0.85098, 1)
+theme_override_fonts/font = ExtResource("4_silk_r")
+theme_override_font_sizes/font_size = 12
+text = "88% STABLE"
+
+[node name="Bar" type="Control" parent="Margin/VBox/CenterContent/MiddleCol/VBox/Bars/Psy"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+script = ExtResource("6_segbar")
+total_segments = 20
+fill_ratio = 0.88
+
+[node name="Exp" type="VBoxContainer" parent="Margin/VBox/CenterContent/MiddleCol/VBox/Bars"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="Hdr" type="HBoxContainer" parent="Margin/VBox/CenterContent/MiddleCol/VBox/Bars/Exp"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="Margin/VBox/CenterContent/MiddleCol/VBox/Bars/Exp/Hdr"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.56, 0.68, 0.8, 1)
+theme_override_fonts/font = ExtResource("4_silk_r")
+theme_override_font_sizes/font_size = 12
+text = "MISSION EXPERIENCE:"
+
+[node name="Val" type="Label" parent="Margin/VBox/CenterContent/MiddleCol/VBox/Bars/Exp/Hdr"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.235294, 0.890196, 0.85098, 1)
+theme_override_fonts/font = ExtResource("4_silk_r")
+theme_override_font_sizes/font_size = 12
+text = "92% VETERAN"
+
+[node name="Bar" type="Control" parent="Margin/VBox/CenterContent/MiddleCol/VBox/Bars/Exp"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+script = ExtResource("6_segbar")
+total_segments = 20
+fill_ratio = 0.92
+
+[node name="RightCol" type="PanelContainer" parent="Margin/VBox/CenterContent"]
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+script = ExtResource("5_panel")
+corner_accent = true
+
+[node name="VBox" type="VBoxContainer" parent="Margin/VBox/CenterContent/RightCol"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="Hdr" type="HBoxContainer" parent="Margin/VBox/CenterContent/RightCol/VBox"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="Margin/VBox/CenterContent/RightCol/VBox/Hdr"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.235294, 0.890196, 0.85098, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 16
+text = "▶ ACTIVE ROSTERS"
+
+[node name="CountLabel" type="Label" parent="Margin/VBox/CenterContent/RightCol/VBox/Hdr"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.235294, 0.890196, 0.85098, 1)
+theme_override_fonts/font = ExtResource("4_silk_r")
+theme_override_font_sizes/font_size = 14
+text = "3/4 READY"
+
+[node name="SlotsContainer" type="VBoxContainer" parent="Margin/VBox/CenterContent/RightCol/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="ReadinessMatrix" type="VBoxContainer" parent="Margin/VBox/CenterContent/RightCol/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Hdr" type="HBoxContainer" parent="Margin/VBox/CenterContent/RightCol/VBox/ReadinessMatrix"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="Margin/VBox/CenterContent/RightCol/VBox/ReadinessMatrix/Hdr"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.235294, 0.890196, 0.85098, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 12
+text = "= TEAM READINESS MATRIX ="
+
+[node name="ViableLabel" type="Label" parent="Margin/VBox/CenterContent/RightCol/VBox/ReadinessMatrix/Hdr"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.235294, 0.890196, 0.85098, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 12
+text = "82% VIABLE"
+
+[node name="Eng" type="HBoxContainer" parent="Margin/VBox/CenterContent/RightCol/VBox/ReadinessMatrix"]
+layout_mode = 2
+
+[node name="Hdr" type="HBoxContainer" parent="Margin/VBox/CenterContent/RightCol/VBox/ReadinessMatrix/Eng"]
+custom_minimum_size = Vector2(160, 0)
+layout_mode = 2
+
+[node name="Title" type="Label" parent="Margin/VBox/CenterContent/RightCol/VBox/ReadinessMatrix/Eng/Hdr"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.56, 0.68, 0.8, 1)
+theme_override_fonts/font = ExtResource("4_silk_r")
+theme_override_font_sizes/font_size = 12
+text = "ENG:"
+
+[node name="Val" type="Label" parent="Margin/VBox/CenterContent/RightCol/VBox/ReadinessMatrix/Eng/Hdr"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.235294, 0.890196, 0.85098, 1)
+theme_override_fonts/font = ExtResource("4_silk_r")
+theme_override_font_sizes/font_size = 12
+text = "85% (OPT)"
+
+[node name="Bar" type="Control" parent="Margin/VBox/CenterContent/RightCol/VBox/ReadinessMatrix/Eng"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+script = ExtResource("6_segbar")
+total_segments = 16
+fill_ratio = 0.85
+
+[node name="Med" type="HBoxContainer" parent="Margin/VBox/CenterContent/RightCol/VBox/ReadinessMatrix"]
+layout_mode = 2
+
+[node name="Hdr" type="HBoxContainer" parent="Margin/VBox/CenterContent/RightCol/VBox/ReadinessMatrix/Med"]
+custom_minimum_size = Vector2(160, 0)
+layout_mode = 2
+
+[node name="Title" type="Label" parent="Margin/VBox/CenterContent/RightCol/VBox/ReadinessMatrix/Med/Hdr"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.56, 0.68, 0.8, 1)
+theme_override_fonts/font = ExtResource("4_silk_r")
+theme_override_font_sizes/font_size = 12
+text = "MED/BIO:"
+
+[node name="Val" type="Label" parent="Margin/VBox/CenterContent/RightCol/VBox/ReadinessMatrix/Med/Hdr"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.235294, 0.890196, 0.85098, 1)
+theme_override_fonts/font = ExtResource("4_silk_r")
+theme_override_font_sizes/font_size = 12
+text = "88% (OPT)"
+
+[node name="Bar" type="Control" parent="Margin/VBox/CenterContent/RightCol/VBox/ReadinessMatrix/Med"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+script = ExtResource("6_segbar")
+total_segments = 16
+fill_ratio = 0.88
+
+[node name="Exp" type="HBoxContainer" parent="Margin/VBox/CenterContent/RightCol/VBox/ReadinessMatrix"]
+layout_mode = 2
+
+[node name="Hdr" type="HBoxContainer" parent="Margin/VBox/CenterContent/RightCol/VBox/ReadinessMatrix/Exp"]
+custom_minimum_size = Vector2(160, 0)
+layout_mode = 2
+
+[node name="Title" type="Label" parent="Margin/VBox/CenterContent/RightCol/VBox/ReadinessMatrix/Exp/Hdr"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.56, 0.68, 0.8, 1)
+theme_override_fonts/font = ExtResource("4_silk_r")
+theme_override_font_sizes/font_size = 12
+text = "EXPLORATION:"
+
+[node name="Val" type="Label" parent="Margin/VBox/CenterContent/RightCol/VBox/ReadinessMatrix/Exp/Hdr"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.898039, 0.513726, 0.282353, 1)
+theme_override_fonts/font = ExtResource("4_silk_r")
+theme_override_font_sizes/font_size = 12
+text = "75% (ADEQ)"
+
+[node name="Bar" type="Control" parent="Margin/VBox/CenterContent/RightCol/VBox/ReadinessMatrix/Exp"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+script = ExtResource("6_segbar")
+total_segments = 16
+fill_ratio = 0.75
+fill_color = Color(0.898039, 0.513726, 0.282353, 1)
+
+[node name="Sci" type="HBoxContainer" parent="Margin/VBox/CenterContent/RightCol/VBox/ReadinessMatrix"]
+layout_mode = 2
+
+[node name="Hdr" type="HBoxContainer" parent="Margin/VBox/CenterContent/RightCol/VBox/ReadinessMatrix/Sci"]
+custom_minimum_size = Vector2(160, 0)
+layout_mode = 2
+
+[node name="Title" type="Label" parent="Margin/VBox/CenterContent/RightCol/VBox/ReadinessMatrix/Sci/Hdr"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.56, 0.68, 0.8, 1)
+theme_override_fonts/font = ExtResource("4_silk_r")
+theme_override_font_sizes/font_size = 12
+text = "SCIENCE DEF:"
+
+[node name="Val" type="Label" parent="Margin/VBox/CenterContent/RightCol/VBox/ReadinessMatrix/Sci/Hdr"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.905882, 0.352941, 0.352941, 1)
+theme_override_fonts/font = ExtResource("4_silk_r")
+theme_override_font_sizes/font_size = 12
+text = "42% [WARN]"
+
+[node name="Bar" type="Control" parent="Margin/VBox/CenterContent/RightCol/VBox/ReadinessMatrix/Sci"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+script = ExtResource("6_segbar")
+total_segments = 16
+fill_ratio = 0.42
+fill_color = Color(0.905882, 0.352941, 0.352941, 1)
+
+[node name="AdvisoryBox" type="PanelContainer" parent="Margin/VBox/CenterContent/RightCol/VBox"]
+layout_mode = 2
+script = ExtResource("5_panel")
+corner_accent = false
+is_card = true
+
+[node name="Margin" type="MarginContainer" parent="Margin/VBox/CenterContent/RightCol/VBox/AdvisoryBox"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 8
+
+[node name="VBox" type="VBoxContainer" parent="Margin/VBox/CenterContent/RightCol/VBox/AdvisoryBox/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Hdr" type="Label" parent="Margin/VBox/CenterContent/RightCol/VBox/AdvisoryBox/Margin/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.898039, 0.513726, 0.282353, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 12
+text = "🔔 DIRECTIVE ADVISORY"
+
+[node name="Text" type="Label" parent="Margin/VBox/CenterContent/RightCol/VBox/AdvisoryBox/Margin/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.75, 0.85, 0.95, 1)
+theme_override_fonts/font = ExtResource("4_silk_r")
+theme_override_font_sizes/font_size = 11
+text = "Acidalia Planitia requires sub-surface water extraction. Assigning Dr. Elena Rostova covers critical Science prerequisites (+54% surge)."
+autowrap_mode = 2
+
+[node name="BottomDock" type="HBoxContainer" parent="Margin/VBox"]
+layout_mode = 2
+
+[node name="BackBtn" type="Button" parent="Margin/VBox/BottomDock"]
+custom_minimum_size = Vector2(250, 50)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.9, 0.95, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_nav_norm")
+text = "◀  MISSION BRIEFING"
+
+[node name="Hints" type="HBoxContainer" parent="Margin/VBox/BottomDock"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="TabHint" type="Label" parent="Margin/VBox/BottomDock/Hints"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.56, 0.68, 0.8, 1)
+theme_override_fonts/font = ExtResource("4_silk_r")
+theme_override_font_sizes/font_size = 14
+text = "[TAB] SWITCH SECTOR          "
+
+[node name="EnterHint" type="Label" parent="Margin/VBox/BottomDock/Hints"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.898039, 0.513726, 0.282353, 1)
+theme_override_fonts/font = ExtResource("4_silk_r")
+theme_override_font_sizes/font_size = 14
+text = "[ENTER] CONFIRM SELECTION"
+
+[node name="ProceedBtn" type="Button" parent="Margin/VBox/BottomDock"]
+custom_minimum_size = Vector2(260, 50)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.235294, 0.890196, 0.85098, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_nav_primary")
+text = "CONFIRM AND PROCEED  ▶"

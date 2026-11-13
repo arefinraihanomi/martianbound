@@ -1,0 +1,791 @@
+[gd_scene format=3 uid="uid://b5m7p8k2w9v3q"]
+
+[ext_resource type="Script" path="res://scripts/ui/mission_briefing.gd" id="1_brief"]
+[ext_resource type="FontFile" uid="uid://tnaj2tfiddu4" path="res://assets/fonts/PressStart2P.ttf" id="2_press"]
+[ext_resource type="FontFile" uid="uid://divkjp72mcdmk" path="res://assets/fonts/Silkscreen-Bold.ttf" id="3_silk_b"]
+[ext_resource type="FontFile" uid="uid://valqcvnfal4n" path="res://assets/fonts/Silkscreen-Regular.ttf" id="4_silk_r"]
+[ext_resource type="Script" path="res://scenes/components/terminal_panel.gd" id="5_panel"]
+[ext_resource type="Script" path="res://scenes/components/segmented_bar.gd" id="6_segbar"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_nav_norm"]
+bg_color = Color(0.0862745, 0.129412, 0.176471, 0.9)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.160784, 0.231373, 0.305882, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_nav_primary"]
+bg_color = Color(0.0862745, 0.168627, 0.223529, 0.9)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.235294, 0.890196, 0.85098, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_primary_box"]
+bg_color = Color(0.0980392, 0.141176, 0.188235, 0.95)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.898039, 0.513726, 0.282353, 1)
+
+[node name="MissionBriefing" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_brief")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.0431373, 0.0666667, 0.0941176, 1)
+
+[node name="Margin" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_top = 30
+theme_override_constants/margin_right = 40
+theme_override_constants/margin_bottom = 25
+
+[node name="VBox" type="VBoxContainer" parent="Margin"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="Header" type="VBoxContainer" parent="Margin/VBox"]
+layout_mode = 2
+alignment = 1
+
+[node name="Title" type="Label" parent="Margin/VBox/Header"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.92, 0.96, 0.98, 1)
+theme_override_fonts/font = ExtResource("2_press")
+theme_override_font_sizes/font_size = 38
+text = "MISSION BRIEFING"
+horizontal_alignment = 1
+
+[node name="Subtitle" type="Label" parent="Margin/VBox/Header"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.235294, 0.890196, 0.85098, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 16
+text = "EXPEDITION PRE-DEPLOYMENT DOSSIER"
+horizontal_alignment = 1
+
+[node name="CenterContent" type="HBoxContainer" parent="Margin/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 25
+
+[node name="LeftCol" type="PanelContainer" parent="Margin/VBox/CenterContent"]
+custom_minimum_size = Vector2(560, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+script = ExtResource("5_panel")
+corner_accent = true
+
+[node name="VBox" type="VBoxContainer" parent="Margin/VBox/CenterContent/LeftCol"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="Hdr" type="HBoxContainer" parent="Margin/VBox/CenterContent/LeftCol/VBox"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="Margin/VBox/CenterContent/LeftCol/VBox/Hdr"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.235294, 0.890196, 0.85098, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 16
+text = "▶ MISSION DIRECTIVES"
+
+[node name="Tag" type="Label" parent="Margin/VBox/CenterContent/LeftCol/VBox/Hdr"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.905882, 0.352941, 0.352941, 1)
+theme_override_fonts/font = ExtResource("4_silk_r")
+theme_override_font_sizes/font_size = 14
+text = "PRIORITY: TOP"
+
+[node name="Desc" type="Label" parent="Margin/VBox/CenterContent/LeftCol/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.75, 0.85, 0.95, 1)
+theme_override_constants/line_spacing = 4
+theme_override_fonts/font = ExtResource("4_silk_r")
+theme_override_font_sizes/font_size = 13
+text = "ARES Expedition Unit is tasked with surviving immediate post-atmospheric insertion. Prioritize structural integrity of Habitat Dome A-1, establish geothermal power feeds, and ensure persistent data telemetry relay back to Houston Command before dust storm window closes."
+autowrap_mode = 2
+
+[node name="PrimaryDirectiveBox" type="PanelContainer" parent="Margin/VBox/CenterContent/LeftCol/VBox"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_primary_box")
+
+[node name="Margin" type="MarginContainer" parent="Margin/VBox/CenterContent/LeftCol/VBox/PrimaryDirectiveBox"]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 10
+
+[node name="VBox" type="VBoxContainer" parent="Margin/VBox/CenterContent/LeftCol/VBox/PrimaryDirectiveBox/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Hdr" type="Label" parent="Margin/VBox/CenterContent/LeftCol/VBox/PrimaryDirectiveBox/Margin/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.898039, 0.513726, 0.282353, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 13
+text = "★ PRIMARY CAMPAIGN DIRECTIVE"
+
+[node name="Text" type="Label" parent="Margin/VBox/CenterContent/LeftCol/VBox/PrimaryDirectiveBox/Margin/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 15
+text = "SECURE OUTPOST HAB & ACTIVATE SUB-SURFACE WATER EXTRACTOR"
+autowrap_mode = 2
+
+[node name="Obj1Hdr" type="HBoxContainer" parent="Margin/VBox/CenterContent/LeftCol/VBox"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="Margin/VBox/CenterContent/LeftCol/VBox/Obj1Hdr"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.235294, 0.890196, 0.85098, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 14
+text = "[01] LIFE SUPPORT INIT"
+
+[node name="Badge" type="Label" parent="Margin/VBox/CenterContent/LeftCol/VBox/Obj1Hdr"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.905882, 0.352941, 0.352941, 1)
+theme_override_fonts/font = ExtResource("4_silk_r")
+theme_override_font_sizes/font_size = 13
+text = "CRITICAL"
+
+[node name="Obj1Desc" type="Label" parent="Margin/VBox/CenterContent/LeftCol/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.56, 0.68, 0.8, 1)
+theme_override_fonts/font = ExtResource("4_silk_r")
+theme_override_font_sizes/font_size = 13
+text = "Pressurize habitat airlocks & stabilize Core A-1 internal scrubbers."
+
+[node name="Obj2Hdr" type="HBoxContainer" parent="Margin/VBox/CenterContent/LeftCol/VBox"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="Margin/VBox/CenterContent/LeftCol/VBox/Obj2Hdr"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.235294, 0.890196, 0.85098, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 14
+text = "[02] HIGH-GAIN COMMS DISH"
+
+[node name="Badge" type="Label" parent="Margin/VBox/CenterContent/LeftCol/VBox/Obj2Hdr"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.898039, 0.513726, 0.282353, 1)
+theme_override_fonts/font = ExtResource("4_silk_r")
+theme_override_font_sizes/font_size = 13
+text = "PRIMARY"
+
+[node name="Obj2Desc" type="Label" parent="Margin/VBox/CenterContent/LeftCol/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.56, 0.68, 0.8, 1)
+theme_override_fonts/font = ExtResource("4_silk_r")
+theme_override_font_sizes/font_size = 13
+text = "Calibrate directional array to orbital relay probe 04."
+
+[node name="SecHdr" type="Label" parent="Margin/VBox/CenterContent/LeftCol/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.56, 0.68, 0.8, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 13
+text = "SECONDARY GOALS (OPTIONAL):"
+
+[node name="Sec1" type="HBoxContainer" parent="Margin/VBox/CenterContent/LeftCol/VBox"]
+layout_mode = 2
+
+[node name="Text" type="Label" parent="Margin/VBox/CenterContent/LeftCol/VBox/Sec1"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.235294, 0.890196, 0.85098, 1)
+theme_override_fonts/font = ExtResource("4_silk_r")
+theme_override_font_sizes/font_size = 12
+text = "[S-1] Collect 15kg sedimentary basalt from crater"
+
+[node name="Xp" type="Label" parent="Margin/VBox/CenterContent/LeftCol/VBox/Sec1"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.235294, 0.890196, 0.55, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 12
+text = "+400 XP"
+
+[node name="Sec2" type="HBoxContainer" parent="Margin/VBox/CenterContent/LeftCol/VBox"]
+layout_mode = 2
+
+[node name="Text" type="Label" parent="Margin/VBox/CenterContent/LeftCol/VBox/Sec2"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.235294, 0.890196, 0.85098, 1)
+theme_override_fonts/font = ExtResource("4_silk_r")
+theme_override_font_sizes/font_size = 12
+text = "[S-2] Maintain solar collector output > 85%"
+
+[node name="Xp" type="Label" parent="Margin/VBox/CenterContent/LeftCol/VBox/Sec2"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.235294, 0.890196, 0.55, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 12
+text = "+400 XP"
+
+[node name="Spacer" type="Control" parent="Margin/VBox/CenterContent/LeftCol/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="CrewReq" type="Label" parent="Margin/VBox/CenterContent/LeftCol/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.56, 0.68, 0.8, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 14
+text = "CREW REQ: 4 ASTRONAUTS"
+
+[node name="MiddleCol" type="PanelContainer" parent="Margin/VBox/CenterContent"]
+custom_minimum_size = Vector2(680, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+script = ExtResource("5_panel")
+corner_accent = true
+
+[node name="VBox" type="VBoxContainer" parent="Margin/VBox/CenterContent/MiddleCol"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="Hdr" type="Label" parent="Margin/VBox/CenterContent/MiddleCol/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.235294, 0.890196, 0.85098, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 16
+text = "▶ LANDING ZONE RECON"
+
+[node name="ReconViewport" type="PanelContainer" parent="Margin/VBox/CenterContent/MiddleCol/VBox"]
+custom_minimum_size = Vector2(0, 310)
+layout_mode = 2
+script = ExtResource("5_panel")
+corner_accent = true
+is_card = true
+
+[node name="Margin" type="MarginContainer" parent="Margin/VBox/CenterContent/MiddleCol/VBox/ReconViewport"]
+layout_mode = 2
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 14
+theme_override_constants/margin_bottom = 10
+
+[node name="VBox" type="VBoxContainer" parent="Margin/VBox/CenterContent/MiddleCol/VBox/ReconViewport/Margin"]
+layout_mode = 2
+
+[node name="TopTags" type="HBoxContainer" parent="Margin/VBox/CenterContent/MiddleCol/VBox/ReconViewport/Margin/VBox"]
+layout_mode = 2
+
+[node name="Sec" type="Label" parent="Margin/VBox/CenterContent/MiddleCol/VBox/ReconViewport/Margin/VBox/TopTags"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.235294, 0.890196, 0.85098, 1)
+theme_override_fonts/font = ExtResource("4_silk_r")
+theme_override_font_sizes/font_size = 13
+text = "TARGET SECTOR: LZ-BRAVO"
+
+[node name="Cam" type="Label" parent="Margin/VBox/CenterContent/MiddleCol/VBox/ReconViewport/Margin/VBox/TopTags"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.898039, 0.513726, 0.282353, 1)
+theme_override_fonts/font = ExtResource("4_silk_r")
+theme_override_font_sizes/font_size = 13
+text = "OPTICAL CAM: ORBIT-8"
+
+[node name="MarsGraphic" type="ColorRect" parent="Margin/VBox/CenterContent/MiddleCol/VBox/ReconViewport/Margin/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+color = Color(0.188235, 0.101961, 0.0862745, 0.8)
+
+[node name="BottomTags" type="HBoxContainer" parent="Margin/VBox/CenterContent/MiddleCol/VBox/ReconViewport/Margin/VBox"]
+layout_mode = 2
+
+[node name="Coords" type="Label" parent="Margin/VBox/CenterContent/MiddleCol/VBox/ReconViewport/Margin/VBox/BottomTags"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.898039, 0.513726, 0.282353, 1)
+theme_override_fonts/font = ExtResource("4_silk_r")
+theme_override_font_sizes/font_size = 13
+text = "COORDINATES 28.4° N, 332.1° E"
+
+[node name="Elev" type="Label" parent="Margin/VBox/CenterContent/MiddleCol/VBox/ReconViewport/Margin/VBox/BottomTags"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.235294, 0.890196, 0.85098, 1)
+theme_override_fonts/font = ExtResource("4_silk_r")
+theme_override_font_sizes/font_size = 13
+text = "ELEVATION -3,200 M (BASIN)"
+
+[node name="SiteTitle" type="Label" parent="Margin/VBox/CenterContent/MiddleCol/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 18
+text = "SITE: ACIDALIA PLANITIA — OUTPOST HUB 01"
+horizontal_alignment = 1
+
+[node name="TelemetryGrid" type="GridContainer" parent="Margin/VBox/CenterContent/MiddleCol/VBox"]
+layout_mode = 2
+theme_override_constants/h_separation = 14
+theme_override_constants/v_separation = 12
+columns = 2
+
+[node name="TempBox" type="PanelContainer" parent="Margin/VBox/CenterContent/MiddleCol/VBox/TelemetryGrid"]
+layout_mode = 2
+size_flags_horizontal = 3
+script = ExtResource("5_panel")
+corner_accent = false
+is_card = true
+
+[node name="VBox" type="VBoxContainer" parent="Margin/VBox/CenterContent/MiddleCol/VBox/TelemetryGrid/TempBox"]
+layout_mode = 2
+
+[node name="Hdr" type="HBoxContainer" parent="Margin/VBox/CenterContent/MiddleCol/VBox/TelemetryGrid/TempBox/VBox"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="Margin/VBox/CenterContent/MiddleCol/VBox/TelemetryGrid/TempBox/VBox/Hdr"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.56, 0.68, 0.8, 1)
+theme_override_fonts/font = ExtResource("4_silk_r")
+theme_override_font_sizes/font_size = 12
+text = "SURFACE TEMP"
+
+[node name="Tag" type="Label" parent="Margin/VBox/CenterContent/MiddleCol/VBox/TelemetryGrid/TempBox/VBox/Hdr"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.898039, 0.513726, 0.282353, 1)
+theme_override_fonts/font = ExtResource("4_silk_r")
+theme_override_font_sizes/font_size = 12
+text = "MODERATE"
+
+[node name="Val" type="Label" parent="Margin/VBox/CenterContent/MiddleCol/VBox/TelemetryGrid/TempBox/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 18
+text = "-63°C"
+
+[node name="Sub" type="Label" parent="Margin/VBox/CenterContent/MiddleCol/VBox/TelemetryGrid/TempBox/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.458824, 0.564706, 0.666667, 1)
+theme_override_fonts/font = ExtResource("4_silk_r")
+theme_override_font_sizes/font_size = 12
+text = "NIGHT DIP: -110°C"
+
+[node name="RadBox" type="PanelContainer" parent="Margin/VBox/CenterContent/MiddleCol/VBox/TelemetryGrid"]
+layout_mode = 2
+size_flags_horizontal = 3
+script = ExtResource("5_panel")
+corner_accent = false
+is_card = true
+
+[node name="VBox" type="VBoxContainer" parent="Margin/VBox/CenterContent/MiddleCol/VBox/TelemetryGrid/RadBox"]
+layout_mode = 2
+
+[node name="Hdr" type="HBoxContainer" parent="Margin/VBox/CenterContent/MiddleCol/VBox/TelemetryGrid/RadBox/VBox"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="Margin/VBox/CenterContent/MiddleCol/VBox/TelemetryGrid/RadBox/VBox/Hdr"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.56, 0.68, 0.8, 1)
+theme_override_fonts/font = ExtResource("4_silk_r")
+theme_override_font_sizes/font_size = 12
+text = "RADIATION RAD/H"
+
+[node name="Tag" type="Label" parent="Margin/VBox/CenterContent/MiddleCol/VBox/TelemetryGrid/RadBox/VBox/Hdr"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.235294, 0.890196, 0.55, 1)
+theme_override_fonts/font = ExtResource("4_silk_r")
+theme_override_font_sizes/font_size = 12
+text = "NOMINAL"
+
+[node name="Val" type="Label" parent="Margin/VBox/CenterContent/MiddleCol/VBox/TelemetryGrid/RadBox/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.235294, 0.890196, 0.85098, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 18
+text = "0.22 mSv"
+
+[node name="Sub" type="Label" parent="Margin/VBox/CenterContent/MiddleCol/VBox/TelemetryGrid/RadBox/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.458824, 0.564706, 0.666667, 1)
+theme_override_fonts/font = ExtResource("4_silk_r")
+theme_override_font_sizes/font_size = 12
+text = "SHIELDING ACTIVE"
+
+[node name="DustBox" type="PanelContainer" parent="Margin/VBox/CenterContent/MiddleCol/VBox/TelemetryGrid"]
+layout_mode = 2
+size_flags_horizontal = 3
+script = ExtResource("5_panel")
+corner_accent = false
+is_card = true
+
+[node name="VBox" type="VBoxContainer" parent="Margin/VBox/CenterContent/MiddleCol/VBox/TelemetryGrid/DustBox"]
+layout_mode = 2
+
+[node name="Hdr" type="HBoxContainer" parent="Margin/VBox/CenterContent/MiddleCol/VBox/TelemetryGrid/DustBox/VBox"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="Margin/VBox/CenterContent/MiddleCol/VBox/TelemetryGrid/DustBox/VBox/Hdr"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.56, 0.68, 0.8, 1)
+theme_override_fonts/font = ExtResource("4_silk_r")
+theme_override_font_sizes/font_size = 12
+text = "DUST STORM RISK"
+
+[node name="Tag" type="Label" parent="Margin/VBox/CenterContent/MiddleCol/VBox/TelemetryGrid/DustBox/VBox/Hdr"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.898039, 0.513726, 0.282353, 1)
+theme_override_fonts/font = ExtResource("4_silk_r")
+theme_override_font_sizes/font_size = 12
+text = "WARNING"
+
+[node name="Val" type="Label" parent="Margin/VBox/CenterContent/MiddleCol/VBox/TelemetryGrid/DustBox/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.898039, 0.513726, 0.282353, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 18
+text = "42% PROB"
+
+[node name="Sub" type="Label" parent="Margin/VBox/CenterContent/MiddleCol/VBox/TelemetryGrid/DustBox/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.458824, 0.564706, 0.666667, 1)
+theme_override_fonts/font = ExtResource("4_silk_r")
+theme_override_font_sizes/font_size = 12
+text = "FRONT APPROACHING"
+
+[node name="TerrainBox" type="PanelContainer" parent="Margin/VBox/CenterContent/MiddleCol/VBox/TelemetryGrid"]
+layout_mode = 2
+size_flags_horizontal = 3
+script = ExtResource("5_panel")
+corner_accent = false
+is_card = true
+
+[node name="VBox" type="VBoxContainer" parent="Margin/VBox/CenterContent/MiddleCol/VBox/TelemetryGrid/TerrainBox"]
+layout_mode = 2
+
+[node name="Hdr" type="HBoxContainer" parent="Margin/VBox/CenterContent/MiddleCol/VBox/TelemetryGrid/TerrainBox/VBox"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="Margin/VBox/CenterContent/MiddleCol/VBox/TelemetryGrid/TerrainBox/VBox/Hdr"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.56, 0.68, 0.8, 1)
+theme_override_fonts/font = ExtResource("4_silk_r")
+theme_override_font_sizes/font_size = 12
+text = "SURFACE TERRAIN"
+
+[node name="Tag" type="Label" parent="Margin/VBox/CenterContent/MiddleCol/VBox/TelemetryGrid/TerrainBox/VBox/Hdr"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.56, 0.68, 0.8, 1)
+theme_override_fonts/font = ExtResource("4_silk_r")
+theme_override_font_sizes/font_size = 12
+text = "ROUGH"
+
+[node name="Val" type="Label" parent="Margin/VBox/CenterContent/MiddleCol/VBox/TelemetryGrid/TerrainBox/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.898039, 0.513726, 0.282353, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 18
+text = "REGOLITH"
+
+[node name="Sub" type="Label" parent="Margin/VBox/CenterContent/MiddleCol/VBox/TelemetryGrid/TerrainBox/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.458824, 0.564706, 0.666667, 1)
+theme_override_fonts/font = ExtResource("4_silk_r")
+theme_override_font_sizes/font_size = 12
+text = "FAULT CRATER BASIN"
+
+[node name="RightCol" type="PanelContainer" parent="Margin/VBox/CenterContent"]
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+script = ExtResource("5_panel")
+corner_accent = true
+
+[node name="VBox" type="VBoxContainer" parent="Margin/VBox/CenterContent/RightCol"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Hdr" type="Label" parent="Margin/VBox/CenterContent/RightCol/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.235294, 0.890196, 0.85098, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 16
+text = "▶ MISSION ASSETS"
+
+[node name="O2Section" type="VBoxContainer" parent="Margin/VBox/CenterContent/RightCol/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Hdr" type="HBoxContainer" parent="Margin/VBox/CenterContent/RightCol/VBox/O2Section"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="Margin/VBox/CenterContent/RightCol/VBox/O2Section/Hdr"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.56, 0.68, 0.8, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 13
+text = "OXYGEN STORES"
+
+[node name="Val" type="Label" parent="Margin/VBox/CenterContent/RightCol/VBox/O2Section/Hdr"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.235294, 0.890196, 0.85098, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 14
+text = "850 O2"
+
+[node name="Bar" type="Control" parent="Margin/VBox/CenterContent/RightCol/VBox/O2Section"]
+custom_minimum_size = Vector2(0, 14)
+layout_mode = 2
+script = ExtResource("6_segbar")
+total_segments = 16
+fill_ratio = 0.85
+fill_color = Color(0.235294, 0.890196, 0.85098, 1)
+
+[node name="WaterSection" type="VBoxContainer" parent="Margin/VBox/CenterContent/RightCol/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Hdr" type="HBoxContainer" parent="Margin/VBox/CenterContent/RightCol/VBox/WaterSection"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="Margin/VBox/CenterContent/RightCol/VBox/WaterSection/Hdr"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.56, 0.68, 0.8, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 13
+text = "WATER RESERVE"
+
+[node name="Val" type="Label" parent="Margin/VBox/CenterContent/RightCol/VBox/WaterSection/Hdr"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.235294, 0.890196, 0.85098, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 14
+text = "620 L"
+
+[node name="Bar" type="Control" parent="Margin/VBox/CenterContent/RightCol/VBox/WaterSection"]
+custom_minimum_size = Vector2(0, 14)
+layout_mode = 2
+script = ExtResource("6_segbar")
+total_segments = 16
+fill_ratio = 0.77
+fill_color = Color(0.235294, 0.890196, 0.85098, 1)
+
+[node name="FoodSection" type="VBoxContainer" parent="Margin/VBox/CenterContent/RightCol/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Hdr" type="HBoxContainer" parent="Margin/VBox/CenterContent/RightCol/VBox/FoodSection"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="Margin/VBox/CenterContent/RightCol/VBox/FoodSection/Hdr"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.56, 0.68, 0.8, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 13
+text = "FOOD RATIONS"
+
+[node name="Val" type="Label" parent="Margin/VBox/CenterContent/RightCol/VBox/FoodSection/Hdr"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.235294, 0.890196, 0.55, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 14
+text = "90 PACKS"
+
+[node name="Bar" type="Control" parent="Margin/VBox/CenterContent/RightCol/VBox/FoodSection"]
+custom_minimum_size = Vector2(0, 14)
+layout_mode = 2
+script = ExtResource("6_segbar")
+total_segments = 16
+fill_ratio = 0.9
+fill_color = Color(0.235294, 0.890196, 0.55, 1)
+
+[node name="PowerSection" type="VBoxContainer" parent="Margin/VBox/CenterContent/RightCol/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Hdr" type="HBoxContainer" parent="Margin/VBox/CenterContent/RightCol/VBox/PowerSection"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="Margin/VBox/CenterContent/RightCol/VBox/PowerSection/Hdr"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.56, 0.68, 0.8, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 13
+text = "POWER BATTERY"
+
+[node name="Val" type="Label" parent="Margin/VBox/CenterContent/RightCol/VBox/PowerSection/Hdr"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.898039, 0.513726, 0.282353, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 14
+text = "1,200 kWh"
+
+[node name="Bar" type="Control" parent="Margin/VBox/CenterContent/RightCol/VBox/PowerSection"]
+custom_minimum_size = Vector2(0, 14)
+layout_mode = 2
+script = ExtResource("6_segbar")
+total_segments = 16
+fill_ratio = 0.8
+fill_color = Color(0.898039, 0.513726, 0.282353, 1)
+
+[node name="Divider" type="ColorRect" parent="Margin/VBox/CenterContent/RightCol/VBox"]
+custom_minimum_size = Vector2(0, 1)
+layout_mode = 2
+color = Color(0.160784, 0.231373, 0.305882, 1)
+
+[node name="DurationSection" type="VBoxContainer" parent="Margin/VBox/CenterContent/RightCol/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Hdr" type="Label" parent="Margin/VBox/CenterContent/RightCol/VBox/DurationSection"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.56, 0.68, 0.8, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 13
+text = "EXPEDITION DURATION"
+
+[node name="HBox" type="HBoxContainer" parent="Margin/VBox/CenterContent/RightCol/VBox/DurationSection"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="PrevBtn" type="Button" parent="Margin/VBox/CenterContent/RightCol/VBox/DurationSection/HBox"]
+custom_minimum_size = Vector2(36, 36)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.235294, 0.890196, 0.85098, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_nav_norm")
+text = "◀"
+
+[node name="ValLabel" type="Label" parent="Margin/VBox/CenterContent/RightCol/VBox/DurationSection/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 18
+text = "1 SOL (INTENSIVE)"
+horizontal_alignment = 1
+
+[node name="NextBtn" type="Button" parent="Margin/VBox/CenterContent/RightCol/VBox/DurationSection/HBox"]
+custom_minimum_size = Vector2(36, 36)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.235294, 0.890196, 0.85098, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_nav_norm")
+text = "▶"
+
+[node name="DiffSection" type="VBoxContainer" parent="Margin/VBox/CenterContent/RightCol/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Hdr" type="Label" parent="Margin/VBox/CenterContent/RightCol/VBox/DiffSection"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.56, 0.68, 0.8, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 13
+text = "DIFFICULTY PROTOCOL"
+
+[node name="Buttons" type="HBoxContainer" parent="Margin/VBox/CenterContent/RightCol/VBox/DiffSection"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="NormalBtn" type="Button" parent="Margin/VBox/CenterContent/RightCol/VBox/DiffSection/Buttons"]
+custom_minimum_size = Vector2(0, 38)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.56, 0.68, 0.8, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 12
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_nav_norm")
+text = "NORMAL"
+
+[node name="HardBtn" type="Button" parent="Margin/VBox/CenterContent/RightCol/VBox/DiffSection/Buttons"]
+custom_minimum_size = Vector2(0, 38)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.898039, 0.513726, 0.282353, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 12
+theme_override_styles/normal = SubResource("StyleBoxFlat_primary_box")
+text = "HARD"
+
+[node name="ExtremeBtn" type="Button" parent="Margin/VBox/CenterContent/RightCol/VBox/DiffSection/Buttons"]
+custom_minimum_size = Vector2(0, 38)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.56, 0.68, 0.8, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 12
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_nav_norm")
+text = "EXTREME"
+
+[node name="BottomDock" type="HBoxContainer" parent="Margin/VBox"]
+layout_mode = 2
+
+[node name="BackBtn" type="Button" parent="Margin/VBox/BottomDock"]
+custom_minimum_size = Vector2(220, 50)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.9, 0.95, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_nav_norm")
+text = "◀  MAIN MENU"
+
+[node name="Hints" type="HBoxContainer" parent="Margin/VBox/BottomDock"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="TabHint" type="Label" parent="Margin/VBox/BottomDock/Hints"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.56, 0.68, 0.8, 1)
+theme_override_fonts/font = ExtResource("4_silk_r")
+theme_override_font_sizes/font_size = 14
+text = "[TAB] SWITCH SECTOR          "
+
+[node name="EnterHint" type="Label" parent="Margin/VBox/BottomDock/Hints"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.898039, 0.513726, 0.282353, 1)
+theme_override_fonts/font = ExtResource("4_silk_r")
+theme_override_font_sizes/font_size = 14
+text = "[ENTER] CONFIRM BRIEFING"
+
+[node name="NextBtn" type="Button" parent="Margin/VBox/BottomDock"]
+custom_minimum_size = Vector2(240, 50)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.235294, 0.890196, 0.85098, 1)
+theme_override_fonts/font = ExtResource("3_silk_b")
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_nav_primary")
+text = "CREW SELECTION  ▶"
